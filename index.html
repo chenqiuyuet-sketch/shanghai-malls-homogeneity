@@ -491,16 +491,39 @@
       <div class="viz-frame">
         <div class="viz-frame-header">
           <div>
-            <div class="viz-title">80 商场整合度散点 · 几何修正版</div>
-            <div class="viz-subtitle">基于姚的 Haversine 距离整合度（I ∈ 0.4–2.0）· 用 d3.geoMercator 恢复真实地理比例</div>
+            <div class="viz-title">80 商场整合度散点 · 叠加上海 16 区底图</div>
+            <div class="viz-subtitle">基于姚的 Haversine 距离整合度（I ∈ 0.4–2.0）· d3.geoMercator 等角投影 + DataV 上海 16 区 GeoJSON 底图</div>
           </div>
-          <div class="viz-meta">FIG. 06B · INTEG<br/>n = 80<br/>BY 姚 / 几何修正</div>
+          <div class="viz-meta">FIG. 06B · POINT INTEG<br/>n = 80<br/>BY 姚 / 几何修正</div>
         </div>
-        <div id="viz-integration" class="viz-canvas" style="height:680px"></div>
+        <div id="viz-integration" class="viz-canvas" style="height:760px"></div>
         <div class="viz-caption">
-          <b>投影说明</b>：姚的原图（<code>整合度分析及标点.png</code>）把经度、纬度直接当作 XY 投在 1647 × 1223 的画布上，长宽比 1.35；但上海真实地理比例是 0.6（南北 133 km、东西 81 km），原图把南北方向压缩了约 2.2 倍。本图改用 d3.geoMercator 等角投影 + fitSize 自适应，已恢复真实比例。同时鼠标悬停查看每家商场的整合度、排名与到其他 79 家的平均距离。
+          <b>投影说明</b>：姚的原图（<code>整合度分析及标点.png</code>）把经度、纬度直接当作 XY 投在 1647 × 1223 的画布上，长宽比 1.35；但上海真实地理比例是 0.6（南北 133 km、东西 81 km），原图把南北方向压缩了约 2.2 倍。本图改用 d3.geoMercator 等角投影 + fitSize 自适应，恢复真实比例，并叠加上海 16 区行政边界作底图。
           <br/><br/>
-          <b>关于整合度算法</b>：姚的整合度并非 depthmap 真正的轴线图 Integration HH，而是以「80 商场两两 Haversine 距离的平均倒数」作为地理近似（参见 xlsx 公式说明）。前 5 名（环贸 iapm、静安嘉里、One ITC、恒基旭辉、久光百货）都集中在静安–黄浦的几何中心，这与「拓扑深度最浅」的逻辑相通，但不能等同于路网级 Integration。要做真正的空间句法整合度，仍需把上海全市轴线图导入 depthmap 跑 Integration[n]。
+          <b>本图算法</b>：「商场两两 Haversine 距离的平均倒数」归一化到 [0.4, 2.0] 作为<b>点位居中度</b>近似，并非 depthmap 真正的轴线图 Integration HH。前 5 名（环贸 iapm、静安嘉里、One ITC、恒基旭辉、久光百货）都集中在静安–黄浦的几何中心；前滩太古里 I = 1.80 排第 28（深红边圆点标出）；兴业太古汇 I = 1.97 排第 11（朱砂红边）。这是<b>「商场点位之间的可达性」</b>，下一张图才是<b>「街道轴线之间的拓扑可达性」</b>。
+          <br/><br/>
+          <b>数据补丁说明</b>：姚原 xlsx 共 80 家但漏前滩太古里（被"龙光蓝鲸世界购物中心"占位），本图陈用姚同款 Haversine 公式 + 姚归一化区间 [0.4, 2.0] 补算前滩，加入后共 81 家。建议姚下一轮把样本与黄/吴的 80 家主表对齐。
+        </div>
+      </div>
+
+      <div class="viz-frame">
+        <div class="viz-frame-header">
+          <div>
+            <div class="viz-title">上海全市轴线图 Integration HH · depthmap 真整合度</div>
+            <div class="viz-subtitle">姚用 depthmapX 0.27 跑出的全市路网空间句法整合度色谱图（青 = 整合度低 / 红 = 整合度高）</div>
+          </div>
+          <div class="viz-meta">FIG. 06C · AXIAL INTEG<br/>BY 姚 / depthmapX<br/>SOURCE = 整合度.eps</div>
+        </div>
+        <div class="viz-canvas" style="background:#0A0A0A;padding:24px;display:flex;align-items:center;justify-content:center;">
+          <img src="assets/phase1/integration_axial.png"
+               alt="上海全市轴线图 Integration HH 整合度"
+               style="max-width:100%;height:auto;display:block;"
+               loading="lazy"/>
+        </div>
+        <div class="viz-caption">
+          <b>这才是真正的空间句法整合度</b>：姚把上海全市路网导入 depthmapX，建模为轴线图（axial map），再运行 Integration HH 算法。每根线段的颜色对应它到全网其他所有线段的拓扑深度的倒数：青蓝 = 拓扑深度大、整合度低（外环边缘、崇明、奉贤）；黄绿 = 中度（环线带）；橙红 = 拓扑深度浅、整合度高（黄浦延安路、静安南京西路、徐汇衡复风貌区）。市中心红色集中区与上一张「点居中度」前 5 名分布大体吻合，但这里看到的是<b>整段路网的可达性结构</b>，不是单点。
+          <br/><br/>
+          <b>注意</b>：本图直接来自姚的 <code>整合度.eps</code>（depthmapX 0.27 输出），未做 Mercator 校正，南北方向被压扁约 2.2 倍。要做正交版本需要：(1) 把路网先转为 EPSG:3857 (Web Mercator) 或 EPSG:32651 (UTM 51N) 再导入 depthmap，或 (2) 用 sDNA / spatial syntax 的 Python 实现重算后用 d3 重渲染。当前版本已足够作为"整合度结构"的可读证据，但精确分析需要这一校正。
         </div>
       </div>
     </div>
