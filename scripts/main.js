@@ -209,6 +209,12 @@
       renderFn: "renderComposite",
       label: "viz_composite",
     });
+    mountViz({
+      containerId: "viz-integration",
+      dataUrl: "./data/phase1/integration.json",
+      renderFn: "renderIntegration",
+      label: "viz_integration",
+    });
     // viz_tech_route 不需要数据，直接渲染
     const tr = document.getElementById("viz-tech-route");
     if (tr && typeof window.renderTechRoute === "function") {

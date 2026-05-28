@@ -1,0 +1,642 @@
+[
+ {
+  "rank": 1,
+  "name": "环贸iapm商场",
+  "lng": 121.458129,
+  "lat": 31.215404,
+  "mean_dist_km": 16.1661,
+  "integration": 2
+ },
+ {
+  "rank": 2,
+  "name": "静安嘉里中心",
+  "lng": 121.44963,
+  "lat": 31.223512,
+  "mean_dist_km": 16.2787,
+  "integration": 1.9844
+ },
+ {
+  "rank": 3,
+  "name": "One ITC",
+  "lng": 121.437968,
+  "lat": 31.197769,
+  "mean_dist_km": 16.2899,
+  "integration": 1.9829
+ },
+ {
+  "rank": 4,
+  "name": "恒基·旭辉天地",
+  "lng": 121.474922,
+  "lat": 31.212152,
+  "mean_dist_km": 16.3049,
+  "integration": 1.9808
+ },
+ {
+  "rank": 5,
+  "name": "久光百货",
+  "lng": 121.446199,
+  "lat": 31.223995,
+  "mean_dist_km": 16.3138,
+  "integration": 1.9796
+ },
+ {
+  "rank": 6,
+  "name": "新天地时尚",
+  "lng": 121.475194,
+  "lat": 31.218254,
+  "mean_dist_km": 16.3245,
+  "integration": 1.9781
+ },
+ {
+  "rank": 7,
+  "name": "上海港汇恒隆广场",
+  "lng": 121.437217,
+  "lat": 31.194628,
+  "mean_dist_km": 16.3368,
+  "integration": 1.9764
+ },
+ {
+  "rank": 8,
+  "name": "美罗城",
+  "lng": 121.439649,
+  "lat": 31.192944,
+  "mean_dist_km": 16.3466,
+  "integration": 1.9751
+ },
+ {
+  "rank": 9,
+  "name": "LU·ONE凯德晶萃广场",
+  "lng": 121.477071,
+  "lat": 31.210312,
+  "mean_dist_km": 16.3502,
+  "integration": 1.9746
+ },
+ {
+  "rank": 10,
+  "name": "上海k11购物艺术中心",
+  "lng": 121.473582,
+  "lat": 31.223433,
+  "mean_dist_km": 16.3548,
+  "integration": 1.974
+ },
+ {
+  "rank": 11,
+  "name": "兴业太古汇",
+  "lng": 121.463104,
+  "lat": 31.228926,
+  "mean_dist_km": 16.3773,
+  "integration": 1.9709
+ },
+ {
+  "rank": 12,
+  "name": "上海来福士广场",
+  "lng": 121.476607,
+  "lat": 31.232454,
+  "mean_dist_km": 16.5858,
+  "integration": 1.9429
+ },
+ {
+  "rank": 13,
+  "name": "新世界城",
+  "lng": 121.473671,
+  "lat": 31.235113,
+  "mean_dist_km": 16.6243,
+  "integration": 1.9379
+ },
+ {
+  "rank": 14,
+  "name": "上海世茂广场",
+  "lng": 121.47574,
+  "lat": 31.23433,
+  "mean_dist_km": 16.6261,
+  "integration": 1.9376
+ },
+ {
+  "rank": 15,
+  "name": "龙之梦城市生活中心(长宁店)",
+  "lng": 121.416666,
+  "lat": 31.219137,
+  "mean_dist_km": 16.6955,
+  "integration": 1.9285
+ },
+ {
+  "rank": 16,
+  "name": "长宁来福士",
+  "lng": 121.414687,
+  "lat": 31.21628,
+  "mean_dist_km": 16.7003,
+  "integration": 1.9279
+ },
+ {
+  "rank": 17,
+  "name": "虹桥南丰城",
+  "lng": 121.407792,
+  "lat": 31.207262,
+  "mean_dist_km": 16.8186,
+  "integration": 1.9125
+ },
+ {
+  "rank": 18,
+  "name": "尚嘉中心",
+  "lng": 121.407137,
+  "lat": 31.205688,
+  "mean_dist_km": 16.8368,
+  "integration": 1.9102
+ },
+ {
+  "rank": 19,
+  "name": "上海静安大悦城",
+  "lng": 121.472108,
+  "lat": 31.243603,
+  "mean_dist_km": 16.9477,
+  "integration": 1.896
+ },
+ {
+  "rank": 20,
+  "name": "上海苏河湾万象天地",
+  "lng": 121.478536,
+  "lat": 31.242508,
+  "mean_dist_km": 16.9822,
+  "integration": 1.8917
+ },
+ {
+  "rank": 21,
+  "name": "BFC外滩金融中心",
+  "lng": 121.497808,
+  "lat": 31.226451,
+  "mean_dist_km": 17.0078,
+  "integration": 1.8884
+ },
+ {
+  "rank": 22,
+  "name": "世博源",
+  "lng": 121.492316,
+  "lat": 31.184683,
+  "mean_dist_km": 17.1095,
+  "integration": 1.8757
+ },
+ {
+  "rank": 23,
+  "name": "上海月星环球港",
+  "lng": 121.412625,
+  "lat": 31.233244,
+  "mean_dist_km": 17.1634,
+  "integration": 1.869
+ },
+ {
+  "rank": 24,
+  "name": "正大广场",
+  "lng": 121.49917,
+  "lat": 31.236752,
+  "mean_dist_km": 17.2907,
+  "integration": 1.8534
+ },
+ {
+  "rank": 25,
+  "name": "Gate M西岸梦中心",
+  "lng": 121.465465,
+  "lat": 31.16119,
+  "mean_dist_km": 17.3716,
+  "integration": 1.8436
+ },
+ {
+  "rank": 26,
+  "name": "上海ifc商场",
+  "lng": 121.502326,
+  "lat": 31.236165,
+  "mean_dist_km": 17.3804,
+  "integration": 1.8425
+ },
+ {
+  "rank": 27,
+  "name": "上海长风大悦城",
+  "lng": 121.395319,
+  "lat": 31.222678,
+  "mean_dist_km": 17.4203,
+  "integration": 1.8377
+ },
+ {
+  "rank": 28,
+  "name": "上海陆家嘴中心L+mall",
+  "lng": 121.515551,
+  "lat": 31.231065,
+  "mean_dist_km": 17.7752,
+  "integration": 1.7959
+ },
+ {
+  "rank": 29,
+  "name": "漕河泾印象城",
+  "lng": 121.399975,
+  "lat": 31.161958,
+  "mean_dist_km": 17.8431,
+  "integration": 1.7881
+ },
+ {
+  "rank": 30,
+  "name": "百联西郊购物中心",
+  "lng": 121.370279,
+  "lat": 31.209086,
+  "mean_dist_km": 18.2707,
+  "integration": 1.7403
+ },
+ {
+  "rank": 31,
+  "name": "百联世纪购物中心",
+  "lng": 121.52741,
+  "lat": 31.230112,
+  "mean_dist_km": 18.2956,
+  "integration": 1.7376
+ },
+ {
+  "rank": 32,
+  "name": "瑞虹新天地太阳宫",
+  "lng": 121.500531,
+  "lat": 31.262923,
+  "mean_dist_km": 18.5204,
+  "integration": 1.7134
+ },
+ {
+  "rank": 33,
+  "name": "百联中环购物广场",
+  "lng": 121.384007,
+  "lat": 31.245972,
+  "mean_dist_km": 18.5992,
+  "integration": 1.7051
+ },
+ {
+  "rank": 34,
+  "name": "大宁国际商业广场",
+  "lng": 121.452239,
+  "lat": 31.274037,
+  "mean_dist_km": 18.6359,
+  "integration": 1.7012
+ },
+ {
+  "rank": 35,
+  "name": "上海万象城购物中心",
+  "lng": 121.367874,
+  "lat": 31.169472,
+  "mean_dist_km": 18.6965,
+  "integration": 1.6949
+ },
+ {
+  "rank": 36,
+  "name": "百联南方购物中心",
+  "lng": 121.400338,
+  "lat": 31.131699,
+  "mean_dist_km": 19.0901,
+  "integration": 1.6547
+ },
+ {
+  "rank": 37,
+  "name": "上海荟聚",
+  "lng": 121.356695,
+  "lat": 31.221909,
+  "mean_dist_km": 19.1025,
+  "integration": 1.6535
+ },
+ {
+  "rank": 38,
+  "name": "宝龙城",
+  "lng": 121.355056,
+  "lat": 31.158511,
+  "mean_dist_km": 19.5213,
+  "integration": 1.6125
+ },
+ {
+  "rank": 39,
+  "name": "上海七宝领展广场",
+  "lng": 121.350371,
+  "lat": 31.154653,
+  "mean_dist_km": 19.8517,
+  "integration": 1.5814
+ },
+ {
+  "rank": 40,
+  "name": "证大大拇指广场",
+  "lng": 121.559676,
+  "lat": 31.226992,
+  "mean_dist_km": 19.9293,
+  "integration": 1.5743
+ },
+ {
+  "rank": 41,
+  "name": "莘庄维璟印象城",
+  "lng": 121.363789,
+  "lat": 31.130911,
+  "mean_dist_km": 20.1972,
+  "integration": 1.55
+ },
+ {
+  "rank": 42,
+  "name": "复地活力城",
+  "lng": 121.564732,
+  "lat": 31.158316,
+  "mean_dist_km": 20.6956,
+  "integration": 1.5066
+ },
+ {
+  "rank": 43,
+  "name": "万达广场(上海江桥店)",
+  "lng": 121.32383,
+  "lat": 31.239692,
+  "mean_dist_km": 21.3493,
+  "integration": 1.4527
+ },
+ {
+  "rank": 44,
+  "name": "龙湖虹桥天街购物中心",
+  "lng": 121.313057,
+  "lat": 31.191354,
+  "mean_dist_km": 21.3549,
+  "integration": 1.4522
+ },
+ {
+  "rank": 45,
+  "name": "万达广场(上海五角场店)",
+  "lng": 121.513697,
+  "lat": 31.301173,
+  "mean_dist_km": 21.3573,
+  "integration": 1.452
+ },
+ {
+  "rank": 46,
+  "name": "合生汇",
+  "lng": 121.517962,
+  "lat": 31.299787,
+  "mean_dist_km": 21.386,
+  "integration": 1.4497
+ },
+ {
+  "rank": 47,
+  "name": "百联又一城购物中心",
+  "lng": 121.515615,
+  "lat": 31.301529,
+  "mean_dist_km": 21.4388,
+  "integration": 1.4455
+ },
+ {
+  "rank": 48,
+  "name": "金桥国际商业广场",
+  "lng": 121.57947,
+  "lat": 31.255737,
+  "mean_dist_km": 21.8673,
+  "integration": 1.4122
+ },
+ {
+  "rank": 49,
+  "name": "万达广场(上海宝山店)",
+  "lng": 121.447276,
+  "lat": 31.323817,
+  "mean_dist_km": 22.439,
+  "integration": 1.3698
+ },
+ {
+  "rank": 50,
+  "name": "万达广场(上海周浦店)",
+  "lng": 121.569542,
+  "lat": 31.114507,
+  "mean_dist_km": 22.5291,
+  "integration": 1.3633
+ },
+ {
+  "rank": 51,
+  "name": "LaLaport上海金桥",
+  "lng": 121.603734,
+  "lat": 31.252742,
+  "mean_dist_km": 23.2736,
+  "integration": 1.3115
+ },
+ {
+  "rank": 52,
+  "name": "上海绿地·缤纷广场",
+  "lng": 121.59407,
+  "lat": 31.11258,
+  "mean_dist_km": 23.8158,
+  "integration": 1.2759
+ },
+ {
+  "rank": 53,
+  "name": "上海南翔印象城MEGA",
+  "lng": 121.305986,
+  "lat": 31.304724,
+  "mean_dist_km": 25.3023,
+  "integration": 1.186
+ },
+ {
+  "rank": 54,
+  "name": "龙湖上海闵行天街",
+  "lng": 121.414887,
+  "lat": 31.026158,
+  "mean_dist_km": 25.5942,
+  "integration": 1.1695
+ },
+ {
+  "rank": 55,
+  "name": "森兰花园城",
+  "lng": 121.591408,
+  "lat": 31.314382,
+  "mean_dist_km": 25.7187,
+  "integration": 1.1627
+ },
+ {
+  "rank": 56,
+  "name": "上海浦江万达广场",
+  "lng": 121.511317,
+  "lat": 31.02753,
+  "mean_dist_km": 25.9835,
+  "integration": 1.1482
+ },
+ {
+  "rank": 57,
+  "name": "阳光天地购物中心(唐镇店)",
+  "lng": 121.656053,
+  "lat": 31.214472,
+  "mean_dist_km": 26.0808,
+  "integration": 1.143
+ },
+ {
+  "rank": 58,
+  "name": "万达广场(上海马桥店)",
+  "lng": 121.373211,
+  "lat": 31.022928,
+  "mean_dist_km": 26.5607,
+  "integration": 1.1177
+ },
+ {
+  "rank": 59,
+  "name": "百联奥特莱斯广场(青浦店)",
+  "lng": 121.228668,
+  "lat": 31.15654,
+  "mean_dist_km": 27.4117,
+  "integration": 1.0751
+ },
+ {
+  "rank": 60,
+  "name": "比斯特上海购物村",
+  "lng": 121.679498,
+  "lat": 31.140497,
+  "mean_dist_km": 28.2714,
+  "integration": 1.0347
+ },
+ {
+  "rank": 61,
+  "name": "大融城",
+  "lng": 121.279758,
+  "lat": 31.33073,
+  "mean_dist_km": 28.3232,
+  "integration": 1.0323
+ },
+ {
+  "rank": 62,
+  "name": "百联川沙购物中心",
+  "lng": 121.697948,
+  "lat": 31.185104,
+  "mean_dist_km": 29.0857,
+  "integration": 0.9986
+ },
+ {
+  "rank": 63,
+  "name": "万达广场(上海中信泰富店)",
+  "lng": 121.255145,
+  "lat": 31.330413,
+  "mean_dist_km": 29.7389,
+  "integration": 0.9711
+ },
+ {
+  "rank": 64,
+  "name": "万达广场(上海松江店)",
+  "lng": 121.243221,
+  "lat": 31.057936,
+  "mean_dist_km": 29.8132,
+  "integration": 0.968
+ },
+ {
+  "rank": 65,
+  "name": "嘉定宝龙广场",
+  "lng": 121.260559,
+  "lat": 31.345639,
+  "mean_dist_km": 30.4161,
+  "integration": 0.9438
+ },
+ {
+  "rank": 66,
+  "name": "上海松江印象城",
+  "lng": 121.222769,
+  "lat": 31.061189,
+  "mean_dist_km": 30.912,
+  "integration": 0.9246
+ },
+ {
+  "rank": 67,
+  "name": "开元地中海商业广场",
+  "lng": 121.219475,
+  "lat": 31.037768,
+  "mean_dist_km": 32.3704,
+  "integration": 0.8715
+ },
+ {
+  "rank": 68,
+  "name": "嘉亭荟城市生活广场",
+  "lng": 121.161976,
+  "lat": 31.287706,
+  "mean_dist_km": 34.3034,
+  "integration": 0.808
+ },
+ {
+  "rank": 69,
+  "name": "上海佛罗伦萨小镇(上海名品奥特莱斯)",
+  "lng": 121.764356,
+  "lat": 31.195953,
+  "mean_dist_km": 34.4646,
+  "integration": 0.8031
+ },
+ {
+  "rank": 70,
+  "name": "百联南桥购物中心",
+  "lng": 121.484846,
+  "lat": 30.914794,
+  "mean_dist_km": 34.8479,
+  "integration": 0.7914
+ },
+ {
+  "rank": 71,
+  "name": "龙湖·上海奉贤天街",
+  "lng": 121.497609,
+  "lat": 30.91314,
+  "mean_dist_km": 35.1238,
+  "integration": 0.7832
+ },
+ {
+  "rank": 72,
+  "name": "吾悦广场(上海青浦店)",
+  "lng": 121.095092,
+  "lat": 31.144145,
+  "mean_dist_km": 38.2314,
+  "integration": 0.6989
+ },
+ {
+  "rank": 73,
+  "name": "上海临港宝龙广场",
+  "lng": 121.815584,
+  "lat": 30.90605,
+  "mean_dist_km": 48.7515,
+  "integration": 0.4932
+ },
+ {
+  "rank": 74,
+  "name": "上海临港万达广场",
+  "lng": 121.814583,
+  "lat": 30.891701,
+  "mean_dist_km": 49.6654,
+  "integration": 0.4794
+ },
+ {
+  "rank": 75,
+  "name": "万达广场(上海金山店)",
+  "lng": 121.336056,
+  "lat": 30.754737,
+  "mean_dist_km": 51.4035,
+  "integration": 0.4546
+ },
+ {
+  "rank": 76,
+  "name": "万达广场(上海崇明店)",
+  "lng": 121.417913,
+  "lat": 31.626144,
+  "mean_dist_km": 52.9158,
+  "integration": 0.4343
+ },
+ {
+  "rank": 77,
+  "name": "百联金山购物中心",
+  "lng": 121.347755,
+  "lat": 30.731843,
+  "mean_dist_km": 53.4931,
+  "integration": 0.4269
+ },
+ {
+  "rank": 78,
+  "name": "龙光蓝鲸世界购物中心",
+  "lng": 121.896191,
+  "lat": 30.896006,
+  "mean_dist_km": 54.8952,
+  "integration": 0.4095
+ },
+ {
+  "rank": 79,
+  "name": "上海金山方圆荟购物中心",
+  "lng": 121.012291,
+  "lat": 30.899054,
+  "mean_dist_km": 55.0662,
+  "integration": 0.4074
+ },
+ {
+  "rank": 80,
+  "name": "百联临港生活中心",
+  "lng": 121.911141,
+  "lat": 30.901058,
+  "mean_dist_km": 55.6918,
+  "integration": 0.4
+ }
+]

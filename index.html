@@ -487,6 +487,22 @@
       <p>
         若 sDNA 测度显示前滩位于一个与主集群差异显著的通达性带，那么 MDS 平面上的离群就有了城市学解释：前滩的楼层模板不是被「设计得不同」，而是被「街网拓扑允许变得不同」。这一解释把可视化数据与城市形态学连接到一起。
       </p>
+
+      <div class="viz-frame">
+        <div class="viz-frame-header">
+          <div>
+            <div class="viz-title">80 商场整合度散点 · 几何修正版</div>
+            <div class="viz-subtitle">基于姚的 Haversine 距离整合度（I ∈ 0.4–2.0）· 用 d3.geoMercator 恢复真实地理比例</div>
+          </div>
+          <div class="viz-meta">FIG. 06B · INTEG<br/>n = 80<br/>BY 姚 / 几何修正</div>
+        </div>
+        <div id="viz-integration" class="viz-canvas" style="height:680px"></div>
+        <div class="viz-caption">
+          <b>投影说明</b>：姚的原图（<code>整合度分析及标点.png</code>）把经度、纬度直接当作 XY 投在 1647 × 1223 的画布上，长宽比 1.35；但上海真实地理比例是 0.6（南北 133 km、东西 81 km），原图把南北方向压缩了约 2.2 倍。本图改用 d3.geoMercator 等角投影 + fitSize 自适应，已恢复真实比例。同时鼠标悬停查看每家商场的整合度、排名与到其他 79 家的平均距离。
+          <br/><br/>
+          <b>关于整合度算法</b>：姚的整合度并非 depthmap 真正的轴线图 Integration HH，而是以「80 商场两两 Haversine 距离的平均倒数」作为地理近似（参见 xlsx 公式说明）。前 5 名（环贸 iapm、静安嘉里、One ITC、恒基旭辉、久光百货）都集中在静安–黄浦的几何中心，这与「拓扑深度最浅」的逻辑相通，但不能等同于路网级 Integration。要做真正的空间句法整合度，仍需把上海全市轴线图导入 depthmap 跑 Integration[n]。
+        </div>
+      </div>
     </div>
   </section>
 
@@ -666,6 +682,7 @@
   <script src="./scripts/viz_function_composition.js"></script>
   <script src="./scripts/viz_composite.js"></script>
   <script src="./scripts/viz_tech_route.js"></script>
+  <script src="./scripts/viz_integration.js"></script>
   <script src="./scripts/main.js"></script>
 </body>
 </html>
