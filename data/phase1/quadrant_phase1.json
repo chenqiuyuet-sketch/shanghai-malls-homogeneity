@@ -1214,5 +1214,53 @@
    "H_rank": 80,
    "note": "浦东新区 · 外环外/郊区新城 · 奥莱/折扣 · 复合 MHI 排名 80"
   }
+ ],
+ "slices": [
+  {
+   "key": "total",
+   "label": "全部 80 家",
+   "positionings": null,
+   "count": 80
+  },
+  {
+   "key": "mass",
+   "label": "大众 / 亲民",
+   "positionings": [
+    "大众/亲民"
+   ],
+   "count": 25
+  },
+  {
+   "key": "mid",
+   "label": "中端",
+   "positionings": [
+    "中端"
+   ],
+   "count": 23
+  },
+  {
+   "key": "upper_mid",
+   "label": "中高端",
+   "positionings": [
+    "中高端"
+   ],
+   "count": 16
+  },
+  {
+   "key": "high",
+   "label": "高端",
+   "positionings": [
+    "高端"
+   ],
+   "count": 13
+  },
+  {
+   "key": "outlet",
+   "label": "奥莱 / 折扣",
+   "positionings": [
+    "奥莱/折扣"
+   ],
+   "count": 3
+  }
  ]
 }

@@ -78,7 +78,7 @@
 
   // ---------- 4. 可视化挂载 ----------
   function mountViz(opts) {
-    const { containerId, dataUrl, renderFn, label } = opts;
+    const { containerId, dataUrl, renderFn, label, transform } = opts;
     const container = document.getElementById(containerId);
     if (!container || typeof window[renderFn] !== "function") return;
 
@@ -87,7 +87,8 @@
         if (!r.ok) throw new Error("fetch fail");
         return r.json();
       })
-      .then((data) => {
+      .then((raw) => {
+        const data = typeof transform === "function" ? transform(raw) : raw;
         const obs = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
@@ -159,6 +160,68 @@
       renderFn: "renderMhiSf",
       label: "viz_mhi_sf",
     });
+    // ---------- 阶段一新增 viz ----------
+    mountViz({
+      containerId: "viz-brand-coverage",
+      dataUrl: "./data/phase1/brand_coverage.json",
+      renderFn: "renderBrandCoverage",
+      label: "viz_brand_coverage",
+    });
+    mountViz({
+      containerId: "viz-mhi-i-dist",
+      dataUrl: "./data/phase1/mhi_brand.json",
+      renderFn: "renderMhiDist",
+      label: "viz_mhi_i_dist",
+      transform: (rows) => ({
+        metric: "MHI_i",
+        values: rows.map((r) => r.MHI_i),
+        mall_names: rows.map((r) => r.name),
+        anchor: (() => {
+          const a = rows.find((r) => r.name === "前滩太古里");
+          return a ? { name: a.name, value: a.MHI_i } : null;
+        })(),
+      }),
+    });
+    mountViz({
+      containerId: "viz-mhi-f-dist",
+      dataUrl: "./data/phase1/mhi_function.json",
+      renderFn: "renderMhiDist",
+      label: "viz_mhi_f_dist",
+      transform: (rows) => ({
+        metric: "MHI_f",
+        values: rows.map((r) => r.MHI_f),
+        mall_names: rows.map((r) => r.name),
+        anchor: (() => {
+          const a = rows.find((r) => r.name === "前滩太古里");
+          return a ? { name: a.name, value: a.MHI_f } : null;
+        })(),
+      }),
+    });
+    mountViz({
+      containerId: "viz-function-composition",
+      dataUrl: "./data/phase1/function_vectors.json",
+      renderFn: "renderFunctionComposition",
+      label: "viz_function_composition",
+    });
+    mountViz({
+      containerId: "viz-composite",
+      dataUrl: "./data/phase1/mhi_composite.json",
+      renderFn: "renderComposite",
+      label: "viz_composite",
+    });
+    // viz_tech_route 不需要数据，直接渲染
+    const tr = document.getElementById("viz-tech-route");
+    if (tr && typeof window.renderTechRoute === "function") {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            window.renderTechRoute({ container: tr });
+            obs.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: "0px 0px -20% 0px", threshold: 0.15 });
+      obs.observe(tr);
+    }
   }
 
   // ---------- 5. 启动 ----------

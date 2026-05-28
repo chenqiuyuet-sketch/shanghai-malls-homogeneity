@@ -328,6 +328,28 @@ def padded_domain(values, pad=0.08):
     return [lo - span * pad, hi + span * pad]
 
 
+# 6 档消费分层切片
+SLICE_DEFS = [
+    {"key": "total",     "label": "全部 80 家", "positionings": None},
+    {"key": "mass",      "label": "大众 / 亲民", "positionings": ["大众/亲民"]},
+    {"key": "mid",       "label": "中端",        "positionings": ["中端"]},
+    {"key": "upper_mid", "label": "中高端",      "positionings": ["中高端"]},
+    {"key": "high",      "label": "高端",        "positionings": ["高端"]},
+    {"key": "outlet",    "label": "奥莱 / 折扣", "positionings": ["奥莱/折扣"]},
+]
+slices = []
+for sd in SLICE_DEFS:
+    if sd["positionings"] is None:
+        cnt = len(quadrant_malls)
+    else:
+        cnt = sum(1 for m in quadrant_malls if m["positioning"] in sd["positionings"])
+    slices.append({
+        "key": sd["key"],
+        "label": sd["label"],
+        "positionings": sd["positionings"],
+        "count": cnt,
+    })
+
 quadrant_data = {
     "axes": {
         "x_label": "MHI_i · 品牌池同质化指标",
@@ -338,6 +360,7 @@ quadrant_data = {
         "y_median": y_med,
     },
     "malls": quadrant_malls,
+    "slices": slices,
 }
 dump("quadrant_phase1.json", quadrant_data)
 print(f"  axes: x_domain={[round(v,4) for v in quadrant_data['axes']['x_domain']]}, "

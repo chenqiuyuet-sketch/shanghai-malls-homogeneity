@@ -56,9 +56,6 @@
     <button class="toc-item" data-target="discussion">
       <span class="toc-item-num">07</span><span class="toc-item-label">综合讨论</span>
     </button>
-    <button class="toc-item" data-target="phase1-figures">
-      <span class="toc-item-num">07.5</span><span class="toc-item-label">阶段一图集</span>
-    </button>
     <button class="toc-item" data-target="appendix">
       <span class="toc-item-num">08</span><span class="toc-item-label">方法学附录</span>
     </button>
@@ -160,6 +157,20 @@
         三个维度彼此并列，不能压缩成一个标量。如果一家商场的品牌池与同侪重合，它在 MHI<sub>i</sub> 上得分较低；如果它的业态比例与全样本均值重合，它在 MHI<sub>f</sub> 上得分较低；如果它的楼层节奏与其他商场重合，它在 D 上与其他点紧贴。这三种「相像」并不互相蕴含，因此本研究保留三个独立读数，让证据本身说话。
       </p>
     </div>
+
+    <div class="viz-frame fade-in">
+      <div class="viz-frame-header">
+        <div>
+          <div class="viz-title">技术路线 · 七阶段交互流程</div>
+          <div class="viz-subtitle">点击任意阶段查看每一步的执行内容与负责组员 · 对应阶段一原图 fig01 + tech_route</div>
+        </div>
+        <div class="viz-meta">FIG. 01 · WORKFLOW<br/>STEPS = 7<br/>BY 6 人组</div>
+      </div>
+      <div class="viz-canvas" id="viz-tech-route" style="min-height:240px;padding:6px 14px 18px"></div>
+      <div class="viz-caption">
+        <b>读图提示</b>：横向七阶段对应阶段一 tech_route.png 与 fig01_data_pipeline.png 两张原图的合并交互版本。点击任一阶段，下方面板展开详细执行说明与负责组员。
+      </div>
+    </div>
   </section>
 
   <!-- ==================== 品牌维度 ==================== -->
@@ -218,6 +229,38 @@
       </div>
 
       <p>
+        把 80 个样本里的品牌名一一拆开数频次，可以更直观地理解上面的散点为什么会向左下角收敛：少数几个连锁品牌几乎渗透全市。星巴克出现在 59 家商场里，霸王茶姬 42 家，瑞幸、星巴克、必胜客这些「公共底版」品牌的存在本身就拉高了任意两家商场的 Jaccard 重合度。
+      </p>
+
+      <div class="viz-frame">
+        <div class="viz-frame-header">
+          <div>
+            <div class="viz-title">头部 30 个品牌在 80 家商场中的覆盖数</div>
+            <div class="viz-subtitle">越红越无处不在 · 数据来自阶段一 6,369 个品牌的覆盖汇总</div>
+          </div>
+          <div class="viz-meta">FIG. 02B · COVERAGE<br/>TOP 30<br/>N_BRANDS = 6369</div>
+        </div>
+        <div class="viz-canvas" id="viz-brand-coverage" style="height:640px"></div>
+        <div class="viz-caption">
+          <b>读图提示</b>：横轴是该品牌覆盖了 80 家中的多少家。星巴克、霸王茶姬、瑞幸这一档已经突破 40 家以上的「准全覆盖」阈值，沪上阿姨、海底捞、必胜客等紧随其后。这些品牌组成的「公共底版」是 MHI<sub>i</sub> 收敛到左下角的直接动因。鼠标悬停查看每个品牌的渗透率。
+        </div>
+      </div>
+
+      <div class="viz-frame">
+        <div class="viz-frame-header">
+          <div>
+            <div class="viz-title">80 家商场 MHI<sub>i</sub> 分布直方图</div>
+            <div class="viz-subtitle">把品牌同质化指数的真实分布画出来 · 前滩太古里位置以朱砂红标出</div>
+          </div>
+          <div class="viz-meta">FIG. 04 · DISTRIBUTION<br/>BIN = 20<br/>MIN ~ MAX</div>
+        </div>
+        <div class="viz-canvas" id="viz-mhi-i-dist" style="height:360px"></div>
+        <div class="viz-caption">
+          <b>读图提示</b>：MHI<sub>i</sub> 越大代表品牌池越独立。直方图右偏意味着多数商场聚集在低 MHI<sub>i</sub> 区域，前滩太古里位于偏低段（红色 anchor 线）。中位数虚线把样本分成左右两半，便于读出前滩与中位数的相对位置。
+        </div>
+      </div>
+
+      <p>
         这一观察构成本研究后续章节的边界：既然 80 个样本里只剩 13 个在品牌层值得比较，那么余下两个维度的子矩阵分析就有了清晰的对象。下一章先以十三维业态向量审视填充比例的趋同程度，再进入楼层模板的距离结构。
       </p>
     </div>
@@ -253,7 +296,57 @@
       </div>
 
       <p>
-        V3 在视觉上回答两个问题：高端 13 家是否在业态层也已经聚拢为一团？前滩太古里在这一层是否仍然处在偏离主集群的位置？热力图给出的回答是「大体聚拢、局部偏离」。十三家两两相似度中位数已经在 0.85 以上，几乎所有商场都共享同一套以奢侈、轻奢、餐饮、生活方式为重心的填充结构；前滩与兴业太古汇之间高达 0.98 的相似度，提示「同一开发主体」在业态层的近乎复刻。然而恒隆广场与 K11 之间的 0.50、与嘉里不夜城之间的 0.49，又说明这条度量并未完全饱和：定位极化的商场仍在业态层留下了可读的差异。下一章把目光转向楼层模板，看看这条尚未饱和的差异是否能在垂直维度上被进一步识别。
+        V3 在视觉上回答两个问题：高端 13 家是否在业态层也已经聚拢为一团？前滩太古里在这一层是否仍然处在偏离主集群的位置？热力图给出的回答是「大体聚拢、局部偏离」。十三家两两相似度中位数已经在 0.85 以上，几乎所有商场都共享同一套以奢侈、轻奢、餐饮、生活方式为重心的填充结构；前滩与兴业太古汇之间高达 0.98 的相似度，提示「同一开发主体」在业态层的近乎复刻。然而恒隆广场与 K11 之间的 0.50、与嘉里不夜城之间的 0.49，又说明这条度量并未完全饱和：定位极化的商场仍在业态层留下了可读的差异。
+      </p>
+
+      <div class="viz-frame">
+        <div class="viz-frame-header">
+          <div>
+            <div class="viz-title">80 家商场 × 14 业态品牌数堆叠</div>
+            <div class="viz-subtitle">每根柱子代表一家商场，按颜色从下到上叠加 14 大类品牌的数量</div>
+          </div>
+          <div class="viz-meta">FIG. 03B · COMPOSITION<br/>n = 80<br/>BIZ = 14</div>
+        </div>
+        <div class="viz-canvas" id="viz-function-composition" style="height:560px"></div>
+        <div class="viz-caption">
+          <b>读图提示</b>：柱子按「总品牌数」从左到右递增，鼠标悬停查看每家商场具体的业态明细。可以直观看出，餐饮（最底层红色）几乎在每家商场都占主导地位，服饰鞋包（次底层）紧随其后；这两层共同构成了「行业公共底版」，也正是 MHI<sub>f</sub> 普遍偏高的直接成因。
+        </div>
+      </div>
+
+      <div class="viz-frame">
+        <div class="viz-frame-header">
+          <div>
+            <div class="viz-title">80 家商场 MHI<sub>f</sub> 分布直方图</div>
+            <div class="viz-subtitle">业态向量余弦相似度平均后的分布 · 前滩太古里位置以朱砂红标出</div>
+          </div>
+          <div class="viz-meta">FIG. 05 · DISTRIBUTION<br/>BIN = 18<br/>MIN ~ MAX</div>
+        </div>
+        <div class="viz-canvas" id="viz-mhi-f-dist" style="height:360px"></div>
+        <div class="viz-caption">
+          <b>读图提示</b>：MHI<sub>f</sub> 越大代表业态结构与其他商场越像，全样本集中在 0.85 以上的高同质化区间，左尾的少数商场（奥莱与极端定位的特色商场）拉出了一条长尾。前滩太古里位于偏低区间，与「水平展开 × 餐饮强化」的实际现场体感一致。
+        </div>
+      </div>
+
+      <p>
+        把品牌层与业态层的两条标度做平均，得到一个综合的「复合 MHI 指数 H」，可以一眼读出全 80 家在两层叠加意义下的同质化排名。下面这张可切换排名图把 H 摊开做横向柱状图，并允许按消费定位档位切换 6 个子集查看。
+      </p>
+
+      <div class="viz-frame">
+        <div class="viz-frame-header">
+          <div>
+            <div class="viz-title">复合 MHI 指数 H · 80 家商场排名 + 5 档消费切片</div>
+            <div class="viz-subtitle">H = (S<sub>i</sub> + S<sub>f</sub>) / 2 · 按 H 升序 · 越右越同质</div>
+          </div>
+          <div class="viz-meta">FIG. 07+08 · COMPOSITE H<br/>n = 80<br/>SLICES = 6</div>
+        </div>
+        <div class="viz-canvas" id="viz-composite" style="height:880px"></div>
+        <div class="viz-caption">
+          <b>读图提示</b>：点击顶部分档切换。<b>全部 80 家</b>视图里可以纵览整体 H 分布的尾部与中位数；切到<b>高端 13 家</b>可以看到太古系、恒隆系、嘉里系内部的相对排名；<b>大众 / 亲民</b>档与<b>中端</b>档 H 普遍偏高，是同质化最严重的区域。前滩太古里以朱砂红描边突出。
+        </div>
+      </div>
+
+      <p>
+        下一章把目光转向楼层模板，看看这条尚未饱和的差异是否能在垂直维度上被进一步识别。
       </p>
     </div>
   </section>
@@ -467,300 +560,6 @@
     </div>
   </section>
 
-  <!-- ==================== 阶段一原始图集 ==================== -->
-  <section id="phase1-figures" class="chapter">
-    <div class="chapter-header fade-in">
-      <span class="chapter-num">07.5 / phase 1 atlas</span>
-      <h2 class="chapter-title">阶段一原始图集 · 数据爬取与同质化指标全图</h2>
-      <p class="chapter-deck">
-        本节集中陈列由黄、吴在 2026-05-24 完成的阶段一全部 20 张分析图。前面章节的可视化是基于这些原始数据再加工而成的交互版本；本节保留原始 PNG 作为方法学留痕，便于读者按图索骥地核对每一个指标的真实分布。完整说明见
-        <a href="phase1.html" target="_blank" rel="noopener">阶段一交接说明 · 6 章节版</a>。
-      </p>
-    </div>
-
-    <style>
-      .phase1-gallery { display: flex; flex-direction: column; gap: 36px; }
-      .phase1-group { background: var(--paper, #F5F1EA); border-left: 3px solid var(--vermillion-d, #A02822); padding: 18px 22px 22px; }
-      .phase1-group-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px dashed var(--rule, #C9BFA8); }
-      .phase1-group-title { font-family: var(--ff-display-cjk); font-size: 17px; font-weight: 700; color: var(--vermillion-d, #A02822); margin: 0; letter-spacing: 0.04em; }
-      .phase1-group-meta { font-family: var(--ff-mono); font-size: 10px; color: var(--ink-mute, #888); letter-spacing: 0.1em; text-transform: uppercase; }
-      .phase1-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
-      .phase1-card { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--rule, #C9BFA8); padding: 8px; transition: transform .25s ease, box-shadow .25s ease; }
-      .phase1-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(160, 40, 34, 0.12); }
-      .phase1-card a { display: block; line-height: 0; }
-      .phase1-card img { width: 100%; height: auto; display: block; }
-      .phase1-card .ph-caption { padding: 8px 4px 2px; font-family: var(--ff-body-cjk); font-size: 12.5px; line-height: 1.5; color: var(--ink, #1A1A1A); }
-      .phase1-card .ph-tag { font-family: var(--ff-mono); font-size: 9.5px; color: var(--brass-d, #8E7449); letter-spacing: 0.1em; margin-bottom: 2px; }
-      .phase1-card .ph-title { font-weight: 600; }
-    </style>
-
-    <div class="chapter-body fade-in" style="max-width: none;">
-      <div class="phase1-gallery">
-
-        <!-- 组 1：研究框架 · 数据管线 -->
-        <div class="phase1-group">
-          <div class="phase1-group-head">
-            <h3 class="phase1-group-title">01 · 研究框架与数据管线</h3>
-            <span class="phase1-group-meta">2 figures · pipeline</span>
-          </div>
-          <div class="phase1-grid">
-            <figure class="phase1-card">
-              <a href="assets/phase1/tech_route.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/tech_route.png" alt="技术路线图" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">TECH ROUTE</div>
-                <div class="ph-title">技术路线全图</div>
-                数据爬取、清洗、指标计算到对照锚点筛选的全流程示意。
-              </figcaption>
-            </figure>
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig01_data_pipeline_v3.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig01_data_pipeline_v3.png" alt="fig01 数据管线" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 01 · DATA PIPELINE</div>
-                <div class="ph-title">高德 POI → 标准化 → 80 商场主表</div>
-                展示了从 POI 原始抓取到品牌归一化、业态归类、楼层补全的每一步。
-              </figcaption>
-            </figure>
-          </div>
-        </div>
-
-        <!-- 组 2：品牌池 -->
-        <div class="phase1-group">
-          <div class="phase1-group-head">
-            <h3 class="phase1-group-title">02 · 品牌池结构与 MHI<sub>i</sub></h3>
-            <span class="phase1-group-meta">2 figures · brand layer</span>
-          </div>
-          <div class="phase1-grid">
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig02_top_brand_coverage_v3.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig02_top_brand_coverage_v3.png" alt="fig02 头部品牌覆盖" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 02 · TOP BRAND COVERAGE</div>
-                <div class="ph-title">头部品牌在 80 家商场中的覆盖率</div>
-                星巴克 59 家、霸王茶姬 42 家等头部品牌的「无处不在」是品牌同质化的直接证据。
-              </figcaption>
-            </figure>
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig04_brand_mhi_i_distribution_v3.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig04_brand_mhi_i_distribution_v3.png" alt="fig04 品牌 MHI_i 分布" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 04 · MHI<sub>i</sub> DISTRIBUTION</div>
-                <div class="ph-title">80 商场品牌同质化指数分布</div>
-                Jaccard 平均后取倒数，左偏分布说明绝大多数商场之间品牌池高度重叠。
-              </figcaption>
-            </figure>
-          </div>
-        </div>
-
-        <!-- 组 3：业态构成 -->
-        <div class="phase1-group">
-          <div class="phase1-group-head">
-            <h3 class="phase1-group-title">03 · 业态构成与 MHI<sub>f</sub></h3>
-            <span class="phase1-group-meta">2 figures · function layer</span>
-          </div>
-          <div class="phase1-grid">
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig03_function_composition_v3.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig03_function_composition_v3.png" alt="fig03 业态构成堆叠" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 03 · FUNCTION COMPOSITION</div>
-                <div class="ph-title">80 商场 14 大类业态品牌数堆叠</div>
-                每家商场在 14 个业态分类上的品牌数量堆叠图，餐饮与服饰鞋包占比普遍最高。
-              </figcaption>
-            </figure>
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig05_function_mhi_f_distribution_v3.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig05_function_mhi_f_distribution_v3.png" alt="fig05 业态 MHI_f 分布" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 05 · MHI<sub>f</sub> DISTRIBUTION</div>
-                <div class="ph-title">80 商场业态同质化指数分布</div>
-                业态向量余弦相似度平均后得到的 MHI<sub>f</sub> 集中在 0.85 以上，说明业态结构高度趋同。
-              </figcaption>
-            </figure>
-          </div>
-        </div>
-
-        <!-- 组 4：MHI_i × MHI_f 四象限（按消费分层） -->
-        <div class="phase1-group">
-          <div class="phase1-group-head">
-            <h3 class="phase1-group-title">04 · MHI<sub>i</sub> × MHI<sub>f</sub> 四象限 · 按消费分层</h3>
-            <span class="phase1-group-meta">6 figures · positioning slice</span>
-          </div>
-          <div class="phase1-grid">
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig06_0_mhi_i_mhi_f_quadrants_total_v3.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig06_0_mhi_i_mhi_f_quadrants_total_v3.png" alt="fig06_0 总样本四象限" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 06.0 · TOTAL</div>
-                <div class="ph-title">80 商场全样本四象限</div>
-                总图视角下品牌与业态同质化的双轴分布。
-              </figcaption>
-            </figure>
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig06_1_mhi_i_mhi_f_quadrants_mass_v3.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig06_1_mhi_i_mhi_f_quadrants_mass_v3.png" alt="fig06_1 大众档" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 06.1 · MASS</div>
-                <div class="ph-title">大众档子样本四象限</div>
-                定位为「大众/亲民」的商场分布，多挤在双高同质区域。
-              </figcaption>
-            </figure>
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig06_2_mhi_i_mhi_f_quadrants_mid_v3.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig06_2_mhi_i_mhi_f_quadrants_mid_v3.png" alt="fig06_2 中端档" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 06.2 · MID</div>
-                <div class="ph-title">中端档子样本四象限</div>
-                定位为「中端」的商场分布，是数量最多的一档。
-              </figcaption>
-            </figure>
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig06_3_mhi_i_mhi_f_quadrants_upper_mid_v3.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig06_3_mhi_i_mhi_f_quadrants_upper_mid_v3.png" alt="fig06_3 中高端档" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 06.3 · UPPER-MID</div>
-                <div class="ph-title">中高端档子样本四象限</div>
-                介于中端与高端之间的商场分布，可读出过渡梯度。
-              </figcaption>
-            </figure>
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig06_4_mhi_i_mhi_f_quadrants_high_v3.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig06_4_mhi_i_mhi_f_quadrants_high_v3.png" alt="fig06_4 高端档" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 06.4 · HIGH-END</div>
-                <div class="ph-title">高端档子样本四象限</div>
-                前滩太古里、兴业太古汇所在的档位，向左下偏移。
-              </figcaption>
-            </figure>
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig06_5_mhi_i_mhi_f_quadrants_outlet_v3.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig06_5_mhi_i_mhi_f_quadrants_outlet_v3.png" alt="fig06_5 奥莱档" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 06.5 · OUTLET</div>
-                <div class="ph-title">奥莱档子样本四象限</div>
-                定位为「奥特莱斯」的商场，因为业态偏向折扣零售而单独成组。
-              </figcaption>
-            </figure>
-          </div>
-        </div>
-
-        <!-- 组 5：复合 MHI -->
-        <div class="phase1-group">
-          <div class="phase1-group-head">
-            <h3 class="phase1-group-title">05 · 复合 MHI 指数 H</h3>
-            <span class="phase1-group-meta">6 figures · composite H</span>
-          </div>
-          <div class="phase1-grid">
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig07_composite_mhi_heatmap_v4.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig07_composite_mhi_heatmap_v4.png" alt="fig07 复合 MHI 热图" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 07 · COMPOSITE HEATMAP</div>
-                <div class="ph-title">80 商场复合 MHI 热图</div>
-                H = (S<sub>i</sub> + S<sub>f</sub>) / 2 综合品牌与业态两层的同质化得分。
-              </figcaption>
-            </figure>
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig08_1_composite_mhi_bars_mass_v4.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig08_1_composite_mhi_bars_mass_v4.png" alt="fig08_1 大众档 bars" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 08.1 · BARS · MASS</div>
-                <div class="ph-title">大众档复合 MHI 横向排名</div>
-                定位为大众档的商场按 H 升序排列，便于观察其内部差异。
-              </figcaption>
-            </figure>
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig08_2_composite_mhi_bars_mid_v4.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig08_2_composite_mhi_bars_mid_v4.png" alt="fig08_2 中端档 bars" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 08.2 · BARS · MID</div>
-                <div class="ph-title">中端档复合 MHI 横向排名</div>
-                中端档是数量最多的一组，H 分布相对集中。
-              </figcaption>
-            </figure>
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig08_3_composite_mhi_bars_upper_mid_v4.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig08_3_composite_mhi_bars_upper_mid_v4.png" alt="fig08_3 中高端档 bars" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 08.3 · BARS · UPPER-MID</div>
-                <div class="ph-title">中高端档复合 MHI 横向排名</div>
-                中高端档商场之间的同质化 H 仍处于较高水平。
-              </figcaption>
-            </figure>
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig08_4_composite_mhi_bars_high_v4.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig08_4_composite_mhi_bars_high_v4.png" alt="fig08_4 高端档 bars" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 08.4 · BARS · HIGH-END</div>
-                <div class="ph-title">高端档复合 MHI 横向排名</div>
-                高端档商场的 H 普遍偏低，与「特色商场」象限对应。
-              </figcaption>
-            </figure>
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig08_5_composite_mhi_bars_outlet_v4.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig08_5_composite_mhi_bars_outlet_v4.png" alt="fig08_5 奥莱档 bars" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 08.5 · BARS · OUTLET</div>
-                <div class="ph-title">奥莱档复合 MHI 横向排名</div>
-                奥莱档由于品类偏向折扣零售而呈现出独立的 H 分布。
-              </figcaption>
-            </figure>
-          </div>
-        </div>
-
-        <!-- 组 6：MHI_sf 候选筛选 -->
-        <div class="phase1-group">
-          <div class="phase1-group-head">
-            <h3 class="phase1-group-title">06 · MHI<sub>sf</sub> 候选筛选 · 谁是前滩的对照锚点</h3>
-            <span class="phase1-group-meta">2 figures · candidate selection</span>
-          </div>
-          <div class="phase1-grid">
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig09_mhi_sf_method_v2.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig09_mhi_sf_method_v2.png" alt="fig09 MHI_sf 方法学" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 09 · MHI<sub>sf</sub> METHOD</div>
-                <div class="ph-title">MHI<sub>sf</sub> 方法学示意</div>
-                把楼层 × 业态当作向量，对所有候选与前滩太古里做余弦相似度的公式与流程。
-              </figcaption>
-            </figure>
-            <figure class="phase1-card">
-              <a href="assets/phase1/fig10_mhi_sf_candidate_selection_v2.png" target="_blank" rel="noopener">
-                <img src="assets/phase1/fig10_mhi_sf_candidate_selection_v2.png" alt="fig10 候选筛选结果" loading="lazy"/>
-              </a>
-              <figcaption class="ph-caption">
-                <div class="ph-tag">FIG. 10 · CANDIDATE SELECTION</div>
-                <div class="ph-title">兴业太古汇 0.8385 与 环贸 iapm 0.8274</div>
-                MHI<sub>sf</sub> 排序后的候选筛选结果，两家被选为前滩太古里的深度对照锚点。
-              </figcaption>
-            </figure>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
   <!-- ==================== 方法学附录 ==================== -->
   <section id="appendix" class="chapter">
     <div class="chapter-header fade-in">
@@ -862,6 +661,11 @@
   <script src="./scripts/viz_geo.js"></script>
   <script src="./scripts/viz_compare.js"></script>
   <script src="./scripts/viz_mhi_sf.js"></script>
+  <script src="./scripts/viz_brand_coverage.js"></script>
+  <script src="./scripts/viz_mhi_dist.js"></script>
+  <script src="./scripts/viz_function_composition.js"></script>
+  <script src="./scripts/viz_composite.js"></script>
+  <script src="./scripts/viz_tech_route.js"></script>
   <script src="./scripts/main.js"></script>
 </body>
 </html>
