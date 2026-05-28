@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>商场同质化指标阶段成果交接说明</title>
+  <style>
+    :root {
+      --ink: #202733;
+      --muted: #667085;
+      --line: #d8e1ea;
+      --soft: #f5f8fb;
+      --blue: #2f6f9f;
+      --blue-dark: #194f78;
+      --rose: #a96b73;
+      --amber: #b78a3e;
+      --green: #5a9270;
+      --page: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+    a { color: var(--blue-dark); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 52px 44px 88px;
+    }
+    header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 34px;
+      margin-bottom: 34px;
+    }
+    .eyebrow {
+      color: var(--blue);
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: .08em;
+    }
+    h1 {
+      margin: 12px 0 14px;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+    .lead {
+      max-width: 980px;
+      color: var(--muted);
+      font-size: 20px;
+      margin: 0;
+    }
+    .meta-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 30px;
+    }
+    .metric {
+      border: 1px solid var(--line);
+      background: var(--soft);
+      padding: 20px 22px;
+      min-height: 116px;
+    }
+    .metric strong {
+      display: block;
+      font-size: 30px;
+      line-height: 1.1;
+      color: var(--blue-dark);
+      margin-bottom: 8px;
+      font-variant-numeric: tabular-nums;
+    }
+    .metric span { color: var(--muted); font-size: 15px; }
+    .layout {
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 38px;
+      align-items: start;
+    }
+    nav {
+      position: sticky;
+      top: 18px;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 18px;
+    }
+    nav h2 {
+      font-size: 17px;
+      margin: 0 0 12px;
+    }
+    nav a {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+      padding: 7px 0;
+      border-top: 1px solid #edf2f7;
+    }
+    main section.major {
+      padding: 34px 0 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    h2 {
+      font-size: 32px;
+      line-height: 1.22;
+      margin: 0 0 18px;
+    }
+    h3 {
+      font-size: 26px;
+      margin: 8px 0 10px;
+      line-height: 1.28;
+    }
+    p { margin: 0 0 14px; }
+    .note {
+      border-left: 4px solid var(--blue);
+      background: var(--soft);
+      padding: 18px 20px;
+      color: var(--ink);
+      margin: 18px 0;
+    }
+    .route {
+      display: grid;
+      gap: 14px;
+      counter-reset: route;
+      margin-top: 20px;
+    }
+    .route-item {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 18px;
+      padding: 18px 0;
+      border-top: 1px solid #e7edf4;
+    }
+    .route-item::before {
+      counter-increment: route;
+      content: counter(route);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--blue);
+      font-weight: 700;
+    }
+    .route-item h4 {
+      margin: 0 0 6px;
+      font-size: 20px;
+    }
+    .route-item p { color: var(--muted); margin: 0; }
+    .formula {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin: 20px 0 4px;
+    }
+    .formula div {
+      border: 1px solid var(--line);
+      padding: 18px;
+      background: #fff;
+    }
+    code {
+      font-family: Consolas, "SFMono-Regular", monospace;
+      font-size: .95em;
+      color: var(--blue-dark);
+    }
+    .figure-section {
+      padding: 34px 0;
+      border-top: 1px solid var(--line);
+    }
+    .section-kicker {
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .question {
+      color: var(--blue-dark);
+      font-weight: 700;
+      font-size: 18px;
+      margin-top: 12px;
+    }
+    .claim {
+      color: var(--muted);
+      max-width: 980px;
+      margin-bottom: 22px;
+    }
+    .figure-single,
+    .figure-grid {
+      display: grid;
+      gap: 18px;
+    }
+    .figure-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .chart-card {
+      margin: 0;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 12px;
+    }
+    .chart-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+      background: #fff;
+    }
+    figcaption {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-variant-numeric: tabular-nums;
+      overflow-wrap: anywhere;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .plain-list {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0 0;
+      display: grid;
+      gap: 12px;
+    }
+    .plain-list li {
+      border-top: 1px solid #e7edf4;
+      padding-top: 12px;
+    }
+    .plain-list a {
+      display: block;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+    .plain-list span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 2px;
+    }
+    .stage-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background: #eaf3f8;
+      color: var(--blue-dark);
+      font-weight: 700;
+      font-size: 14px;
+      margin-right: 8px;
+    }
+    footer {
+      color: var(--muted);
+      font-size: 14px;
+      padding-top: 32px;
+    }
+    @media (max-width: 920px) {
+      .page { padding: 32px 18px 60px; }
+      .layout { display: block; }
+      nav { position: static; margin-bottom: 26px; }
+      .meta-row, .formula, .two-col, .figure-grid {
+        grid-template-columns: 1fr;
+      }
+      h1 { font-size: 36px; }
+    }
+    @media print {
+      nav { display: none; }
+      .layout { display: block; }
+      .page { max-width: none; padding: 24px; }
+      .figure-section { break-inside: avoid; }
+      a { color: inherit; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="eyebrow">RESEARCH HANDOFF · 2026-05-24</div>
+      <h1>商场同质化指标阶段成果交接说明</h1>
+      <p class="lead">本文档用于交接当前阶段的研究成果、指标逻辑、图表体系和后续研究入口。主线是从 80 家商场的外部品牌与功能同质化出发，构建复合 MHI，再回到商场内部空间，筛选前滩太古里的对照案例。</p>
+      <div class="meta-row" aria-label="关键数据口径">
+        <div class="metric"><strong>80</strong><span>研究样本商场口径</span></div>
+        <div class="metric"><strong>11140</strong><span>去重商场-品牌记录</span></div>
+        <div class="metric"><strong>6368</strong><span>标准化品牌数量</span></div>
+        <div class="metric"><strong>14</strong><span>功能业态分类</span></div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav aria-label="页面导航">
+        <h2>目录</h2>
+        <a href="#overview">研究概览</a>
+        <a href="#route">技术路线</a>
+        <a href="#indices">指标口径</a>
+        <a href="#figures">图表成果</a>
+        <a href="#handoff">文件与脚本</a>
+        <a href="#next">下一步研究</a>
+      </nav>
+
+      <main>
+        <section class="major" id="overview">
+          <h2>研究概览</h2>
+          <p>本阶段的核心问题是：如何用可复核的数据指标量化商场之间的同质化程度，并将这种同质化从“品牌与功能构成”进一步推进到“内部空间组织”。</p>
+          <p>第一阶段主要处理外部总体同质化：通过商场基础信息、租户品牌信息和功能分类表，计算品牌同质化 <code>MHI_i</code> 与功能同质化 <code>MHI_f</code>，再复合为统一的 <code>MHI</code>。第二阶段从 <code>MHI</code> 回到商场内部空间，引入楼层层级，构建 <code>MHI_sf</code>，用于筛选与前滩太古里最同质的高端商场。</p>
+          <div class="note"><strong>当前关键结论：</strong>在高端候选商场中，兴业太古汇的 <code>MHI_sf = 0.838528</code>，高于环贸iapm商场的 <code>0.827396</code>。因此，后续可将“前滩太古里 + 兴业太古汇”作为一组对比研究对象。</div>
+        </section>
+
+        <section class="major" id="route">
+          <h2>技术路线</h2>
+          <div class="route">
+            <div class="route-item"><div><h4>数据爬取与清洗</h4><p>爬取 80 家商场的商场基础信息与商场租户信息，清洗后得到“商场×品牌”和“商场×功能”两个核心表格。</p></div></div>
+            <div class="route-item"><div><h4>双维度同质化指数</h4><p>定义品牌同质化指数 <code>MHI_i</code> 和功能同质化指数 <code>MHI_f</code>，分别得到品牌同质化指数清单和功能同质化指数清单。</p></div></div>
+            <div class="route-item"><div><h4>复合 MHI 指标</h4><p>由于 <code>MHI_i</code> 与 <code>MHI_f</code> 不在同一量级，先分别进行 min-max 标准化，再按等权复合得到商场综合 <code>MHI</code>。</p></div></div>
+            <div class="route-item"><div><h4>sDNA 空间关系接口</h4><p>用 sDNA 技术分析商场的地理空间关系，并进一步分析 sDNA 结果与商场 <code>MHI</code> 的相关性。当前 HTML 中尚未嵌入 sDNA 图表，后续可在本模块补充。</p></div></div>
+            <div class="route-item"><div><h4>第二阶段研究问题转向</h4><p>从总体 <code>MHI</code> 指标回到商场内部空间，引出新的研究点：商场内部空间组织如何影响商场同质化。</p></div></div>
+            <div class="route-item"><div><h4>高端商场案例筛选</h4><p>前滩太古里作为已掌握资料的一端，另一端需从高端商场中筛选。复合 <code>MHI</code> 排名显示环贸iapm商场和兴业太古汇与前滩太古里最接近，因此进一步引入 <code>MHI_sf</code> 在两者中二选一。</p></div></div>
+            <div class="route-item"><div><h4>后续对比研究</h4><p>下一步将从定性田野调查和科学工具定量分析两个层面对比前滩太古里与兴业太古汇，最终讨论商场内部空间对同质化的影响。</p></div></div>
+          </div>
+        </section>
+
+        <section class="major" id="indices">
+          <h2>指标口径</h2>
+          <p><span class="stage-tag">第一阶段</span> <code>MHI_i</code> 用于描述品牌层面的同质化，<code>MHI_f</code> 用于描述功能业态层面的同质化。二者共同回答“商场是否在品牌与功能构成上趋同”。</p>
+          <div class="formula">
+            <div><strong>标准化品牌指数</strong><br><code>S_i = (MHI_i - min(MHI_i)) / (max(MHI_i) - min(MHI_i))</code></div>
+            <div><strong>标准化功能指数</strong><br><code>S_f = (MHI_f - min(MHI_f)) / (max(MHI_f) - min(MHI_f))</code></div>
+            <div><strong>复合指数</strong><br><code>MHI = 0.5 × S_i + 0.5 × S_f</code></div>
+          </div>
+          <p><span class="stage-tag">第二阶段</span> <code>MHI_sf</code> 将商场划分为地下层、地面层、中间层、顶层四类空间层级，并与 14 类功能业态交叉形成 <code>4 × 14</code> 矩阵。矩阵展开为 56 维向量后，通过余弦相似度衡量候选商场与前滩太古里的空间功能同质性。</p>
+          <div class="note"><strong>解释重点：</strong><code>MHI</code> 解决“总体上是否同质”，<code>MHI_sf</code> 进一步解决“相似的功能是否出现在相近的内部空间层级”。</div>
+        </section>
+
+        <section class="major" id="figures">
+          <h2>图表成果</h2>
+          <p>本节附上当前阶段已生成的全部主图。每张图都对应一个明确研究问题，并说明它在逻辑链条中证明了什么。</p>
+          
+    <section class="figure-section" id="fig-01">
+      <div class="section-kicker">图01</div>
+      <h3>图1 数据链路与指标构建框架</h3>
+      <p class="question">研究如何从原始商场租户数据转化为可度量的同质化指标？</p>
+      <p class="claim">这张图说明了本阶段研究的底层数据链路：爬取商场基础信息和租户信息后，先形成“商场×品牌”和“商场×功能”两类标准化表格，再分别计算品牌同质化 MHI_i、功能同质化 MHI_f，并进一步合成为复合 MHI。</p>
+      <div class="figure-single">
+        
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig01_data_pipeline_v3.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig01_data_pipeline_v3.png" alt="图1 数据链路与指标构建框架：fig01_data_pipeline_v3.png" loading="lazy">
+              </a>
+              <figcaption>fig01_data_pipeline_v3.png</figcaption>
+            </figure>
+            
+      </div>
+    </section>
+    
+    <section class="figure-section" id="fig-02">
+      <div class="section-kicker">图02</div>
+      <h3>图2 高频共同品牌覆盖度</h3>
+      <p class="question">哪些品牌构成了商场品牌层面同质化的主要来源？</p>
+      <p class="claim">这张图展示了覆盖商场数量最高的共同品牌。它用于说明，品牌同质化不是抽象判断，而是由一批跨商场重复出现的高频品牌共同推动。</p>
+      <div class="figure-single">
+        
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig02_top_brand_coverage_v3.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig02_top_brand_coverage_v3.png" alt="图2 高频共同品牌覆盖度：fig02_top_brand_coverage_v3.png" loading="lazy">
+              </a>
+              <figcaption>fig02_top_brand_coverage_v3.png</figcaption>
+            </figure>
+            
+      </div>
+    </section>
+    
+    <section class="figure-section" id="fig-03">
+      <div class="section-kicker">图03</div>
+      <h3>图3 功能业态构成</h3>
+      <p class="question">商场功能同质化的统计基础是什么？</p>
+      <p class="claim">这张图展示 14 类功能业态的记录数与占比，是后续 MHI_f 的分类基础。它说明本研究不是只看品牌名，而是将品牌进一步归入功能类型，从功能结构层面讨论同质化。</p>
+      <div class="figure-single">
+        
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig03_function_composition_v3.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig03_function_composition_v3.png" alt="图3 功能业态构成：fig03_function_composition_v3.png" loading="lazy">
+              </a>
+              <figcaption>fig03_function_composition_v3.png</figcaption>
+            </figure>
+            
+      </div>
+    </section>
+    
+    <section class="figure-section" id="fig-04">
+      <div class="section-kicker">图04</div>
+      <h3>图4 品牌同质化 MHI_i 分布</h3>
+      <p class="question">不同商场在品牌层面的同质化程度是否存在差异？</p>
+      <p class="claim">这张图呈现各商场 MHI_i 的分布和排序。MHI_i 越高，说明该商场品牌组合与整体市场中的共同品牌结构越接近；排序差异为后续寻找同质商场提供了品牌层面的证据。</p>
+      <div class="figure-single">
+        
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig04_brand_mhi_i_distribution_v3.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig04_brand_mhi_i_distribution_v3.png" alt="图4 品牌同质化 MHI_i 分布：fig04_brand_mhi_i_distribution_v3.png" loading="lazy">
+              </a>
+              <figcaption>fig04_brand_mhi_i_distribution_v3.png</figcaption>
+            </figure>
+            
+      </div>
+    </section>
+    
+    <section class="figure-section" id="fig-05">
+      <div class="section-kicker">图05</div>
+      <h3>图5 功能同质化 MHI_f 分布</h3>
+      <p class="question">商场在功能业态层面是否比品牌层面更趋同？</p>
+      <p class="claim">这张图呈现各商场 MHI_f 的分布和排序。它与图4共同支撑一个核心判断：品牌层面可能仍存在差异化，但功能层面往往更容易出现趋同。</p>
+      <div class="figure-single">
+        
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig05_function_mhi_f_distribution_v3.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig05_function_mhi_f_distribution_v3.png" alt="图5 功能同质化 MHI_f 分布：fig05_function_mhi_f_distribution_v3.png" loading="lazy">
+              </a>
+              <figcaption>fig05_function_mhi_f_distribution_v3.png</figcaption>
+            </figure>
+            
+      </div>
+    </section>
+    
+    <section class="figure-section" id="fig-06">
+      <div class="section-kicker">图06</div>
+      <h3>图6 MHI_i 与 MHI_f 四象限关系</h3>
+      <p class="question">品牌同质化与功能同质化之间是什么关系？这种关系是否受商场档次影响？</p>
+      <p class="claim">图6先在总样本中比较 MHI_i 与 MHI_f，再按商场档次拆分。四象限图用于识别“品牌高同质且功能高同质”“品牌差异但功能趋同”等类型，为后续复合指标和分组解释提供依据。</p>
+      <div class="figure-grid">
+        
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig06_0_mhi_i_mhi_f_quadrants_total_v3.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig06_0_mhi_i_mhi_f_quadrants_total_v3.png" alt="图6 MHI_i 与 MHI_f 四象限关系：fig06_0_mhi_i_mhi_f_quadrants_total_v3.png" loading="lazy">
+              </a>
+              <figcaption>fig06_0_mhi_i_mhi_f_quadrants_total_v3.png</figcaption>
+            </figure>
+            
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig06_1_mhi_i_mhi_f_quadrants_mass_v3.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig06_1_mhi_i_mhi_f_quadrants_mass_v3.png" alt="图6 MHI_i 与 MHI_f 四象限关系：fig06_1_mhi_i_mhi_f_quadrants_mass_v3.png" loading="lazy">
+              </a>
+              <figcaption>fig06_1_mhi_i_mhi_f_quadrants_mass_v3.png</figcaption>
+            </figure>
+            
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig06_2_mhi_i_mhi_f_quadrants_mid_v3.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig06_2_mhi_i_mhi_f_quadrants_mid_v3.png" alt="图6 MHI_i 与 MHI_f 四象限关系：fig06_2_mhi_i_mhi_f_quadrants_mid_v3.png" loading="lazy">
+              </a>
+              <figcaption>fig06_2_mhi_i_mhi_f_quadrants_mid_v3.png</figcaption>
+            </figure>
+            
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig06_3_mhi_i_mhi_f_quadrants_upper_mid_v3.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig06_3_mhi_i_mhi_f_quadrants_upper_mid_v3.png" alt="图6 MHI_i 与 MHI_f 四象限关系：fig06_3_mhi_i_mhi_f_quadrants_upper_mid_v3.png" loading="lazy">
+              </a>
+              <figcaption>fig06_3_mhi_i_mhi_f_quadrants_upper_mid_v3.png</figcaption>
+            </figure>
+            
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig06_4_mhi_i_mhi_f_quadrants_high_v3.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig06_4_mhi_i_mhi_f_quadrants_high_v3.png" alt="图6 MHI_i 与 MHI_f 四象限关系：fig06_4_mhi_i_mhi_f_quadrants_high_v3.png" loading="lazy">
+              </a>
+              <figcaption>fig06_4_mhi_i_mhi_f_quadrants_high_v3.png</figcaption>
+            </figure>
+            
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig06_5_mhi_i_mhi_f_quadrants_outlet_v3.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig06_5_mhi_i_mhi_f_quadrants_outlet_v3.png" alt="图6 MHI_i 与 MHI_f 四象限关系：fig06_5_mhi_i_mhi_f_quadrants_outlet_v3.png" loading="lazy">
+              </a>
+              <figcaption>fig06_5_mhi_i_mhi_f_quadrants_outlet_v3.png</figcaption>
+            </figure>
+            
+      </div>
+    </section>
+    
+    <section class="figure-section" id="fig-07">
+      <div class="section-kicker">图07</div>
+      <h3>图7 复合 MHI 热力图</h3>
+      <p class="question">如何把 MHI_i 与 MHI_f 统一到一个可排序的综合指标？</p>
+      <p class="claim">这张图展示复合 MHI 的商场分布。复合 MHI 通过 min-max 标准化后的 S_i 与 S_f 加权得到，用来统一品牌同质化和功能同质化两个量级不同的维度。</p>
+      <div class="figure-single">
+        
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig07_composite_mhi_heatmap_v4.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig07_composite_mhi_heatmap_v4.png" alt="图7 复合 MHI 热力图：fig07_composite_mhi_heatmap_v4.png" loading="lazy">
+              </a>
+              <figcaption>fig07_composite_mhi_heatmap_v4.png</figcaption>
+            </figure>
+            
+      </div>
+    </section>
+    
+    <section class="figure-section" id="fig-08">
+      <div class="section-kicker">图08</div>
+      <h3>图8 按档次定位的复合 MHI 排序</h3>
+      <p class="question">不同档次商场内部，哪些商场的复合 MHI 更高？</p>
+      <p class="claim">图8将复合 MHI 按商场档次拆分展示。它既用于避免不同档次之间直接比较造成解释偏差，也为第二阶段在高端商场中筛选候选案例提供了数据入口。</p>
+      <div class="figure-grid">
+        
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig08_1_composite_mhi_bars_mass_v4.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig08_1_composite_mhi_bars_mass_v4.png" alt="图8 按档次定位的复合 MHI 排序：fig08_1_composite_mhi_bars_mass_v4.png" loading="lazy">
+              </a>
+              <figcaption>fig08_1_composite_mhi_bars_mass_v4.png</figcaption>
+            </figure>
+            
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig08_2_composite_mhi_bars_mid_v4.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig08_2_composite_mhi_bars_mid_v4.png" alt="图8 按档次定位的复合 MHI 排序：fig08_2_composite_mhi_bars_mid_v4.png" loading="lazy">
+              </a>
+              <figcaption>fig08_2_composite_mhi_bars_mid_v4.png</figcaption>
+            </figure>
+            
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig08_3_composite_mhi_bars_upper_mid_v4.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig08_3_composite_mhi_bars_upper_mid_v4.png" alt="图8 按档次定位的复合 MHI 排序：fig08_3_composite_mhi_bars_upper_mid_v4.png" loading="lazy">
+              </a>
+              <figcaption>fig08_3_composite_mhi_bars_upper_mid_v4.png</figcaption>
+            </figure>
+            
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig08_4_composite_mhi_bars_high_v4.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig08_4_composite_mhi_bars_high_v4.png" alt="图8 按档次定位的复合 MHI 排序：fig08_4_composite_mhi_bars_high_v4.png" loading="lazy">
+              </a>
+              <figcaption>fig08_4_composite_mhi_bars_high_v4.png</figcaption>
+            </figure>
+            
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig08_5_composite_mhi_bars_outlet_v4.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig08_5_composite_mhi_bars_outlet_v4.png" alt="图8 按档次定位的复合 MHI 排序：fig08_5_composite_mhi_bars_outlet_v4.png" loading="lazy">
+              </a>
+              <figcaption>fig08_5_composite_mhi_bars_outlet_v4.png</figcaption>
+            </figure>
+            
+      </div>
+    </section>
+    
+    <section class="figure-section" id="fig-09">
+      <div class="section-kicker">图09</div>
+      <h3>图9 MHI_sf 空间功能同质化指标构建</h3>
+      <p class="question">如何把商场内部楼层空间纳入同质化判断？</p>
+      <p class="claim">这张图说明第二阶段新引入的 MHI_sf。它将商场内部抽象为“4 个层级 × 14 类功能”的空间功能矩阵，再展开为 56 维向量，并通过余弦相似度比较前滩太古里与候选商场的空间功能结构。</p>
+      <div class="figure-single">
+        
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig09_mhi_sf_method_v2.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig09_mhi_sf_method_v2.png" alt="图9 MHI_sf 空间功能同质化指标构建：fig09_mhi_sf_method_v2.png" loading="lazy">
+              </a>
+              <figcaption>fig09_mhi_sf_method_v2.png</figcaption>
+            </figure>
+            
+      </div>
+    </section>
+    
+    <section class="figure-section" id="fig-10">
+      <div class="section-kicker">图10</div>
+      <h3>图10 高端候选商场 MHI_sf 排序与对象筛选</h3>
+      <p class="question">在环贸iapm商场和兴业太古汇之间，谁更适合作为前滩太古里的对照案例？</p>
+      <p class="claim">这张图给出最终筛选判断：兴业太古汇的 MHI_sf 为 0.838528，高于环贸iapm商场的 0.827396。因此，在当前空间功能同质化口径下，兴业太古汇更适合作为前滩太古里的后续对照对象。</p>
+      <div class="figure-single">
+        
+            <figure class="chart-card">
+              <a href="图表输出/Python重绘版_六部分/fig10_mhi_sf_candidate_selection_v2.png" target="_blank" rel="noopener">
+                <img src="assets/phase1/fig10_mhi_sf_candidate_selection_v2.png" alt="图10 高端候选商场 MHI_sf 排序与对象筛选：fig10_mhi_sf_candidate_selection_v2.png" loading="lazy">
+              </a>
+              <figcaption>fig10_mhi_sf_candidate_selection_v2.png</figcaption>
+            </figure>
+            
+      </div>
+    </section>
+    
+        </section>
+
+        <section class="major" id="handoff">
+          <h2>文件与脚本</h2>
+          <div class="two-col">
+            <div>
+              <h3>关键表格</h3>
+              <ul class="plain-list">
+                
+            <li>
+              <a href="商场基本信息.xlsx" target="_blank" rel="noopener">商场基本信息.xlsx</a>
+              <span>原始样本基础信息，包含商场名称、空间圈层、档次定位等基础变量。</span>
+            </li>
+            
+
+            <li>
+              <a href="商场_品牌.xlsx" target="_blank" rel="noopener">商场_品牌.xlsx</a>
+              <span>清洗后的商场×品牌表，是 MHI_i 的主要输入。</span>
+            </li>
+            
+
+            <li>
+              <a href="商场_功能.xlsx" target="_blank" rel="noopener">商场_功能.xlsx</a>
+              <span>清洗后的商场×功能表，是 MHI_f 与 MHI_sf 的主要输入。</span>
+            </li>
+            
+
+            <li>
+              <a href="商场品牌同质化.xlsx" target="_blank" rel="noopener">商场品牌同质化.xlsx</a>
+              <span>品牌同质化指数清单，记录各商场 MHI_i。</span>
+            </li>
+            
+
+            <li>
+              <a href="商场功能同质化.xlsx" target="_blank" rel="noopener">商场功能同质化.xlsx</a>
+              <span>功能同质化指数清单，记录各商场 MHI_f。</span>
+            </li>
+            
+
+            <li>
+              <a href="表格输出/80家商场复合MHI指数统计表.xlsx" target="_blank" rel="noopener">表格输出/80家商场复合MHI指数统计表.xlsx</a>
+              <span>复合 MHI 指数清单，包含 MHI_i、MHI_f、S_i、S_f 和综合 H/MHI。</span>
+            </li>
+            
+
+            <li>
+              <a href="表格输出/MHI_sf_前滩太古里候选商场空间功能相似度.xlsx" target="_blank" rel="noopener">表格输出/MHI_sf_前滩太古里候选商场空间功能相似度.xlsx</a>
+              <span>MHI_sf 计算结果、楼层识别率、空间功能矩阵和规则说明。</span>
+            </li>
+            
+
+            <li>
+              <a href="表格输出/MHI_sf_前滩太古里官网楼层补全表.xlsx" target="_blank" rel="noopener">表格输出/MHI_sf_前滩太古里官网楼层补全表.xlsx</a>
+              <span>前滩太古里官网楼层补全明细，保留匹配品牌、来源位置和补全状态。</span>
+            </li>
+            
+              </ul>
+            </div>
+            <div>
+              <h3>关键脚本</h3>
+              <ul class="plain-list">
+                
+            <li>
+              <a href="scripts/compute_composite_mhi.py" target="_blank" rel="noopener">scripts/compute_composite_mhi.py</a>
+              <span>计算复合 MHI，并输出 80 家商场复合 MHI 指数统计表。</span>
+            </li>
+            
+
+            <li>
+              <a href="scripts/compute_mhi_sf.py" target="_blank" rel="noopener">scripts/compute_mhi_sf.py</a>
+              <span>构造层级×功能矩阵，计算前滩太古里与候选商场的 MHI_sf。</span>
+            </li>
+            
+
+            <li>
+              <a href="scripts/augment_mhi_sf_floors_from_web.py" target="_blank" rel="noopener">scripts/augment_mhi_sf_floors_from_web.py</a>
+              <span>从前滩太古里官网补全未识别楼层信息。</span>
+            </li>
+            
+
+            <li>
+              <a href="scripts/generate_all_figures_python_v2.py" target="_blank" rel="noopener">scripts/generate_all_figures_python_v2.py</a>
+              <span>生成第一阶段主图表。</span>
+            </li>
+            
+
+            <li>
+              <a href="scripts/generate_mhi_sf_screening_figures.py" target="_blank" rel="noopener">scripts/generate_mhi_sf_screening_figures.py</a>
+              <span>生成第二阶段筛选图9和图10。</span>
+            </li>
+            
+
+            <li>
+              <a href="scripts/generate_stage_handoff_html.py" target="_blank" rel="noopener">scripts/generate_stage_handoff_html.py</a>
+              <span>生成本 HTML 交接说明页。</span>
+            </li>
+            
+              </ul>
+            </div>
+          </div>
+          <div class="note"><strong>交接注意：</strong>原始 Excel 不应直接修改。需要更新指标或图表时，优先修改脚本并重新生成输出表格或图像，以便保留可复核的计算链条。</div>
+        </section>
+
+        <section class="major" id="next">
+          <h2>下一步研究建议</h2>
+          <p>后续工作建议围绕“前滩太古里与兴业太古汇”展开。定性层面可通过田野调查记录动线、楼层主题、空间节点、品牌组合和体验差异；定量层面可结合空间句法、sDNA 或其他空间分析工具，比较两家商场内部空间结构对功能布局与品牌组织的影响。</p>
+          <p>最终论证可以从三个层次展开：第一，两个商场在总体 <code>MHI</code> 层面相近；第二，两个商场在 <code>MHI_sf</code> 层面具有较高空间功能同质性；第三，通过田野与空间分析解释这种同质性背后的内部空间机制。</p>
+        </section>
+
+        <footer>
+          本文件由当前工作目录中的表格、脚本和图表生成。若图像无法显示，请确认 HTML 与 <code>图表输出/Python重绘版_六部分</code> 文件夹保持相对位置不变。
+        </footer>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

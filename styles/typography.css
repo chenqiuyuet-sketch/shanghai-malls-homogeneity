@@ -1,0 +1,228 @@
+/* ============================================================
+   千店一面 · 排印系统
+   Fraunces 拉丁衬线作展示，思源宋体作中文展示，Manrope 作正文
+   ============================================================ */
+
+/* Google Fonts 在 index.html 头部统一加载 */
+
+/* ---------- 字族变量 ---------- */
+:root {
+  /* 拉丁展示：Fraunces，可变字体，带活字几何感 */
+  --ff-display-latin: "Fraunces", "EB Garamond", "Georgia", serif;
+
+  /* 中文展示：思源宋体，与 Fraunces 共享衬线骨架 */
+  --ff-display-cjk:   "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", serif;
+
+  /* 正文：拉丁优先 Manrope，中文回落到苹方/思源黑体，避免渲染歧义 */
+  --ff-body: "Manrope", "Inter Tight", -apple-system, BlinkMacSystemFont,
+             "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC",
+             "Noto Sans SC", sans-serif;
+
+  /* 等宽：IBM Plex Mono，承担数字、坐标、距离等技术语义 */
+  --ff-mono: "IBM Plex Mono", "JetBrains Mono", "SF Mono", Menlo, monospace;
+}
+
+/* ---------- 基础排印 ---------- */
+html {
+  font-family: var(--ff-body);
+  font-size: 16px;
+  font-feature-settings: "ss01", "cv01", "cv11";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--ff-body);
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--ink);
+  background: var(--paper);
+  font-weight: 400;
+}
+
+/* ---------- 中英混排 ---------- */
+/* 中文字符默认走思源宋体，英文与数字保留 Manrope 的清晰几何感 */
+.cjk-display {
+  font-family: var(--ff-display-cjk);
+}
+.cjk-body {
+  font-family: var(--ff-display-cjk), var(--ff-body);
+}
+
+/* ---------- 展示级标题（英雄区） ---------- */
+.display-hero {
+  font-family: var(--ff-display-cjk);
+  font-size: var(--fs-hero);
+  font-weight: 500;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+  color: var(--ink);
+}
+
+.display-hero-latin {
+  font-family: var(--ff-display-latin);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: var(--ls-tight);
+}
+
+/* ---------- 章节大标题 H2 ---------- */
+h1, h2, h3, h4 {
+  font-family: var(--ff-display-cjk);
+  font-weight: 500;
+  color: var(--ink);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--fs-2xl);
+  font-weight: 500;
+}
+
+h2 {
+  font-size: var(--fs-xl);
+  font-weight: 500;
+}
+
+h3 {
+  font-size: var(--fs-lg);
+  font-weight: 500;
+}
+
+h4 {
+  font-size: var(--fs-md);
+  font-weight: 600;
+}
+
+/* ---------- 章节编号（Fraunces 斜体小号） ---------- */
+.chapter-num {
+  font-family: var(--ff-display-latin);
+  font-style: italic;
+  font-weight: 300;
+  font-size: var(--fs-sm);
+  color: var(--ink-mute);
+  letter-spacing: var(--ls-wide);
+  text-transform: lowercase;
+  display: block;
+  margin-bottom: var(--sp-3);
+}
+
+.chapter-num::before {
+  content: "· ch. ";
+  font-style: italic;
+}
+
+/* ---------- 正文段落 ---------- */
+p {
+  margin: 0 0 var(--sp-6) 0;
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--ink-soft);
+  hanging-punctuation: first;
+}
+
+p.lead {
+  font-family: var(--ff-display-cjk);
+  font-size: var(--fs-md);
+  line-height: var(--lh-base);
+  color: var(--ink);
+  font-weight: 400;
+}
+
+/* ---------- 强调与高亮 ---------- */
+strong, b {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+em {
+  font-style: italic;
+  font-family: var(--ff-display-latin);
+}
+
+mark {
+  background: linear-gradient(180deg, transparent 60%, rgba(200,54,46,0.18) 60%);
+  color: var(--ink);
+  padding: 0 0.05em;
+}
+
+/* ---------- 引用块（拉幅式） ---------- */
+.pullquote {
+  font-family: var(--ff-display-cjk);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-snug);
+  color: var(--ink);
+  font-weight: 400;
+  border-left: 3px solid var(--vermillion);
+  padding: var(--sp-4) 0 var(--sp-4) var(--sp-8);
+  margin: var(--sp-12) 0;
+  position: relative;
+}
+
+.pullquote::before {
+  content: "「";
+  font-family: var(--ff-display-cjk);
+  font-size: var(--fs-2xl);
+  color: var(--vermillion);
+  position: absolute;
+  left: var(--sp-2);
+  top: -0.2em;
+  line-height: 1;
+  opacity: 0.6;
+}
+
+/* ---------- 小型大写 / 章节眉签 ---------- */
+.eyebrow {
+  font-family: var(--ff-mono);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--ls-extra);
+  color: var(--vermillion);
+  display: inline-block;
+  margin-bottom: var(--sp-4);
+}
+
+/* ---------- 数字 / 等宽 ---------- */
+.mono, code, .num {
+  font-family: var(--ff-mono);
+  font-feature-settings: "tnum" 1;
+  font-size: 0.92em;
+}
+
+/* ---------- 链接 ---------- */
+a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--warm-gray-2);
+  transition: border-color var(--dur-fast) var(--ease-out),
+              color var(--dur-fast) var(--ease-out);
+}
+
+a:hover {
+  color: var(--vermillion);
+  border-bottom-color: var(--vermillion);
+}
+
+/* ---------- 选区色 ---------- */
+::selection {
+  background: var(--vermillion);
+  color: var(--paper);
+}
+
+/* ---------- 注释脚注 ---------- */
+.footnote {
+  font-size: var(--fs-sm);
+  color: var(--ink-mute);
+  line-height: var(--lh-snug);
+}
+
+/* ---------- 字距细节调优 ---------- */
+.display-hero,
+h1, h2 {
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures discretionary-ligatures;
+}

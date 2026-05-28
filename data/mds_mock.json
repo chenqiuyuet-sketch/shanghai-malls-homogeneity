@@ -1,0 +1,165 @@
+{
+  "_note": "本文件为 demo 阶段示意数据，真实坐标由 13×13 距离子矩阵 D^H 经多维尺度分析（MDS）投影得到。前滩太古里以朱砂红呈现，其余高端商场以黄铜金呈现。",
+  "axes": {
+    "x_label": "MDS 维度一 · 楼层模板异质度",
+    "y_label": "MDS 维度二 · 业态填充节奏"
+  },
+  "malls": [
+    {
+      "id": "QT_TKL",
+      "name": "前滩太古里",
+      "name_en": "Qiantan Taikoo Li",
+      "x": 1.55,
+      "y": -1.05,
+      "role": "anchor",
+      "floors": 4,
+      "brand_count": 178,
+      "anchor_brand": "Maison Margiela、Aesop、Bang & Olufsen",
+      "note": "研究锚点：开放街区式动线，将高端业态由垂直竖向重新铺陈到水平横向。"
+    },
+    {
+      "id": "HKRI_TKH",
+      "name": "兴业太古汇",
+      "name_en": "HKRI Taikoo Hui",
+      "x": 0.95,
+      "y": -0.55,
+      "role": "standard",
+      "floors": 6,
+      "brand_count": 224,
+      "anchor_brand": "Tiffany & Co.、Acne Studios",
+      "note": "同属太古地产，与前滩太古里共享品牌池，但保留竖向购物中心格局。"
+    },
+    {
+      "id": "IFC",
+      "name": "上海国金中心",
+      "name_en": "Shanghai IFC Mall",
+      "x": -0.30,
+      "y": 0.25,
+      "role": "standard",
+      "floors": 6,
+      "brand_count": 256,
+      "anchor_brand": "Louis Vuitton、Apple Store",
+      "note": "陆家嘴金融区一线奢侈品旗舰，业态结构以国际一线品牌为骨架。"
+    },
+    {
+      "id": "PLAZA66",
+      "name": "恒隆广场",
+      "name_en": "Plaza 66",
+      "x": -0.55,
+      "y": 0.45,
+      "role": "standard",
+      "floors": 5,
+      "brand_count": 198,
+      "anchor_brand": "Chanel、Hermès、Dior",
+      "note": "静安顶级奢侈品聚集地，业态填充以高端时装与皮具高度集中。"
+    },
+    {
+      "id": "GG66",
+      "name": "港汇恒隆广场",
+      "name_en": "Grand Gateway 66",
+      "x": -0.40,
+      "y": -0.10,
+      "role": "standard",
+      "floors": 6,
+      "brand_count": 245,
+      "anchor_brand": "Gucci、Tory Burch、Apple",
+      "note": "徐家汇枢纽顶部，高端品牌带与餐饮娱乐层次完整。"
+    },
+    {
+      "id": "IAPM",
+      "name": "环贸 iapm",
+      "name_en": "iapm Mall",
+      "x": -0.20,
+      "y": 0.55,
+      "role": "standard",
+      "floors": 7,
+      "brand_count": 211,
+      "anchor_brand": "Prada、Burberry、Coach",
+      "note": "夜间运营至凌晨，业态偏向年轻奢侈与设计师品牌的过渡带。"
+    },
+    {
+      "id": "JAKC",
+      "name": "静安嘉里中心",
+      "name_en": "Jing'an Kerry Centre",
+      "x": -0.65,
+      "y": 0.05,
+      "role": "standard",
+      "floors": 5,
+      "brand_count": 187,
+      "anchor_brand": "Christian Louboutin、Lululemon",
+      "note": "中等密度高端组合，餐饮与生活方式比重高于纯奢侈品。"
+    },
+    {
+      "id": "SOGO",
+      "name": "久光百货",
+      "name_en": "Sogo Department Store",
+      "x": -0.15,
+      "y": 0.40,
+      "role": "standard",
+      "floors": 7,
+      "brand_count": 268,
+      "anchor_brand": "資生堂、Olive Young",
+      "note": "日系百货格局，化妆品与轻奢配饰占比高，与其他高端商场略有偏移。"
+    },
+    {
+      "id": "K11",
+      "name": "上海 K11",
+      "name_en": "K11 Art Mall",
+      "x": -0.35,
+      "y": -0.30,
+      "role": "standard",
+      "floors": 6,
+      "brand_count": 165,
+      "anchor_brand": "Adidas Originals、% Arabica",
+      "note": "艺术导向定位，业态结构容纳更多策展空间与小型独立品牌。"
+    },
+    {
+      "id": "KERRY_PD",
+      "name": "嘉里不夜城",
+      "name_en": "Kerry Parkside",
+      "x": 0.05,
+      "y": 0.50,
+      "role": "standard",
+      "floors": 4,
+      "brand_count": 152,
+      "anchor_brand": "Hyatt、Cinema Café",
+      "note": "浦东金桥区域社区型高端商场，与陆家嘴顶级商场存在结构距离。"
+    },
+    {
+      "id": "XTD",
+      "name": "上海新天地",
+      "name_en": "Xintiandi",
+      "x": -0.50,
+      "y": -0.20,
+      "role": "standard",
+      "floors": 3,
+      "brand_count": 142,
+      "anchor_brand": "Brunello Cucinelli、Hugo Boss",
+      "note": "石库门街区式购物地标，水平动线与小尺度业态填充自成一格。"
+    },
+    {
+      "id": "SHCC",
+      "name": "上海中心 J·LIFE",
+      "name_en": "Shanghai Tower J·LIFE",
+      "x": -0.05,
+      "y": 0.20,
+      "role": "standard",
+      "floors": 7,
+      "brand_count": 183,
+      "anchor_brand": "Starbucks Reserve、Costa Crociere",
+      "note": "塔楼裙房布局，业态偏向商务与高端餐饮，与传统盒子商场结构差异显著。"
+    },
+    {
+      "id": "RAFFLES",
+      "name": "来福士广场",
+      "name_en": "Raffles City",
+      "x": -0.45,
+      "y": 0.30,
+      "role": "standard",
+      "floors": 6,
+      "brand_count": 219,
+      "anchor_brand": "Sephora、Uniqlo Flagship",
+      "note": "人民广场枢纽商场，业态结构以中高端时尚与餐饮组合为骨架。"
+    }
+  ]
+}

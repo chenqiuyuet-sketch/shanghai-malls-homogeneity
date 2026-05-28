@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>千店一面 · 上海购物中心同质化的三层观察</title>
+  <meta name="description" content="以 80 个上海购物中心样本与 13 个高端商场子集为对象，从品牌、业态、楼层模板三个维度，重新讨论同质化命题，并以前滩太古里为锚点考察异质性是否仍然可能。" />
+
+  <!-- 字体 · Google Fonts 一次性加载 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400;500;600&family=Noto+Serif+SC:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- 项目样式 -->
+  <link rel="stylesheet" href="./styles/tokens.css" />
+  <link rel="stylesheet" href="./styles/typography.css" />
+  <link rel="stylesheet" href="./styles/components.css" />
+
+  <!-- D3 v7（用于 MDS 散点 / 余弦热力图） -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+</head>
+<body>
+
+  <!-- ==================== 顶部铭牌 ==================== -->
+  <header class="masthead">
+    <div class="masthead-title">千店一面 <span style="color:var(--ink-mute);font-weight:400;">/ 上海购物中心同质化</span></div>
+    <div class="masthead-meta">CH. 2026 · WORKING DRAFT v0.2</div>
+  </header>
+
+  <!-- ==================== 章节导航 ==================== -->
+  <nav class="toc" aria-label="章节导航">
+    <button class="toc-item" data-target="hero">
+      <span class="toc-item-num">00</span><span class="toc-item-label">楔子</span>
+    </button>
+    <button class="toc-item" data-target="frame">
+      <span class="toc-item-num">01</span><span class="toc-item-label">研究框架</span>
+    </button>
+    <button class="toc-item" data-target="brand">
+      <span class="toc-item-num">02</span><span class="toc-item-label">品牌维度</span>
+    </button>
+    <button class="toc-item" data-target="function">
+      <span class="toc-item-num">03</span><span class="toc-item-label">业态维度</span>
+    </button>
+    <button class="toc-item" data-target="floor">
+      <span class="toc-item-num">04</span><span class="toc-item-label">楼层模板</span>
+    </button>
+    <button class="toc-item" data-target="geo">
+      <span class="toc-item-num">05</span><span class="toc-item-label">地理结论</span>
+    </button>
+    <button class="toc-item" data-target="space">
+      <span class="toc-item-num">06</span><span class="toc-item-label">空间结论</span>
+    </button>
+    <button class="toc-item" data-target="discussion">
+      <span class="toc-item-num">07</span><span class="toc-item-label">综合讨论</span>
+    </button>
+    <button class="toc-item" data-target="appendix">
+      <span class="toc-item-num">08</span><span class="toc-item-label">方法学附录</span>
+    </button>
+  </nav>
+
+  <!-- ==================== 英雄区 ==================== -->
+  <section id="hero" class="hero">
+    <div class="hero-frame">
+
+      <div class="hero-eyebrow">
+        <span class="eyebrow">城市设计 · 课程汇报 · 演示稿</span>
+      </div>
+
+      <h1 class="hero-title">
+        千店一面
+        <span class="hero-title-latin">on the homogenization of Shanghai's shopping centers</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        从 80 个商场样本与 13 个高端商场子集出发，以品牌、业态与楼层模板三个相互独立的维度，重新打开「商场看上去越来越像」这一直觉判断，并以前滩太古里为锚点，观察异质性是否仍然可能。
+      </p>
+
+      <div class="hero-meta">
+        <div class="hero-meta-block">
+          <span class="hero-meta-label">Group</span>
+          <span class="hero-meta-value">城市分析 · 第 4 组</span>
+        </div>
+        <div class="hero-meta-block">
+          <span class="hero-meta-label">Members</span>
+          <span class="hero-meta-value">陈、黄、林、王、张、赵</span>
+        </div>
+        <div class="hero-meta-block">
+          <span class="hero-meta-label">Submission</span>
+          <span class="hero-meta-value">2026 春季学期 · 期末</span>
+        </div>
+        <div class="hero-meta-block">
+          <span class="hero-meta-label">Anchor case</span>
+          <span class="hero-meta-value">前滩太古里</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint" aria-hidden="true">
+      Scroll
+    </div>
+  </section>
+
+  <!-- ==================== 研究框架 ==================== -->
+  <section id="frame" class="chapter">
+    <div class="chapter-header fade-in">
+      <span class="chapter-num">01 / framework</span>
+      <h2 class="chapter-title">三层框架，三个不可互相替代的视角</h2>
+      <p class="chapter-deck">
+        「商场越来越像」是一句直觉判断，并不是一个可计算命题。要把这句话变成可以被反驳的研究，需要先把「相像」拆成三个不在同一层级的问题：相像于品牌组合，相像于业态填充，还是相像于楼层模板。
+      </p>
+    </div>
+
+    <div class="container fade-in">
+      <div class="framework">
+
+        <article class="framework-card">
+          <div class="framework-card-num">i</div>
+          <h3 class="framework-card-title">品牌维度<br/><span style="font-family:var(--ff-display-latin);font-style:italic;font-size:var(--fs-base);color:var(--ink-mute);font-weight:300;">Brand Index</span></h3>
+          <div class="framework-card-formula">
+            MHI<sub>i</sub> = α &middot; A<sub>new</sub> + (1&minus;α) &middot; Jaccard
+          </div>
+          <p class="framework-card-body">
+            以惠特克（Robert Whittaker）α/β/γ 多样性框架为骨架，把品牌集合的差异度刻画为「相对全样本基线的可比指标」，让 80 家商场可以在同一刻度上排序。
+          </p>
+        </article>
+
+        <article class="framework-card">
+          <div class="framework-card-num">ii</div>
+          <h3 class="framework-card-title">业态维度<br/><span style="font-family:var(--ff-display-latin);font-style:italic;font-size:var(--fs-base);color:var(--ink-mute);font-weight:300;">Functional Index</span></h3>
+          <div class="framework-card-formula">
+            MHI<sub>f</sub> = 1 &minus; cos(v<sub>i</sub>, v<sub>̄</sub>)
+          </div>
+          <p class="framework-card-body">
+            把每家商场的业态构成投射为高维向量，并以余弦相似度量度它与全样本平均的偏离，从而把「比例的同质化」与品牌层的同质化区分开。
+          </p>
+        </article>
+
+        <article class="framework-card">
+          <div class="framework-card-num">iii</div>
+          <h3 class="framework-card-title">楼层模板<br/><span style="font-family:var(--ff-display-latin);font-style:italic;font-size:var(--fs-base);color:var(--ink-mute);font-weight:300;">Floor Template Distance</span></h3>
+          <div class="framework-card-formula">
+            D[i,j] = &sum;<sub>c</sub> w<sub>ij</sub>(c) &middot; W<sub>1</sub>(P<sub>i</sub>, P<sub>j</sub>)
+          </div>
+          <p class="framework-card-body">
+            把每家商场抽象为「下沉层、入口层、中层、目的地层」四级模板上的业态分布，再以沃瑟斯坦（Wasserstein-1）距离逐对衡量楼层节奏的差异，最终构成 80×80 的距离矩阵 D。
+          </p>
+        </article>
+
+      </div>
+    </div>
+
+    <div class="chapter-body fade-in" style="margin-top: var(--sp-12)">
+      <p class="lead">
+        三个维度彼此并列，不能压缩成一个标量。如果一家商场的品牌池与同侪重合，它在 MHI<sub>i</sub> 上得分较低；如果它的业态比例与全样本均值重合，它在 MHI<sub>f</sub> 上得分较低；如果它的楼层节奏与其他商场重合，它在 D 上与其他点紧贴。这三种「相像」并不互相蕴含，因此本研究保留三个独立读数，让证据本身说话。
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== 品牌维度 ==================== -->
+  <section id="brand" class="chapter">
+    <div class="chapter-header fade-in">
+      <span class="chapter-num">02 / brand</span>
+      <h2 class="chapter-title">第一重观察 · 品牌池的同质化程度</h2>
+      <p class="chapter-deck">
+        以惠特克框架的相对多样性逻辑出发，把 80 家商场的品牌集合放在同一基线上读数。MHI<sub>i</sub> 越接近 1，意味着该商场的品牌组合越偏离全样本基线，越具识别度；越接近 0，意味着它的品牌池正在向上海高端商场的「公共底版」收敛。
+      </p>
+    </div>
+
+    <div class="chapter-body fade-in">
+
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-value">80<span class="unit">家</span></div>
+          <div class="stat-label">全量样本 · 上海购物中心</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">13<span class="unit">家</span></div>
+          <div class="stat-label">高端子集 · MHI<sub>i</sub> &lt; 0.45</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">0.32<span class="unit">σ</span></div>
+          <div class="stat-label">高端子集内部标准差 · 显著低于全样本</div>
+        </div>
+      </div>
+
+      <p>
+        把 80 个样本沿 MHI<sub>i</sub> 排序后，得分最低的 13 个商场构成「高端同质化俱乐部」。它们共享同一批奢侈品、轻奢与设计师品牌池，使得品牌维度上的差异度不足以将它们彼此区分。这并不意味着它们已经互相替代，而是说明：单纯依赖品牌清单已经不足以解释「商场为什么仍然各自有人去」。
+      </p>
+
+      <div class="viz-frame">
+        <div class="viz-frame-header">
+          <div>
+            <div class="viz-title">80 个商场在品牌同质化 × 业态同质化平面上的散布</div>
+            <div class="viz-subtitle">横轴 MHI<sub>i</sub> · 纵轴 MHI<sub>f</sub> · 高端 13 家以朱砂红圈出</div>
+          </div>
+          <div class="viz-meta">FIG. 02 · QUADRANT<br/>n = 80<br/>HIGHLIGHT = 13</div>
+        </div>
+        <div class="viz-canvas" id="viz-quadrant" style="height:520px"></div>
+        <div class="viz-legend">
+          <span class="legend-item"><span class="legend-swatch" style="background:var(--vermillion);width:10px;height:10px;display:inline-block;margin-right:6px"></span>前滩太古里 · 锚点</span>
+          <span class="legend-item"><span class="legend-swatch" style="background:var(--paper);border:1.5px solid var(--vermillion);width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px"></span>高端 12 家 · 与锚点同列</span>
+          <span class="legend-item"><span class="legend-swatch" style="background:var(--brass);opacity:.6;width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px"></span>其余 67 家全样本背景</span>
+          <span class="legend-item">虚线 · MHI<sub>i</sub>/MHI<sub>f</sub> 全样本中位数</span>
+        </div>
+        <div class="viz-caption">
+          <b>读图提示</b>：左下象限是「品牌与业态双高同质」的高端俱乐部，右上象限是「品牌与业态双低同质」的特色商场；前滩太古里以朱砂红方点标注，便于直接读出它在二维空间中相对全体 80 个样本的位置。十三家高端商场在 MHI 双低区间聚拢成团，与右上半区的中端连锁与特色商场之间留下了清晰的可视化裂口。
+        </div>
+      </div>
+
+      <div class="pullquote">
+        当 13 个高端商场在品牌层趋于一致时，业态填充与楼层模板就成了真正可以「定义个性」的剩余维度。前滩太古里恰好处在这一剩余空间里被讨论。
+      </div>
+
+      <p>
+        这一观察构成本研究后续章节的边界：既然 80 个样本里只剩 13 个在品牌层值得比较，那么余下两个维度的子矩阵分析就有了清晰的对象。下一章先以十三维业态向量审视填充比例的趋同程度，再进入楼层模板的距离结构。
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== 业态维度 ==================== -->
+  <section id="function" class="chapter">
+    <div class="chapter-header fade-in">
+      <span class="chapter-num">03 / function</span>
+      <h2 class="chapter-title">第二重观察 · 业态填充比例的同质化方向</h2>
+      <p class="chapter-deck">
+        品牌池可能完全重合，业态比例却未必同步。把每家商场的业态构成投射为多维向量，再以余弦相似度逐对衡量，可以独立于品牌层观察「填充节奏」这条线索是否也在收敛。
+      </p>
+    </div>
+
+    <div class="chapter-body fade-in">
+      <p>
+        从奢侈时装、轻奢设计师、美妆护肤、珠宝钟表、鞋包、精致正餐、咖啡茶饮、生活方式、运动健身、数码体验、艺术文创、服务超市到亲子儿童，每家商场在这十三类业态上的品牌占比构成一支十三维向量 v<sub>i</sub>。两个向量越接近，余弦相似度 cos(v<sub>i</sub>, v<sub>j</sub>) 越接近 1；越偏离，越接近 0。这条度量与品牌池本身完全无关，因而可以在品牌层之外提供独立证据。
+      </p>
+
+      <div class="viz-frame">
+        <div class="viz-frame-header">
+          <div>
+            <div class="viz-title">业态向量余弦相似度 · 13 × 13 高端子集</div>
+            <div class="viz-subtitle">深红 · 业态构成接近；浅金 · 业态构成分歧</div>
+          </div>
+          <div class="viz-meta">FIG. 03 · COSINE<br/>n = 13<br/>DIM = 13</div>
+        </div>
+        <div class="viz-canvas" id="viz-heatmap"></div>
+        <div class="viz-caption">
+          <b>读图提示</b>：对角线为自身相似度（=1，以斜纹留白），前滩太古里所在行列以朱砂红虚线高亮。矩阵主体落在 0.65 至 0.98 区间，太古系两家彼此最为相近，纯奢一极（恒隆、国金）与艺术取向（K11）、社区高端（嘉里不夜城）形成可读的色阶层级。tooltip 给出每对商场前三位重合品类，供下一步定性讨论引用。
+        </div>
+      </div>
+
+      <p>
+        V3 在视觉上回答两个问题：高端 13 家是否在业态层也已经聚拢为一团？前滩太古里在这一层是否仍然处在偏离主集群的位置？热力图给出的回答是「大体聚拢、局部偏离」。十三家两两相似度中位数已经在 0.85 以上，几乎所有商场都共享同一套以奢侈、轻奢、餐饮、生活方式为重心的填充结构；前滩与兴业太古汇之间高达 0.98 的相似度，提示「同一开发主体」在业态层的近乎复刻。然而恒隆广场与 K11 之间的 0.50、与嘉里不夜城之间的 0.49，又说明这条度量并未完全饱和：定位极化的商场仍在业态层留下了可读的差异。下一章把目光转向楼层模板，看看这条尚未饱和的差异是否能在垂直维度上被进一步识别。
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== 楼层模板维度 ==================== -->
+  <section id="floor" class="chapter">
+    <div class="chapter-header fade-in">
+      <span class="chapter-num">04 / floor template</span>
+      <h2 class="chapter-title">第三重观察 · 楼层模板的步调是否还在区分商场</h2>
+      <p class="chapter-deck">
+        把每家商场的实际楼层映射到「下沉层、入口层、中层、目的地层」四级模板上，并按品类构造一份四行 × N 列的概率矩阵 P<sub>i</sub>。两家商场之间的差异，就化为四级模板上业态累积分布的沃瑟斯坦距离之加权和。
+      </p>
+    </div>
+
+    <div class="chapter-body fade-in">
+
+      <div class="viz-frame">
+        <div class="viz-frame-header">
+          <div>
+            <div class="viz-title">楼层抽象 · 把高度异构的楼层压缩为四级模板</div>
+            <div class="viz-subtitle">B 下沉 · G 入口 · M 中层 · T 目的地</div>
+          </div>
+          <div class="viz-meta">FIG. 04A · TEMPLATE<br/>LAYERS = 4</div>
+        </div>
+        <div id="viz-floor" class="viz-canvas" style="height:480px"></div>
+        <div class="viz-caption">
+          <b>读图提示</b>：以前滩太古里、兴业太古汇、上海国金中心三家为例，左侧呈现各自的实际楼层（含 LG、地下、夹层、天台等异构形态），右侧把它们对齐到 B/G/M/T 四级模板，并按业态填充比例着色，使后续两两距离的计算具有可比基础。
+        </div>
+      </div>
+
+      <p>
+        相比单纯计算「楼层数差异」或「品类比例差异」，沃瑟斯坦距离对「错位」尤其敏感：一家商场把奢侈品放在入口层与一家把奢侈品放在中层之间的差异，会被这一指标显著放大，而不会被简单的比例差异平均掉。
+      </p>
+
+      <div class="viz-frame">
+        <div class="viz-frame-header">
+          <div>
+            <div class="viz-title">80 × 80 楼层模板距离矩阵 D</div>
+            <div class="viz-subtitle">按 MHI<sub>i</sub> 升序重排（锚点固定首位），左上角 13 × 13 即高端子集 D<sup>H</sup></div>
+          </div>
+          <div class="viz-meta">FIG. 04B · DISTANCE<br/>n = 80<br/>METRIC = W<sub>1</sub></div>
+        </div>
+        <div id="viz-distance" class="viz-canvas" style="height:620px"></div>
+        <div class="viz-caption">
+          <b>读图提示</b>：颜色越红，两商场的楼层模板差异越大，越浅则模板越接近。矩阵按 MHI<sub>i</sub> 升序排列，左上角 13 × 13 的朱砂红框即高端子矩阵 D<sup>H</sup>；该子块整体偏浅，说明高端商场之间的楼层模板已高度趋同。前滩太古里所在行列以朱砂红虚线标出，可作为对照锚点。鼠标悬停任一格即可读出 W<sub>1</sub> 距离与两商场的分层信息。
+        </div>
+      </div>
+
+      <p>
+        在 80 个商场之间，上述流程生成 80 × 80 的距离矩阵 D；在 13 个高端商场之间，它进一步收束为 13 × 13 的子矩阵 D<sup>H</sup>。后者就是下一节那张散点图所投影的对象。
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== MDS 散点（核心可视化） ==================== -->
+  <section id="mds" class="chapter">
+    <div class="chapter-header fade-in">
+      <span class="chapter-num">04 / mds projection</span>
+      <h2 class="chapter-title">十三宫格 · 把楼层模板距离投影到二维平面</h2>
+      <p class="chapter-deck">
+        对 13×13 的距离子矩阵 D<sup>H</sup> 执行多维尺度分析（MDS），将每家高端商场嵌入二维平面，使欧氏距离尽量保留原始 D<sup>H</sup> 中的差异结构。本 demo 使用示意坐标演示交互形态。
+      </p>
+    </div>
+
+    <div class="viz-frame fade-in">
+      <div class="viz-frame-header">
+        <div>
+          <div class="viz-title">高端商场楼层模板距离的二维投影</div>
+          <div class="viz-subtitle">朱砂红 · 前滩太古里（锚点）；黄铜金 · 其余十二家高端商场</div>
+        </div>
+        <div class="viz-meta">
+          FIG. 05 · MDS<br/>
+          STRESS ≈ 0.14<br/>
+          ITER. = 300
+        </div>
+      </div>
+
+      <div id="viz-mds" class="viz-canvas"></div>
+
+      <div class="viz-legend">
+        <div class="legend-item">
+          <span class="legend-swatch anchor"></span>
+          <span>前滩太古里 · Anchor</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch standard"></span>
+          <span>其余高端商场 · n=12</span>
+        </div>
+        <div class="legend-item">
+          <span style="font-family:var(--ff-mono);color:var(--ink-mute);">虚线 · 锚点 → 各点距离</span>
+        </div>
+      </div>
+
+      <div class="viz-caption">
+        <b>读图提示</b>：维度一对应楼层模板的异质度（向右越远，模板越独特）；维度二对应业态填充的节奏差异。前滩太古里位于右下象限的离群位置，与多数高端商场拉开距离；兴业太古汇虽同属太古地产，仍处在锚点与主集群之间的过渡位置。鼠标悬停可读出每家商场的详细信息。
+      </div>
+    </div>
+
+    <div class="chapter-body fade-in">
+      <p>
+        即便在品牌池高度重合的 13 个商场之间，楼层模板维度仍然给出了清晰的分组：主集群由陆家嘴、徐家汇、静安南京西路一线的竖向购物中心构成，它们共享相近的「奢侈品上楼、餐饮在顶」节奏；前滩太古里以开放街区把高端业态由竖向重新铺陈到水平横向，在 MDS 平面上向右下方拉出一段明显的距离。
+      </p>
+      <p>
+        这一结果支撑了本研究的核心论断：在品牌池高度趋同的当下，<mark>楼层模板成为真正定义高端商场个性的剩余空间</mark>，而前滩太古里以此为基础重新提出了一种异质性方案。指标层面的结论到此完成；接下来两章把这一论断放回上海的街网与剖面，验证它是否仍然成立。
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== 地理结论 ==================== -->
+  <section id="geo" class="chapter">
+    <div class="chapter-header fade-in">
+      <span class="chapter-num">05 / geography</span>
+      <h2 class="chapter-title">第四重观察 · 把同质化放回上海的地图上</h2>
+      <p class="chapter-deck">
+        指标只能告诉我们「相像」与「不像」，无法告诉我们「为什么前滩太古里和其余高端商场不像」。把 13 家高端商场放回上海的街网拓扑里，借助空间设计网络分析（sDNA）的通达性测度，可以把视觉上的离群转译为可解释的区位逻辑。
+      </p>
+    </div>
+
+    <div class="chapter-body fade-in">
+      <p>
+        陆家嘴、徐家汇与南京西路一线的高端商场共享相近的轨交节点密度、人行可达半径与街网整合度，它们的楼层模板在 MDS 平面上聚成主集群，并非偶然。前滩位于黄浦江南岸的新生岸线区段，其街网拓扑、地块尺度与步行体验，并不属于主集群所处的城市纹理。
+      </p>
+
+      <div class="viz-frame">
+        <div class="viz-frame-header">
+          <div>
+            <div class="viz-title">上海中心城区 · 高端商场区位与 sDNA 通达性</div>
+            <div class="viz-subtitle">基于 1000m 半径的 betweenness centrality，与 13 家高端商场标点叠加</div>
+          </div>
+          <div class="viz-meta">FIG. 06 · GEO<br/>RADIUS = 1km<br/>n = 13</div>
+        </div>
+        <div id="viz-geo" class="viz-canvas" style="height:620px"></div>
+        <div class="viz-caption">
+          <b>读图提示</b>：底图取自上海中心城区路网，色阶按 sDNA-betweenness 排序；前滩太古里以朱砂红方点标注，其余十二家高端商场以黄铜金圆点标注。该图将印证「锚点的离群位置由街网拓扑决定，而非由品牌选品决定」这一推断。
+        </div>
+      </div>
+
+      <p>
+        若 sDNA 测度显示前滩位于一个与主集群差异显著的通达性带，那么 MDS 平面上的离群就有了城市学解释：前滩的楼层模板不是被「设计得不同」，而是被「街网拓扑允许变得不同」。这一解释把可视化数据与城市形态学连接到一起。
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== 空间结论 ==================== -->
+  <section id="space" class="chapter">
+    <div class="chapter-header fade-in">
+      <span class="chapter-num">06 / spatial</span>
+      <h2 class="chapter-title">第五重观察 · 两座太古的并置比较</h2>
+      <p class="chapter-deck">
+        前滩太古里与兴业太古汇同属太古地产，品牌池高度重合，地理位置与街网拓扑却各居黄浦江两岸。把两者并置阅读，可以把「品牌相同、模板不同」这一论断落到具体的剖面与平面上。
+      </p>
+    </div>
+
+    <div class="viz-frame fade-in">
+      <div class="viz-frame-header">
+        <div>
+          <div class="viz-title">两座太古 · 楼层模板与街区肌理并置</div>
+          <div class="viz-subtitle">左 · 前滩太古里 · 横向开放街区；右 · 兴业太古汇 · 竖向核心筒</div>
+        </div>
+        <div class="viz-meta">FIG. 07 · COMPARE<br/>HORIZ. vs VERT.<br/>n = 2</div>
+      </div>
+      <div id="viz-compare" class="viz-canvas" style="height:560px"></div>
+      <div class="viz-caption">
+        <b>读图提示</b>：左侧呈现前滩太古里的横向开放街区肌理与平摊式业态布置，右侧呈现兴业太古汇的竖向核心筒与上下分层的传统模板。两图将以同样的色谱标注业态层级，便于读者直接对比楼层模板节奏的差异。
+      </div>
+    </div>
+
+    <div class="viz-frame fade-in" id="mhi-sf-card">
+      <div class="viz-frame-header">
+        <div>
+          <div class="viz-title">阶段一 · MHI<sub>sf</sub> 候选筛选 · 谁是和前滩最像的兄弟</div>
+          <div class="viz-subtitle">把楼层 × 业态当作向量，对所有候选与前滩太古里做余弦相似度，挑出最像的两家</div>
+        </div>
+        <div class="viz-meta">PHASE 1 · MHI_sf<br/>BY 黄 / 吴<br/>2026-05-24</div>
+      </div>
+      <div id="viz-mhi-sf" class="viz-canvas" style="min-height:220px;padding:18px 22px;"></div>
+      <div class="viz-caption">
+        阶段一已经把楼层 × 14 业态的真实矩阵跑出来，按 MHI<sub>sf</sub> 排序候选。完整图集与方法学公式见 <a href="phase1.html#fig-09" target="_blank" rel="noopener">阶段一交接说明 · 图 09 / 10</a>。
+      </div>
+    </div>
+
+    <div class="chapter-body fade-in">
+      <p>
+        这一并置揭示出：在品牌相同、业态相近时，楼层模板的差异更接近城市形态意义上的差异，而装修风格只是这一差异在表层的痕迹。前滩以横向街区把竖向逻辑彻底改写，使「高端商场」这一类型在上海获得了一种新的空间可能性。
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== 综合讨论 ==================== -->
+  <section id="discussion" class="chapter">
+    <div class="chapter-header fade-in">
+      <span class="chapter-num">07 / discussion</span>
+      <h2 class="chapter-title">把三重观察重新合起来</h2>
+      <p class="chapter-deck">
+        品牌池、业态比例、楼层模板这三层并不彼此蕴含，因此「同质化」从来不是单一命题。把三层读数合起来，我们可以更精确地说明：上海高端商场的趋同只发生在前两层，而真正划分识别度的剩余空间，仍然位于楼层模板与城市形态之间。
+      </p>
+    </div>
+
+    <div class="chapter-body fade-in">
+      <p>
+        第一层告诉我们：80 个样本中只剩 13 家在品牌层值得相互比较；第二层告诉我们：这 13 家在业态填充上同样高度趋近；第三层告诉我们：即便如此，楼层模板仍能把前滩太古里从主集群中清晰区分出来。三层结果叠加之后，「千店一面」就从一句直觉判断改写成一份具体的诊断：同质化发生在哪一层、不发生在哪一层。
+      </p>
+
+      <div class="inline-note">
+        <b>对设计实践的提示</b>：当品牌池与业态配比已经成为「行业公共底版」时，购物中心的差异化竞争只能在楼层模板与城市形态层面展开。前滩太古里的成功更多源自形态层面的判断，而非招商档位的堆砌。
+      </div>
+
+      <p>
+        这一论断也意味着：以指标对比为目的的同质化讨论，应当先确定「在哪一层比较」。把三层并起来取均值，会把真正具有解释力的差异平均掉，最终得到一个看似全面、实则什么也没说清楚的结论。
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== 方法学附录 ==================== -->
+  <section id="appendix" class="chapter">
+    <div class="chapter-header fade-in">
+      <span class="chapter-num">08 / methods</span>
+      <h2 class="chapter-title">方法学附录</h2>
+      <p class="chapter-deck">
+        把三层指标的公式、样本筛选规则、数据来源与待补环节集中放在最后一章，便于读者按图索骥地复现本研究的每一步。本节为占位骨架，待真实数据接入后逐项补全。
+      </p>
+    </div>
+
+    <div class="chapter-body fade-in">
+
+      <div class="appendix-block">
+        <h3>公式速查</h3>
+
+        <div class="appendix-formula">
+          <span class="appendix-formula-label">MHI<sub>i</sub></span>
+          α · A<sub>new</sub> + (1 &minus; α) · Jaccard(B<sub>i</sub>, B<sub>baseline</sub>)
+        </div>
+
+        <div class="appendix-formula">
+          <span class="appendix-formula-label">MHI<sub>f</sub></span>
+          1 &minus; cos(v<sub>i</sub>, v<sub>̄</sub>) ， v<sub>i</sub> ∈ ℝ<sup>8</sup>
+        </div>
+
+        <div class="appendix-formula">
+          <span class="appendix-formula-label">D[i,j]</span>
+          ∑<sub>c ∈ {B,G,M,T}</sub> w<sub>ij</sub>(c) · W<sub>1</sub>(P<sub>i</sub><sup>c</sup>, P<sub>j</sub><sup>c</sup>)
+        </div>
+      </div>
+
+      <div class="appendix-block">
+        <h3>样本筛选</h3>
+        <p>
+          全样本 n=80 取自上海中心城区运营满 24 个月以上、营业面积 ≥ 4 万 m² 的购物中心；高端子集 n=13 由 MHI<sub>i</sub> 排序后取前 13 家自动生成，与「招商档位」标签解耦，避免循环论证。锚点 n=1 固定为前滩太古里，对照点 n=1 固定为兴业太古汇。
+        </p>
+      </div>
+
+      <div class="appendix-block">
+        <h3>数据来源</h3>
+        <p class="appendix-source">品牌清单 · 赢商网、商场官方品牌目录 · 截至 2026-04</p>
+        <p class="appendix-source">业态分类 · 商业地产研究院八大类目体系</p>
+        <p class="appendix-source">楼层结构 · 现场踏勘 + 商场官方平面图</p>
+        <p class="appendix-source">街网与可达性 · OpenStreetMap 2026 春季快照 + sDNA 0.6</p>
+      </div>
+
+      <div class="appendix-block appendix-pending">
+        <h3>待补环节</h3>
+        <ul>
+          <li>80 家商场的完整品牌池电子化（约 30% 已完成）</li>
+          <li>业态向量八维体系的最终维度定稿，待业态组组内讨论</li>
+          <li>B/G/M/T 楼层抽象规则在带 LG 层与天台层场景下的细则</li>
+          <li>沃瑟斯坦距离的逐对计算与正则化处理</li>
+          <li>sDNA 在中环以外区段的边界处理</li>
+          <li>MDS 应力值与 Shepard 图的稳健性核验</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 版权 ==================== -->
+  <footer id="colophon" class="colophon">
+    <div class="colophon-grid">
+      <div>
+        <div class="colophon-title">关于本稿</div>
+        <p class="colophon-body">
+          本 demo 是「千店一面」研究项目最终交付形态的早期形态，目的在于在团队内部确认视觉语言、数据可视化的交互形态与叙事节奏。正式稿将以本演示文件为骨架，逐章替换为真实数据与方法学附录：业态维度（V3）、楼层模板（V4 / V7）、地理结论（V6）与空间结论（V8）依序补齐，最终生成一份可在网页与 PDF 双形态下交付的完整作品。
+        </p>
+      </div>
+      <div class="colophon-meta">
+        <div>Typeset in</div>
+        <div style="color:var(--ink);margin:6px 0 18px;">
+          <span style="font-family:var(--ff-display-latin);font-style:italic;">Fraunces</span>
+          &amp;
+          <span style="font-family:var(--ff-display-cjk);">思源宋体</span>
+        </div>
+        <div>Body</div>
+        <div style="color:var(--ink);margin:6px 0 18px;font-family:var(--ff-body);">Manrope · PingFang SC</div>
+        <div>Built with</div>
+        <div style="color:var(--ink);margin-top:6px;font-family:var(--ff-mono);">D3.js v7 · zero build</div>
+      </div>
+      <div class="colophon-meta">
+        <div>Version</div>
+        <div style="color:var(--ink);margin:6px 0 18px;font-family:var(--ff-mono);">demo · 0.2</div>
+        <div>Updated</div>
+        <div style="color:var(--ink);margin:6px 0 18px;font-family:var(--ff-mono);">2026-05-22</div>
+        <div>Status</div>
+        <div style="color:var(--vermillion);margin-top:6px;font-family:var(--ff-mono);">WORKING DRAFT</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 脚本 -->
+  <script src="./scripts/viz_mds.js"></script>
+  <script src="./scripts/viz_heatmap.js"></script>
+  <script src="./scripts/viz_quadrant.js"></script>
+  <script src="./scripts/viz_distance.js"></script>
+  <script src="./scripts/viz_floor.js"></script>
+  <script src="./scripts/viz_geo.js"></script>
+  <script src="./scripts/viz_compare.js"></script>
+  <script src="./scripts/viz_mhi_sf.js"></script>
+  <script src="./scripts/main.js"></script>
+</body>
+</html>
