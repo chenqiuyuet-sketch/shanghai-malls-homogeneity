@@ -155,15 +155,17 @@
       .transition().delay(1700).duration(700)
       .style("opacity", 0.9);
 
-    // ---------- 轴标签（仅高端 13 家全标 + 部分有代表性的标准商场） ----------
-    // 高端 + 锚点（前 13 行/列）每个都标
-    // 标准商场 67 个中，每 7 个抽一个，避免过度密集
+    // ---------- 轴标签（防堆叠：抽稀 + 垂直放置） ----------
+    // 80 商场 × 10px cell 太密，全标会全部叠在一起。策略：
+    // (a) 锚点必标 (b) 高端 13 个每 2 个抽 1（约 7 个）(c) 标准 67 个每 10 个抽 1（约 7 个）
+    // 列标签从 rotate(-55°) 改 rotate(-90°)，让水平投影宽度为 0，相邻标签不互相遮挡。
     const labelMask = data.malls.map((_, i) => {
-      if (i < heSize) return true;
-      return (i - heSize) % 7 === 0;
+      if (i === anchorIdx) return true;
+      if (i < heSize) return i % 2 === 0;
+      return (i - heSize) % 10 === 0;
     });
 
-    // 列标签（顶部，旋转 -55°）
+    // 列标签（顶部，旋转 -90° · 垂直立起）
     g.append("g")
       .attr("class", "matrix-col-labels")
       .selectAll("text")
@@ -179,7 +181,7 @@
       .attr("x", 0).attr("y", 0)
       .attr(
         "transform",
-        (d) => `translate(${d.idx * cell + cell / 2}, -8) rotate(-55)`
+        (d) => `translate(${d.idx * cell + cell / 2}, -6) rotate(-90)`
       )
       .attr("text-anchor", "start")
       .style("opacity", 0)
