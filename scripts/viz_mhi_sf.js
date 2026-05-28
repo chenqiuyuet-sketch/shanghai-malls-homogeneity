@@ -15,7 +15,8 @@
     const intro = document.createElement("div");
     intro.style.cssText = "font-size:13.5px;line-height:1.65;color:var(--ink-soft);margin-bottom:14px;";
     intro.innerHTML = `把每家商场抽象为「楼层 × 业态」向量，再与 <b>${data.target || "前滩太古里"}</b> 做余弦相似度。
-    相似度越接近 1，越值得作为深度对照锚点。下表显示当前所有候选与楼层识别率。`;
+    相似度越接近 1，越值得作为深度对照锚点。两个主要候选中最终<b style="color:var(--vermillion-d);">选定 MHI<sub>sf</sub> 最高的兴业太古汇</b>，
+    第二候选环贸 iapm 在本研究中作为「落选案例」呈现，不参与深度对照分析。`;
     container.appendChild(intro);
 
     // ---------- 候选表格 ----------
@@ -91,7 +92,8 @@
     conclude.style.cssText = "margin-top:14px;font-size:12.5px;line-height:1.6;color:var(--ink-mute);border-top:1px dashed var(--rule);padding-top:12px;";
     const top = (data.candidates || [])[0];
     conclude.innerHTML = top
-      ? `最像前滩的候选是 <b style="color:var(--vermillion-d);">${top.candidate_mall}</b>（MHI<sub>sf</sub> = ${top.MHI_sf.toFixed(4)}），第二名 <b>${(data.candidates[1] || {}).candidate_mall || "—"}</b>（MHI<sub>sf</sub> = ${(data.candidates[1]?.MHI_sf || 0).toFixed(4)}）。两者都被列为深度对照锚点候选。`
+      ? `最像前滩的候选是 <b style="color:var(--vermillion-d);">${top.candidate_mall}</b>（MHI<sub>sf</sub> = ${top.MHI_sf.toFixed(4)}），
+      已选定为本研究的深度对照对象。第二名 <b>${(data.candidates[1] || {}).candidate_mall || "—"}</b>（MHI<sub>sf</sub> = ${(data.candidates[1]?.MHI_sf || 0).toFixed(4)}）作为候选证据保留，不参与后续田野与建模分析。`
       : "暂无候选数据。";
     container.appendChild(conclude);
   }

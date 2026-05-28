@@ -78,17 +78,73 @@
         .style("opacity", (s) => (s.val > 0 ? 0.9 : 0));
     });
 
-    // X 轴商场名（旋转 -65°）
-    g.append("g").attr("transform", `translate(0,${innerH})`)
-      .selectAll("text").data(records).join("text")
-      .attr("x", (d) => xScale(d.name) + xScale.bandwidth() / 2)
-      .attr("y", 8)
+    // X 轴：80 商场标签太密无法全标，改为只标 anchor + 高低端代表 + 排序方向提示
+    const xAxisG = g.append("g").attr("transform", `translate(0,${innerH})`);
+
+    // 排序方向 / 区间提示
+    xAxisG.append("line")
+      .attr("x1", 0).attr("x2", innerW)
+      .attr("y1", 2).attr("y2", 2)
+      .attr("stroke", "var(--rule)").attr("stroke-width", 0.6);
+    xAxisG.append("text")
+      .attr("x", 0).attr("y", 16)
+      .attr("text-anchor", "start")
+      .attr("font-family", "var(--ff-mono)")
+      .attr("font-size", "10.5px")
+      .attr("fill", "var(--ink-mute)")
+      .attr("letter-spacing", "0.08em")
+      .text("← 总品牌数较少");
+    xAxisG.append("text")
+      .attr("x", innerW).attr("y", 16)
       .attr("text-anchor", "end")
-      .attr("transform", (d) => `rotate(-65, ${xScale(d.name) + xScale.bandwidth() / 2}, 8)`)
-      .attr("font-family", "var(--ff-display-cjk)")
-      .attr("font-size", "9.5px")
-      .attr("fill", "var(--ink-soft)")
-      .text((d) => (d.name.length > 11 ? d.name.slice(0, 10) + "…" : d.name));
+      .attr("font-family", "var(--ff-mono)")
+      .attr("font-size", "10.5px")
+      .attr("fill", "var(--ink-mute)")
+      .attr("letter-spacing", "0.08em")
+      .text("总品牌数较多 →");
+    xAxisG.append("text")
+      .attr("x", innerW / 2).attr("y", 16)
+      .attr("text-anchor", "middle")
+      .attr("font-family", "var(--ff-mono)")
+      .attr("font-size", "10.5px")
+      .attr("fill", "var(--ink-mute)")
+      .attr("letter-spacing", "0.06em")
+      .text("· 共 80 家商场 · 鼠标悬停查看详情 ·");
+
+    // 关键商场标注：anchor（前滩太古里） + 最小、最大、前滩兴业兴业
+    const HIGHLIGHTS = ["前滩太古里", "兴业太古汇"];
+    const sorted = [...records].sort((a, b) => d3.sum(a.vector) - d3.sum(b.vector));
+    const extremes = new Set([sorted[0].name, sorted[sorted.length - 1].name]);
+    const keyNames = [...new Set([...HIGHLIGHTS, ...extremes])]
+      .filter((n) => records.some((r) => r.name === n));
+
+    xAxisG.selectAll("g.key-name")
+      .data(records.filter((d) => keyNames.includes(d.name)))
+      .join("g").attr("class", "key-name")
+      .attr("transform", (d) => `translate(${xScale(d.name) + xScale.bandwidth() / 2}, 30)`)
+      .each(function (d) {
+        const isAnchor = d.name === "前滩太古里";
+        const isCompare = d.name === "兴业太古汇";
+        const fill = isAnchor ? "var(--vermillion-d)" : isCompare ? "var(--vermillion)" : "var(--ink)";
+        const sel = d3.select(this);
+        // 连接线
+        sel.append("line")
+          .attr("x1", 0).attr("x2", 0)
+          .attr("y1", -28).attr("y2", -4)
+          .attr("stroke", fill)
+          .attr("stroke-width", 1.2);
+        sel.append("circle")
+          .attr("cx", 0).attr("cy", -28).attr("r", 3.5)
+          .attr("fill", fill);
+        sel.append("text")
+          .attr("x", 0).attr("y", 12)
+          .attr("text-anchor", "middle")
+          .attr("font-family", "var(--ff-display-cjk)")
+          .attr("font-size", "10.5px")
+          .attr("font-weight", isAnchor || isCompare ? 700 : 500)
+          .attr("fill", fill)
+          .text(d.name);
+      });
 
     // 标题
     svg.append("text").attr("x", MARGIN.left).attr("y", 22)
