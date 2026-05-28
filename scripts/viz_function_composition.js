@@ -1,13 +1,14 @@
 /* ============================================================
    viz_function_composition.js · 80 商场 × 14 业态品牌数堆叠（对应 fig03）
+   v2: 图例上移避免与关键商场标签冲突，关键商场标签放到柱子顶部
    入口：renderFunctionComposition({ container, data })
    data: { axes: [...14 业态名], data: [{name, vector, ...}] }
    ============================================================ */
 (function () {
   "use strict";
 
-  const MARGIN = { top: 40, right: 16, bottom: 96, left: 64 };
-  // 14 业态调色板
+  // top 增加给图例 + 关键商场名留空间
+  const MARGIN = { top: 92, right: 24, bottom: 48, left: 64 };
   const CAT_COLORS = [
     "#A02822", "#C8362E", "#D9665C", "#B89968", "#8E7449",
     "#D9C28A", "#7A7A4D", "#5A8F4D", "#3D5A7B", "#5A7B9C",
@@ -21,8 +22,6 @@
 
     const categories = data.axes;
     const records = data.data;
-
-    // 按总品牌数从低到高排序，让头部商场在右边
     records.sort((a, b) => (a.total_brand_count || 0) - (b.total_brand_count || 0));
 
     const { width, height } = container.getBoundingClientRect();
@@ -44,7 +43,44 @@
 
     const colorByCat = (i) => CAT_COLORS[i % CAT_COLORS.length];
 
-    // Y 轴
+    // ---------- 顶部 meta ----------
+    svg.append("text").attr("x", MARGIN.left).attr("y", 18)
+      .attr("font-family", "var(--ff-mono)")
+      .attr("font-size", "10px")
+      .attr("letter-spacing", "0.1em")
+      .attr("fill", "var(--ink-mute)")
+      .text("FUNCTION COMPOSITION · 80 家商场 × 14 业态品牌数");
+    svg.append("text").attr("x", width - MARGIN.right).attr("y", 18)
+      .attr("text-anchor", "end")
+      .attr("font-family", "var(--ff-mono)")
+      .attr("font-size", "10px")
+      .attr("letter-spacing", "0.1em")
+      .attr("fill", "var(--ink-mute)")
+      .text(`MAX TOTAL = ${maxTotal} 品牌`);
+
+    // ---------- 顶部图例（2 行 × 7 列） ----------
+    const legendG = svg.append("g")
+      .attr("transform", `translate(${MARGIN.left}, 32)`);
+    const colsPerRow = 7;
+    const cellW = innerW / colsPerRow;
+    legendG.selectAll("g.legend-item")
+      .data(categories).join("g")
+      .attr("class", "legend-item")
+      .attr("transform", (_, i) => `translate(${(i % colsPerRow) * cellW},${Math.floor(i / colsPerRow) * 22})`)
+      .each(function (cat, i) {
+        const sel = d3.select(this);
+        sel.append("rect")
+          .attr("x", 0).attr("y", 0).attr("width", 10).attr("height", 10)
+          .attr("fill", colorByCat(i));
+        sel.append("text")
+          .attr("x", 14).attr("y", 9)
+          .attr("font-family", "var(--ff-display-cjk)")
+          .attr("font-size", "10.5px")
+          .attr("fill", "var(--ink)")
+          .text(cat);
+      });
+
+    // ---------- Y 轴 ----------
     g.append("g").call(d3.axisLeft(yScale).ticks(6).tickSize(-innerW))
       .call((sel) => {
         sel.selectAll("line").attr("stroke", "var(--rule)").attr("opacity", 0.35);
@@ -55,7 +91,7 @@
         sel.select(".domain").remove();
       });
 
-    // 堆叠 bar：每家商场一根
+    // ---------- 堆叠 bar ----------
     const barG = g.selectAll("g.mall-bar")
       .data(records).join("g")
       .attr("class", "mall-bar")
@@ -78,111 +114,71 @@
         .style("opacity", (s) => (s.val > 0 ? 0.9 : 0));
     });
 
-    // X 轴：80 商场标签太密无法全标，改为只标 anchor + 高低端代表 + 排序方向提示
-    const xAxisG = g.append("g").attr("transform", `translate(0,${innerH})`);
-
-    // 排序方向 / 区间提示
-    xAxisG.append("line")
-      .attr("x1", 0).attr("x2", innerW)
-      .attr("y1", 2).attr("y2", 2)
-      .attr("stroke", "var(--rule)").attr("stroke-width", 0.6);
-    xAxisG.append("text")
-      .attr("x", 0).attr("y", 16)
-      .attr("text-anchor", "start")
-      .attr("font-family", "var(--ff-mono)")
-      .attr("font-size", "10.5px")
-      .attr("fill", "var(--ink-mute)")
-      .attr("letter-spacing", "0.08em")
-      .text("← 总品牌数较少");
-    xAxisG.append("text")
-      .attr("x", innerW).attr("y", 16)
-      .attr("text-anchor", "end")
-      .attr("font-family", "var(--ff-mono)")
-      .attr("font-size", "10.5px")
-      .attr("fill", "var(--ink-mute)")
-      .attr("letter-spacing", "0.08em")
-      .text("总品牌数较多 →");
-    xAxisG.append("text")
-      .attr("x", innerW / 2).attr("y", 16)
-      .attr("text-anchor", "middle")
-      .attr("font-family", "var(--ff-mono)")
-      .attr("font-size", "10.5px")
-      .attr("fill", "var(--ink-mute)")
-      .attr("letter-spacing", "0.06em")
-      .text("· 共 80 家商场 · 鼠标悬停查看详情 ·");
-
-    // 关键商场标注：anchor（前滩太古里） + 最小、最大、前滩兴业兴业
+    // ---------- 关键商场标签 · 放在柱子顶端上方 ----------
     const HIGHLIGHTS = ["前滩太古里", "兴业太古汇"];
-    const sorted = [...records].sort((a, b) => d3.sum(a.vector) - d3.sum(b.vector));
-    const extremes = new Set([sorted[0].name, sorted[sorted.length - 1].name]);
+    const sortedByTotal = [...records].sort((a, b) => d3.sum(a.vector) - d3.sum(b.vector));
+    const extremes = new Set([sortedByTotal[0].name, sortedByTotal[sortedByTotal.length - 1].name]);
     const keyNames = [...new Set([...HIGHLIGHTS, ...extremes])]
       .filter((n) => records.some((r) => r.name === n));
 
-    xAxisG.selectAll("g.key-name")
-      .data(records.filter((d) => keyNames.includes(d.name)))
-      .join("g").attr("class", "key-name")
-      .attr("transform", (d) => `translate(${xScale(d.name) + xScale.bandwidth() / 2}, 30)`)
+    const keyMalls = records.filter((d) => keyNames.includes(d.name));
+    g.selectAll("g.key-mark")
+      .data(keyMalls).join("g")
+      .attr("class", "key-mark")
+      .attr("transform", (d) => {
+        const cx = xScale(d.name) + xScale.bandwidth() / 2;
+        const cy = yScale(d3.sum(d.vector));
+        return `translate(${cx},${cy})`;
+      })
       .each(function (d) {
+        const sel = d3.select(this);
         const isAnchor = d.name === "前滩太古里";
         const isCompare = d.name === "兴业太古汇";
-        const fill = isAnchor ? "var(--vermillion-d)" : isCompare ? "var(--vermillion)" : "var(--ink)";
-        const sel = d3.select(this);
-        // 连接线
+        const fill = isAnchor ? "var(--vermillion-d)" : isCompare ? "var(--vermillion)" : "var(--ink-soft)";
+        // 引线（从柱顶向上 14px）
         sel.append("line")
-          .attr("x1", 0).attr("x2", 0)
-          .attr("y1", -28).attr("y2", -4)
-          .attr("stroke", fill)
-          .attr("stroke-width", 1.2);
+          .attr("x1", 0).attr("y1", -2).attr("x2", 0).attr("y2", -14)
+          .attr("stroke", fill).attr("stroke-width", 1.2);
+        // 圆点
         sel.append("circle")
-          .attr("cx", 0).attr("cy", -28).attr("r", 3.5)
+          .attr("cx", 0).attr("cy", -16).attr("r", 3.5)
           .attr("fill", fill);
+        // 商场名（带白色描边避免压住背景）
         sel.append("text")
-          .attr("x", 0).attr("y", 12)
+          .attr("x", 0).attr("y", -23)
           .attr("text-anchor", "middle")
           .attr("font-family", "var(--ff-display-cjk)")
           .attr("font-size", "10.5px")
-          .attr("font-weight", isAnchor || isCompare ? 700 : 500)
+          .attr("font-weight", isAnchor || isCompare ? 700 : 600)
           .attr("fill", fill)
+          .attr("paint-order", "stroke")
+          .attr("stroke", "white").attr("stroke-width", 3)
           .text(d.name);
       });
 
-    // 标题
-    svg.append("text").attr("x", MARGIN.left).attr("y", 22)
-      .attr("font-family", "var(--ff-mono)")
-      .attr("font-size", "10px")
-      .attr("letter-spacing", "0.1em")
-      .attr("fill", "var(--ink-mute)")
-      .text("FUNCTION COMPOSITION · 80 家商场 × 14 业态品牌数");
-    svg.append("text").attr("x", width - MARGIN.right).attr("y", 22)
+    // ---------- X 轴方向提示 ----------
+    const xAxisG = g.append("g").attr("transform", `translate(0,${innerH})`);
+    xAxisG.append("line")
+      .attr("x1", 0).attr("x2", innerW).attr("y1", 2).attr("y2", 2)
+      .attr("stroke", "var(--rule)").attr("stroke-width", 0.6);
+    xAxisG.append("text")
+      .attr("x", 0).attr("y", 18)
+      .attr("text-anchor", "start")
+      .attr("font-family", "var(--ff-mono)").attr("font-size", "10.5px")
+      .attr("letter-spacing", "0.08em").attr("fill", "var(--ink-mute)")
+      .text("← 总品牌数较少");
+    xAxisG.append("text")
+      .attr("x", innerW).attr("y", 18)
       .attr("text-anchor", "end")
-      .attr("font-family", "var(--ff-mono)")
-      .attr("font-size", "10px")
-      .attr("letter-spacing", "0.1em")
-      .attr("fill", "var(--ink-mute)")
-      .text(`MAX TOTAL = ${maxTotal} 品牌`);
-
-    // 图例
-    const legendG = svg.append("g")
-      .attr("transform", `translate(${MARGIN.left},${height - 70})`);
-    const colsPerRow = 7;
-    const cellW = innerW / colsPerRow;
-    legendG.selectAll("g.legend-item")
-      .data(categories).join("g")
-      .attr("class", "legend-item")
-      .attr("transform", (_, i) => `translate(${(i % colsPerRow) * cellW},${Math.floor(i / colsPerRow) * 22})`)
-      .each(function (cat, i) {
-        const sel = d3.select(this);
-        sel.append("rect")
-          .attr("x", 0).attr("y", 0)
-          .attr("width", 10).attr("height", 10)
-          .attr("fill", colorByCat(i));
-        sel.append("text")
-          .attr("x", 14).attr("y", 9)
-          .attr("font-family", "var(--ff-display-cjk)")
-          .attr("font-size", "10.5px")
-          .attr("fill", "var(--ink)")
-          .text(cat);
-      });
+      .attr("font-family", "var(--ff-mono)").attr("font-size", "10.5px")
+      .attr("letter-spacing", "0.08em").attr("fill", "var(--ink-mute)")
+      .text("总品牌数较多 →");
+    xAxisG.append("text")
+      .attr("x", innerW / 2).attr("y", 18)
+      .attr("text-anchor", "middle")
+      .attr("font-family", "var(--ff-mono)").attr("font-size", "10.5px")
+      .attr("letter-spacing", "0.06em").attr("fill", "var(--ink-mute)")
+      .text("· 共 80 家商场 · 鼠标悬停查看详情 ·");
 
     // ---------- Tooltip ----------
     const tooltip = d3.select(container).append("div")
