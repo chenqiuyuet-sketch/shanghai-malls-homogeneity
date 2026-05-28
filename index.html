@@ -21,6 +21,10 @@
 
   <!-- D3 v7（用于 MDS 散点 / 余弦热力图） -->
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+
+  <!-- Leaflet（用于整合度散点的 OSM 真实底图） -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 
@@ -514,9 +518,9 @@
           </div>
           <div class="viz-meta">FIG. 06C · AXIAL INTEG<br/>BY 姚 / depthmapX<br/>SOURCE = 整合度.eps</div>
         </div>
-        <div style="background:#0A0A0A;padding:18px;line-height:0;border:1px solid var(--rule);">
-          <img src="assets/phase1/integration_axial.png"
-               alt="上海全市轴线图 Integration HH 整合度"
+        <div style="background:var(--paper);padding:18px;line-height:0;border:1px solid var(--rule);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.4);">
+          <img src="assets/phase1/integration_axial_paper.png"
+               alt="上海全市轴线图 Integration HH 整合度 · paper 米色版"
                style="width:100%;height:auto;display:block;"
                loading="lazy"/>
         </div>

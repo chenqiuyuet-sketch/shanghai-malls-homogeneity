@@ -1428,3 +1428,57 @@ section.chapter {
   color: var(--ink);
   max-width: 760px;
 }
+
+/* ============================================================
+   Leaflet overrides · 让 Leaflet 风格匹配 demo 米色调
+   ============================================================ */
+.leaflet-container {
+  background: #F9F5EC !important;
+  font-family: var(--ff-body-cjk);
+}
+
+.leaflet-tooltip.mall-tooltip {
+  background: rgba(245, 241, 234, 0.97);
+  border: 1px solid var(--brass);
+  color: var(--ink);
+  font-family: var(--ff-body-cjk);
+  font-size: 11.5px;
+  padding: 5px 9px;
+  border-radius: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.leaflet-tooltip.mall-tooltip::before {
+  border-top-color: var(--brass);
+}
+
+.leaflet-popup.mall-popup .leaflet-popup-content-wrapper {
+  background: var(--paper);
+  border: 1px solid var(--brass);
+  border-radius: 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+.leaflet-popup.mall-popup .leaflet-popup-tip {
+  background: var(--paper);
+  border-top: 1px solid var(--brass);
+  border-right: 1px solid var(--brass);
+}
+
+.leaflet-control-zoom a {
+  background: rgba(245, 241, 234, 0.95) !important;
+  border-color: var(--rule) !important;
+  color: var(--ink) !important;
+  font-family: var(--ff-mono);
+}
+.leaflet-control-zoom a:hover {
+  background: var(--paper-d) !important;
+}
+
+.leaflet-control-attribution {
+  background: rgba(245, 241, 234, 0.85) !important;
+  font-family: var(--ff-mono);
+  font-size: 9px !important;
+  color: var(--ink-mute) !important;
+}
+.leaflet-control-attribution a {
+  color: var(--brass-d) !important;
+}
