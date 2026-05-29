@@ -403,8 +403,9 @@ table.rank .rk { color: var(--fg-soft); }
 
     <div class="stage">
       <div class="stage__bar"><span class="stage__label">FIG.07 · 三项同质化指数 · 80 家排行榜</span><span class="stage__live">SORT</span></div>
-      <div class="rank-wrap"><table class="rank" id="rank-table"></table></div>
-      <div class="rank-hint">点表头按某一指数排序，再点一次切换升降序。<b>MHI<sub>i</sub></b> 品牌池同质化 · <b>MHI<sub>f</sub></b> 业态构成同质化 · <b>H</b> 三层复合，数值越高越「千店一面」。<span style="color:var(--hot)">前滩太古里 / 兴业太古汇</span> 高亮。</div>
+      <div class="tabs" id="rank-tabs"></div>
+      <div class="stage__well"><div id="viz-rank" style="height:440px"></div></div>
+      <div class="rank-hint">点上方标签切换指数，80 根柱子按该指数从高到低排列。<b>MHI<sub>i</sub></b> 品牌池同质化 · <b>MHI<sub>f</sub></b> 业态构成同质化 · <b>H</b> 三层复合，数值越高越「千店一面」。<span style="color:var(--hot)">前滩太古里 / 兴业太古汇</span> 高亮。</div>
     </div>
 
     <div class="credits">
@@ -488,10 +489,17 @@ g.selectAll('rect').data(rows).join('rect').attr('x',(_,i)=>x(i)).attr('width',x
 rows.forEach((d,i)=>{if(!star.includes(d.name))return;g.append('text').attr('x',x(i)+x.bandwidth()/2).attr('y',y(d.H)-7).attr('text-anchor','middle').attr('fill','#4a463f').attr('font-size','10px').attr('font-weight',600).text(d.name.replace('太古','')).style('opacity',0).transition().delay(700).style('opacity',1);g.append('line').attr('x1',x(i)+x.bandwidth()/2).attr('x2',x(i)+x.bandwidth()/2).attr('y1',y(d.H)-5).attr('y2',y(d.H)).attr('stroke','#4a463f').attr('stroke-width',.8).style('opacity',0).transition().delay(700).style('opacity',.6);});
 g.append('text').attr('x',2).attr('y',ih+16).attr('fill','var(--hot)').attr('font-size','9px').attr('font-family','var(--mono)').text('← 同质 high H');g.append('text').attr('x',iw-2).attr('y',ih+16).attr('text-anchor','end').attr('fill','var(--cold)').attr('font-size','9px').attr('font-family','var(--mono)').text('low H 独特 →');})();
 
-/* 三项指数排行榜 · 点表头排序 */
-(async function(){const data=await(await fetch('./data/phase1/mhi_composite.json')).json();const el=document.getElementById('rank-table');if(!el)return;const star=['前滩太古里','兴业太古汇'];const cols=[{k:'MHI_i',l:'MHI_i'},{k:'MHI_f',l:'MHI_f'},{k:'H',l:'复合 H'}];let sk='H',asc=false;
-function render(){const rows=[...data].sort((a,b)=>asc?a[sk]-b[sk]:b[sk]-a[sk]);let h='<thead><tr><th>#</th><th>商场</th><th>档位</th>'+cols.map(c=>`<th data-k="${c.k}" class="${c.k===sk?'sorted':''}">${c.l}${c.k===sk?(asc?' ▲':' ▼'):''}</th>`).join('')+'</tr></thead><tbody>';rows.forEach((d,i)=>{h+=`<tr class="${star.includes(d.name)?'star':''}"><td class="rk">${i+1}</td><td>${d.name}</td><td>${d.positioning}</td>`+cols.map(c=>`<td>${(+d[c.k]).toFixed(3)}</td>`).join('')+'</tr>';});el.innerHTML=h+'</tbody>';el.querySelectorAll('th[data-k]').forEach(th=>th.onclick=()=>{const k=th.dataset.k;if(k===sk)asc=!asc;else{sk=k;asc=false;}render();});}
-render();})();
+/* 三项指数排行榜 · 三 sheet 柱状图（MHI_i / MHI_f / 复合 H）*/
+(async function(){const data=await(await fetch('./data/phase1/mhi_composite.json')).json();const el=document.getElementById('viz-rank');const tabsEl=document.getElementById('rank-tabs');if(!el)return;const star=['前滩太古里','兴业太古汇'];const metrics=[{k:'MHI_i',l:'MHI_i · 品牌池'},{k:'MHI_f',l:'MHI_f · 业态'},{k:'H',l:'复合 H'}];let active='H';const tip=mkTip(el);
+metrics.forEach(mt=>{const b=document.createElement('button');b.className='tab'+(mt.k===active?' active':'');b.innerHTML=mt.l;b.onclick=()=>{tabsEl.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');active=mt.k;draw();};tabsEl.appendChild(b);});
+function draw(){el.innerHTML='';const rows=[...data].sort((a,b)=>b[active]-a[active]);const ext=d3.extent(rows,d=>d[active]);const W=el.clientWidth,H=440,M={t:14,r:10,b:26,l:40},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const x=d3.scaleBand().domain(d3.range(rows.length)).range([0,iw]).padding(.12);const y=d3.scaleLinear().domain([0,ext[1]*1.04]).range([ih,0]);const col=v=>d3.interpolateRgb('#5683c4','#d4503f')((v-ext[0])/(ext[1]-ext[0]||1));
+g.append('g').call(d3.axisLeft(y).ticks(5).tickFormat(d3.format(active==='MHI_i'?'.3f':'.2f'))).call(s=>{s.selectAll('text').attr('fill','rgba(74,70,63,0.5)').attr('font-family','var(--mono)').attr('font-size','9px');s.selectAll('line,path').attr('stroke','rgba(74,70,63,0.18)');});
+g.selectAll('rect.b').data(rows).join('rect').attr('class','b').attr('x',(_,i)=>x(i)).attr('width',x.bandwidth()).attr('y',ih).attr('height',0).attr('rx',1).attr('fill',d=>star.includes(d.name)?'#4a463f':col(d[active]))
+.on('mouseenter',function(e,d){d3.select(this).attr('opacity',.7);showTip(tip,e,el,`<div class="t">${d.name}</div><div class="r"><span>${active}</span><b>${(+d[active]).toFixed(3)}</b></div><div class="r"><span>排名</span><b>#${rows.indexOf(d)+1}/${rows.length}</b></div><div class="r"><span>档位</span><b>${d.positioning}</b></div>`);}).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',function(){d3.select(this).attr('opacity',1);tip.style.opacity=0;})
+.transition().delay((_,i)=>i*6).duration(500).ease(d3.easeCubicOut).attr('y',d=>y(d[active])).attr('height',d=>ih-y(d[active]));
+rows.forEach((d,i)=>{if(!star.includes(d.name))return;g.append('line').attr('x1',x(i)+x.bandwidth()/2).attr('x2',x(i)+x.bandwidth()/2).attr('y1',y(d[active])-3).attr('y2',y(d[active])-15).attr('stroke','#4a463f').attr('stroke-width',.8).style('opacity',0).transition().delay(650).style('opacity',.6);g.append('text').attr('x',x(i)+x.bandwidth()/2).attr('y',y(d[active])-18).attr('text-anchor','middle').attr('fill','#4a463f').attr('font-size','9.5px').attr('font-weight',600).text(d.name.replace('太古','')).style('opacity',0).transition().delay(650).style('opacity',1);});
+g.append('text').attr('x',2).attr('y',ih+17).attr('fill','var(--hot)').attr('font-size','9px').attr('font-family','var(--mono)').text('← 高 · 越同质');g.append('text').attr('x',iw-2).attr('y',ih+17).attr('text-anchor','end').attr('fill','var(--cold)').attr('font-size','9px').attr('font-family','var(--mono)').text('低 · 越独特 →');}
+draw();addEventListener('resize',()=>{clearTimeout(window.__rk);window.__rk=setTimeout(draw,200);});})();
 
 function mkTip(el){const t=document.createElement('div');t.className='viz-tip';el.style.position='relative';el.appendChild(t);return t;}
 function showTip(t,e,el,h){const r=el.getBoundingClientRect();t.innerHTML=h;t.style.left=(e.clientX-r.left+12)+'px';t.style.top=(e.clientY-r.top+12)+'px';t.style.opacity=1;}
