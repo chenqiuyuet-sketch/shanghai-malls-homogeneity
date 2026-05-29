@@ -275,11 +275,11 @@ table.rank .rk { color: var(--fg-soft); }
   <section class="chapter" id="frame">
     <div class="chapter__num">Chapter 01 · Framework</div>
     <h2 class="chapter__title">三层框架，三个不可互相替代的视角</h2>
-    <p class="chapter__lede">把同质化拆成三层，每层一个独立指标，彼此不能互相推导。</p>
+    <p class="chapter__lede">把同质化拆成三层，从店招上的品牌名单，到 14 类业态的配比，再到业态落在哪一层，一层比一层更贴近真实的逛街体验。</p>
     <div class="layers">
       <div class="layer l1"><div class="lyr-idx">LAYER 01</div><div class="lyr-name">品牌池</div><div class="lyr-metric">MHI_i · Whittaker</div><div class="lyr-desc">两家商场共享多少同样的品牌，越高越像。</div></div>
-      <div class="layer l2"><div class="lyr-idx">LAYER 02</div><div class="lyr-name">业态构成</div><div class="lyr-metric">MHI_f · 余弦相似</div><div class="lyr-desc">14 类业态的配比是否趋同，餐饮服饰主导。</div></div>
-      <div class="layer l3"><div class="lyr-idx">LAYER 03</div><div class="lyr-name">楼层模板</div><div class="lyr-metric">D_t · Wasserstein</div><div class="lyr-desc">业态在楼层上的铺排节奏，真正留有差异的一层。</div></div>
+      <div class="layer l2"><div class="lyr-idx">LAYER 02</div><div class="lyr-name">业态构成</div><div class="lyr-metric">MHI_f · 业态余弦</div><div class="lyr-desc">14 类业态的配比是否趋同，餐饮服饰主导。</div></div>
+      <div class="layer l3"><div class="lyr-idx">LAYER 03</div><div class="lyr-name">楼层模板</div><div class="lyr-metric">MHI_sf · 楼层余弦</div><div class="lyr-desc">把业态压进 4 层展开成 56 维向量，看功能是否落在相近层级。</div></div>
     </div>
   </section>
 
@@ -326,7 +326,7 @@ table.rank .rk { color: var(--fg-soft); }
     <h2 class="chapter__title">楼层模板：最后一处还留着差异的地方</h2>
     <p class="chapter__lede">业态沿楼层的铺排节奏，是品牌与构成都收敛之后，仍能分辨彼此的一层。下面是深度对照的两家，前滩太古里与兴业太古汇的垂直剖面。</p>
     <div class="chapter__body">
-      <p>同样以餐饮见长，两家的处理并不一样。前滩把餐饮摊在地面与顶层的开放街区，兴业则把高区让给写字楼配套的轻食。这种差别无法从品牌名单里读出，只有把业态投到楼层上才显形，这也正是 <b>D<sub>t</sub>（Wasserstein 距离）</b>想要捕捉的「垂直分布的搬运成本」。</p>
+      <p>同样以餐饮见长，两家的处理并不一样。前滩把餐饮摊在地面与顶层的开放街区，兴业则把高区让给写字楼配套的轻食。这种差别无法从品牌名单里读出，只有把业态投到楼层上才显形。我们用 <b>MHI<sub>sf</sub>（空间功能同质化）</b>把它量化：把 14 类业态压进地下、地面、中间、顶四层，展开成 4×14=56 维向量，再对两家做余弦相似。功能越是落在相近的层级，两家就越像。</p>
     </div>
 
     <div class="stage">
@@ -362,11 +362,11 @@ table.rank .rk { color: var(--fg-soft); }
   <section class="chapter" id="space">
     <div class="chapter__num">Chapter 06 · Twins</div>
     <h2 class="chapter__title">两座太古：被算法选中的一对</h2>
-    <p class="chapter__lede">前滩太古里的「最像的另一家」是谁？把品牌与业态合成一个相似度 MHI<sub>sf</sub>，在 79 个对象里逐一比对，胜出的是兴业太古汇。</p>
+    <p class="chapter__lede">前滩太古里的「最像的另一家」是谁？就用上一章的空间功能相似度 MHI<sub>sf</sub>，在 79 个对象里逐一比对，胜出的是兴业太古汇。</p>
 
     <div class="verdict">
       <div class="big">0.84</div>
-      <div class="lbl">MHI<sub>sf</sub>（前滩太古里 × 兴业太古汇）。同名同源的两家太古，在去掉招牌之后，<b>品牌与业态的合成相似度高达 0.84</b>，是全市与前滩最接近的一对。</div>
+      <div class="lbl">MHI<sub>sf</sub>（前滩太古里 × 兴业太古汇）。同名同源的两家太古，把业态压进楼层再比对，<b>空间功能结构的相似度高达 0.84</b>，是全市与前滩最接近的一对。</div>
     </div>
 
     <div class="cand-grid">
@@ -403,7 +403,7 @@ table.rank .rk { color: var(--fg-soft); }
     <div class="takeaways">
       <div class="take"><div class="ti">FINDING 01</div><div class="th">同质峰值在中端</div><div class="tb">复合 H 最高的是大众与中端的郊区新城商场（百联金山 H≈0.99）。它们共享同一份连锁品牌与餐饮服饰配比，几乎可以互换。</div></div>
       <div class="take"><div class="ti">FINDING 02</div><div class="th">高端反而更独特</div><div class="tb">前滩 H≈0.50、兴业 H≈0.48，排在第 68、69 位。高端凭品牌门槛与楼层设计，把可替代性压了下来。</div></div>
-      <div class="take"><div class="ti">FINDING 03</div><div class="th">楼层是最后防线</div><div class="tb">品牌与业态都收敛后，楼层模板（D<sub>t</sub>）是唯一还稳定留有差异的维度，也是体验差别的真正来源。</div></div>
+      <div class="take"><div class="ti">FINDING 03</div><div class="th">楼层是最后防线</div><div class="tb">品牌与业态都收敛后，把功能压进楼层再比一次（MHI<sub>sf</sub>），是最后一处还能把两家分开的地方，也是体验差别的真正来源。</div></div>
     </div>
 
     <div class="stage">
@@ -414,7 +414,7 @@ table.rank .rk { color: var(--fg-soft); }
 
     <div class="credits">
       <b>城市分析 · 第 4 组</b> ｜ 陈（统筹 + 前端可视化）· 黄（数据采集）· 张（地理结论一）· 吴（MHI 计算）· 姚（depthmap 路网建构 + 业态分类 + 田野）· 舒（田野 + 结论二）<br>
-      数据：80 家上海购物中心实地与官网调研 ｜ 方法：Whittaker α/β/γ · 余弦相似 · Wasserstein 距离 · depthmap 整合度 ｜ 2026 春季学期
+      数据：80 家上海购物中心实地与官网调研 ｜ 方法：Whittaker α/β/γ · 余弦相似（MHI_f / MHI_sf）· depthmap 整合度 ｜ 2026 春季学期
     </div>
   </section>
 </main>
