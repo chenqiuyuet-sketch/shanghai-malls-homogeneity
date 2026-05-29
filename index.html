@@ -304,13 +304,13 @@ section.chapter { padding: clamp(3rem,7vw,6rem) clamp(1.5rem,5vw,4.5rem); }
     <div class="stage">
       <div class="stage__bar"><span class="stage__label">FIG.05 · 80 家区位整合度 · OSM</span><span class="stage__live">LIVE</span></div>
       <div class="map-well"><div id="viz-geo" style="height:560px"></div></div>
-      <div class="caption"><b>读图</b>：点的大小与颜色都编码整合度，<span style="color:#A02822">红</span>高 → <span style="color:#5A7B9C">蓝</span>低。前滩太古里与兴业太古汇已标注，鼠标移入地图可滚轮缩放。</div>
+      <div class="caption"><b>读图</b>：点的大小与颜色都编码整合度，<span style="color:#A02822">红</span>高 → <span style="color:#5A7B9C">蓝</span>低。前滩太古里与兴业太古汇已标注，鼠标移入地图可滚轮缩放。姚的轴线矢量到位后，左上角会出现「路网轴线整合度」图层开关，直接叠在同一张地图上。</div>
     </div>
 
     <div class="stage">
-      <div class="stage__bar"><span class="stage__label">FIG.05b · depthmap 轴线整合度（姚）</span><span class="stage__live">EPS</span></div>
+      <div class="stage__bar"><span class="stage__label">FIG.05b · depthmap 轴线整合度（姚 · 静态）</span><span class="stage__live">EPS</span></div>
       <div class="stage__well"><img class="fig-img" src="./assets/phase1/integration_axial_paper.png" alt="depthmap 轴线整合度分析图"></div>
-      <div class="caption"><b>读图</b>：基于轴线地图（axial map）的全局整合度，暖色为高整合廊道。此图为空间句法分析的初版，后续将与商场点位叠合。</div>
+      <div class="caption"><b>读图</b>：基于轴线地图（axial map）的全局整合度，暖色为高整合廊道。这是空间句法分析的静态初版，待姚导出矢量后将并入上方在线地图的图层开关，届时本图退役。</div>
     </div>
   </section>
 
@@ -429,7 +429,7 @@ const W=260,rowH=42,gap=9,H=levels.length*(rowH+gap),lblW=46;const svg=d3.select
 order.forEach((lv,oi)=>{const li=levels.indexOf(lv);const row=m.matrix[li];const y0=oi*(rowH+gap);svg.append('rect').attr('x',lblW).attr('y',y0).attr('width',W-lblW-6).attr('height',rowH).attr('rx',6).attr('fill','rgba(74,70,63,0.04)');svg.append('text').attr('x',0).attr('y',y0+rowH/2+3).attr('font-size','9.5px').attr('font-family','var(--mono)').attr('fill','var(--fg-soft)').text(lv);let acc=0;row.forEach((v,ci)=>{if(v<=0)return;const x0=acc;acc+=v;svg.append('rect').attr('x',lblW+x(x0)).attr('y',y0+3).attr('height',rowH-6).attr('width',0).attr('rx',2).attr('fill',CATCOL[cats[ci]]).on('mouseenter',e=>showTip(tip,e,el,`<div class="t">${mn.replace('商场','')} · ${lv}</div><div class="r"><span>${cats[ci]}</span><b>${v}</b></div>`)).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',()=>tip.style.opacity=0).transition().delay(oi*70+ci*8).duration(460).attr('width',x(v));});});});})();
 
 /* 地理整合度 · Leaflet + OSM（复用 viz_integration.js） */
-(async function(){const el=document.getElementById('viz-geo');if(!el||typeof renderIntegration!=='function')return;try{const data=await(await fetch('./data/phase1/integration.json')).json();renderIntegration({container:el,data});}catch(err){el.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--fg-soft);font-family:var(--mono);font-size:12px">INTEGRATION LOAD FAILED</div>';}})();
+(async function(){const el=document.getElementById('viz-geo');if(!el||typeof renderIntegration!=='function')return;try{const data=await(await fetch('./data/phase1/integration.json')).json();renderIntegration({container:el,data,axialUrl:'./data/phase1/axial_integration.geojson'});}catch(err){el.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--fg-soft);font-family:var(--mono);font-size:12px">INTEGRATION LOAD FAILED</div>';}})();
 
 /* 复合同质化 H · 80 家排序条 */
 (async function(){const comp=await(await fetch('./data/phase1/mhi_composite.json')).json();const el=document.getElementById('viz-disc');if(!el)return;const rows=[...comp].sort((a,b)=>b.H-a.H);const ext=d3.extent(rows,d=>d.H);const W=el.clientWidth,H=420,M={t:8,r:10,b:24,l:10},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const x=d3.scaleBand().domain(d3.range(rows.length)).range([0,iw]).padding(.12);const y=d3.scaleLinear().domain([0,1]).range([ih,0]);const col=d=>d3.interpolateRgb('#5683c4','#d4503f')((d-ext[0])/(ext[1]-ext[0]||1));const tip=mkTip(el);const star=['前滩太古里','兴业太古汇'];

@@ -11,7 +11,7 @@
   const COMPARE = "兴业太古汇";
 
   function renderIntegration(opts) {
-    const { container, data } = opts;
+    const { container, data, axialUrl, axialField } = opts;
     if (!container || !data) return;
     if (typeof L === "undefined") {
       container.innerHTML =
@@ -178,8 +178,67 @@
     };
     note.addTo(map);
 
+    // ---------- 可选：叠加 depthmap 轴线整合度（矢量 GeoJSON） ----------
+    // 姚提供 axial 矢量后即插即用；文件未就绪时静默跳过，保持点位地图不报错
+    if (axialUrl) addAxialLayer(map, axialUrl, axialField);
+
     // 确保 mountViz IntersectionObserver 触发时尺寸已经稳定，强制 invalidateSize
     setTimeout(() => map.invalidateSize(), 100);
+    return map;
+  }
+
+  // 读取轴线网络 GeoJSON，按整合度着色叠加为可切换图层（位于商场点位之下）
+  function addAxialLayer(map, url, fieldHint) {
+    fetch(url)
+      .then((r) => {
+        if (!r.ok) throw new Error("axial not ready");
+        return r.json();
+      })
+      .then((gj) => {
+        const feats = (gj.features || []).filter(
+          (f) => f.geometry && /LineString/.test(f.geometry.type)
+        );
+        if (!feats.length) return;
+        // 字段自动识别：优先显式 hint，再依次尝试 depthmap 常见整合度字段名
+        const CANDS = fieldHint
+          ? [fieldHint]
+          : ["integration", "Integration", "Integration_HH", "Int_HH", "INT", "RA", "RRA", "value", "val"];
+        const p0 = feats[0].properties || {};
+        let field = CANDS.find((k) => k in p0 && isFinite(+p0[k]));
+        if (!field) field = Object.keys(p0).find((k) => isFinite(+p0[k]));
+        if (!field) return;
+        const vals = feats.map((f) => +(f.properties || {})[field]).filter(isFinite);
+        const ex = [Math.min.apply(null, vals), Math.max.apply(null, vals)];
+        const aColor = (v) => {
+          const t = (v - ex[0]) / (ex[1] - ex[0] || 1);
+          return t < 0.5
+            ? d3.interpolateRgb("#5A7B9C", "#B89968")(t * 2)
+            : d3.interpolateRgb("#B89968", "#A02822")((t - 0.5) * 2);
+        };
+        map.createPane("axialPane");
+        map.getPane("axialPane").style.zIndex = 350; // 在 overlayPane(400) 商场点之下
+        const layer = L.geoJSON(feats, {
+          pane: "axialPane",
+          style: (f) => {
+            const v = +(f.properties || {})[field];
+            const t = isFinite(v) ? (v - ex[0]) / (ex[1] - ex[0] || 1) : 0;
+            return { color: isFinite(v) ? aColor(v) : "#999", weight: 1 + t * 2.6, opacity: 0.82 };
+          },
+          onEachFeature: (f, lyr) => {
+            const v = +(f.properties || {})[field];
+            lyr.bindTooltip("轴线整合度 " + field + " = " + (isFinite(v) ? v.toFixed(3) : "—"), {
+              sticky: true,
+              className: "mall-tooltip",
+            });
+          },
+        }).addTo(map);
+        L.control
+          .layers(null, { "路网轴线整合度（depthmap）": layer }, { collapsed: false, position: "topleft" })
+          .addTo(map);
+      })
+      .catch(() => {
+        /* 轴线矢量尚未提供：保持纯点位地图，不影响其余功能 */
+      });
   }
 
   window.renderIntegration = renderIntegration;
