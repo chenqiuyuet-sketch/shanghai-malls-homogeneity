@@ -188,6 +188,50 @@ section.chapter { padding: clamp(3rem,7vw,6rem) clamp(1.5rem,5vw,4.5rem); }
 .take .tb { font-size: .88rem; color: var(--fg-mute); line-height: 1.7; }
 .credits { margin-top: 2.6rem; padding: 1.4rem 1.6rem; border-radius: 16px; box-shadow: var(--raise-sm); font-size: .82rem; color: var(--fg-mute); line-height: 1.9; }
 .credits b { color: var(--fg); font-weight: 600; }
+
+/* 排行榜表格 */
+.rank-wrap { border-radius: 16px; box-shadow: var(--inset); padding: .5rem; overflow: auto; max-height: 560px; }
+table.rank { width: 100%; border-collapse: collapse; font-size: .84rem; }
+table.rank thead th { position: sticky; top: 0; background: var(--bg); z-index: 2; padding: .7rem .55rem; text-align: right; font-family: var(--mono); font-size: .68rem; color: var(--fg-soft); letter-spacing: .03em; cursor: pointer; user-select: none; white-space: nowrap; }
+table.rank thead th:nth-child(1), table.rank thead th:nth-child(2), table.rank thead th:nth-child(3) { text-align: left; }
+table.rank thead th.sorted { color: var(--accent); }
+table.rank tbody td { padding: .5rem .55rem; text-align: right; border-top: 1px solid rgba(74,70,63,0.07); font-family: var(--mono); font-size: .8rem; color: var(--fg-mute); white-space: nowrap; }
+table.rank tbody td:nth-child(2), table.rank tbody td:nth-child(3) { text-align: left; font-family: var(--sans); }
+table.rank tbody td:nth-child(2) { color: var(--fg); }
+table.rank tbody tr:hover td { background: rgba(91,108,196,0.06); }
+table.rank tr.star td { color: var(--hot); font-weight: 600; }
+table.rank tr.star td:nth-child(2) { color: var(--hot); }
+table.rank .rk { color: var(--fg-soft); }
+.rank-hint { font-size: .78rem; color: var(--fg-soft); line-height: 1.7; margin: .8rem .3rem 0; }
+.rank-hint b { color: var(--fg-mute); }
+
+/* ───── 移动端 / 小屏适配 ───── */
+@media (max-width: 900px) {
+  body { display: block; }
+  .sidebar { position: fixed; top: 0; left: 0; right: 0; z-index: 60; height: auto; background: var(--bg); box-shadow: 0 6px 18px rgba(0,0,0,0.07); padding: .7rem 1rem .5rem; }
+  .sidebar .brand { font-size: 1.02rem; margin-bottom: .2rem; }
+  .sidebar .brand-en, .sidebar .meta { display: none; }
+  .sidebar nav { flex-direction: row; gap: .4rem; overflow-x: auto; padding-bottom: .15rem; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .sidebar nav::-webkit-scrollbar { display: none; }
+  .sidebar nav a { flex: 0 0 auto; white-space: nowrap; padding: .42rem .72rem; font-size: .8rem; border-radius: 20px; }
+  main { max-width: 100%; padding-right: 0; padding-top: 92px; }
+  main [id] { scroll-margin-top: 100px; }
+  .hero { min-height: auto; padding: 1.4rem 1.3rem 3rem; }
+  section.chapter { padding: 2.6rem 1.3rem; }
+  .stage { padding: .9rem; }
+  .stage__well, .map-well { padding: .7rem; }
+  .verdict { padding: 1.1rem 1.2rem; gap: .8rem; }
+  .verdict .big { font-size: 2.6rem; }
+}
+@media (max-width: 560px) {
+  .kpis { gap: .8rem; }
+  .kpi { flex: 1 1 100%; }
+  .hero h1 { font-size: clamp(2.3rem, 12vw, 3.4rem); }
+  .chapter__title { font-size: clamp(1.6rem, 6.5vw, 2rem); }
+  table.rank, table.rank tbody td { font-size: .74rem; }
+  table.rank thead th { font-size: .62rem; padding: .6rem .4rem; }
+  table.rank tbody td { padding: .45rem .4rem; }
+}
 </style>
 </head>
 <body>
@@ -362,6 +406,12 @@ section.chapter { padding: clamp(3rem,7vw,6rem) clamp(1.5rem,5vw,4.5rem); }
       <div class="take"><div class="ti">FINDING 03</div><div class="th">楼层是最后防线</div><div class="tb">品牌与业态都收敛后，楼层模板（D<sub>t</sub>）是唯一还稳定留有差异的维度，也是体验差别的真正来源。</div></div>
     </div>
 
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.07 · 三项同质化指数 · 80 家排行榜</span><span class="stage__live">SORT</span></div>
+      <div class="rank-wrap"><table class="rank" id="rank-table"></table></div>
+      <div class="rank-hint">点表头按某一指数排序，再点一次切换升降序。<b>MHI<sub>i</sub></b> 品牌池同质化 · <b>MHI<sub>f</sub></b> 业态构成同质化 · <b>H</b> 三层复合，数值越高越「千店一面」。<span style="color:var(--hot)">前滩太古里 / 兴业太古汇</span> 高亮。</div>
+    </div>
+
     <div class="credits">
       <b>城市分析 · 第 4 组</b> ｜ 陈（统筹 + 前端可视化）· 黄（数据采集）· 张（地理结论一）· 吴（MHI 计算）· 姚（depthmap 路网建构 + 业态分类 + 田野）· 舒（田野 + 结论二）<br>
       数据：80 家上海购物中心实地与官网调研 ｜ 方法：Whittaker α/β/γ · 余弦相似 · Wasserstein 距离 · depthmap 整合度 ｜ 2026 春季学期
@@ -379,7 +429,7 @@ document.querySelectorAll('h1,h2,p,.chapter__lede,.caption,.brand').forEach(el=>
 document.querySelectorAll('a,button,.tab,.kpi,.layer').forEach(el=>{el.addEventListener('mouseenter',()=>c.classList.add('is-locked'));el.addEventListener('mouseleave',()=>c.classList.remove('is-locked'));});})();
 
 /* 侧栏高亮 */
-(function(){const ls=document.querySelectorAll('.sidebar nav a');const m={};ls.forEach(a=>m[a.dataset.t]=a);const o=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){ls.forEach(l=>l.classList.remove('active'));m[e.target.id]?.classList.add('active');}});},{rootMargin:'-45% 0px -50% 0px'});document.querySelectorAll('main [id]').forEach(s=>o.observe(s));})();
+(function(){const ls=document.querySelectorAll('.sidebar nav a');const m={};ls.forEach(a=>m[a.dataset.t]=a);const o=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){ls.forEach(l=>l.classList.remove('active'));const a=m[e.target.id];if(a){a.classList.add('active');if(innerWidth<=900){const nav=a.parentElement;nav.scrollTo({left:a.offsetLeft-nav.clientWidth/2+a.offsetWidth/2,behavior:'smooth'});}}}});},{rootMargin:'-45% 0px -50% 0px'});document.querySelectorAll('main [id]').forEach(s=>o.observe(s));})();
 
 /* 品牌覆盖 bar */
 (async function(){const d=await(await fetch('./data/phase1/brand_coverage.json')).json();const top=d.slice(0,22);const el=document.getElementById('viz-cov');const W=el.clientWidth,H=500,M={t:8,r:56,b:22,l:92},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const max=d3.max(top,x=>x.mall_count);const x=d3.scaleLinear().domain([0,max]).range([0,iw]);const y=d3.scaleBand().domain(top.map(x=>x.brand)).range([0,ih]).padding(.3);const col=d3.scaleLinear().domain([8,max]).range(['#9aa6b8','#d4503f']);const tip=mkTip(el);
@@ -395,7 +445,9 @@ g.selectAll('text.l').data(top).join('text').attr('x',-10).attr('y',d=>y(d.brand
 function draw(){el.innerHTML='';const slice=(data.slices||[]).find(s=>s.key===active);const malls=slice&&slice.positionings?data.malls.filter(m=>slice.positionings.includes(m.positioning)):data.malls;const W=el.clientWidth,H=520,M={t:22,r:22,b:44,l:48},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const isTotal=active==='total';const xe=d3.extent(malls,m=>m.x),ye=d3.extent(malls,m=>m.y);const xpad=((xe[1]-xe[0])||0.01)*0.14,ypad=((ye[1]-ye[0])||0.04)*0.14;const xd=isTotal?data.axes.x_domain:[xe[0]-xpad,xe[1]+xpad];const yd=isTotal?data.axes.y_domain:[ye[0]-ypad,ye[1]+ypad];const x=d3.scaleLinear().domain(xd).range([0,iw]);const y=d3.scaleLinear().domain(yd).range([ih,0]);const xm=d3.median(malls,m=>m.x),ym=d3.median(malls,m=>m.y);
 g.append('g').selectAll('line').data(x.ticks(6)).join('line').attr('x1',d=>x(d)).attr('x2',d=>x(d)).attr('y1',0).attr('y2',ih).attr('stroke','rgba(74,70,63,0.07)');
 g.append('g').selectAll('line').data(y.ticks(5)).join('line').attr('x1',0).attr('x2',iw).attr('y1',d=>y(d)).attr('y2',d=>y(d)).attr('stroke','rgba(74,70,63,0.07)');
-[[x(xm),0,x(xm),ih],[0,y(ym),iw,y(ym)]].forEach(c=>g.append('line').attr('x1',c[0]).attr('y1',c[1]).attr('x2',c[2]).attr('y2',c[3]).attr('stroke','rgba(74,70,63,0.25)').attr('stroke-dasharray','3,3'));
+[[x(xm),0,x(xm),ih],[0,y(ym),iw,y(ym)]].forEach(c=>g.append('line').attr('x1',c[0]).attr('y1',c[1]).attr('x2',c[2]).attr('y2',c[3]).attr('stroke','rgba(91,108,196,0.5)').attr('stroke-dasharray','4,3').attr('stroke-width',1.1));
+g.append('text').attr('x',x(xm)+5).attr('y',12).attr('fill','var(--accent)').attr('font-family','var(--mono)').attr('font-size','9px').attr('opacity',.85).text(`中位 MHI_i=${xm.toFixed(3)}`);
+g.append('text').attr('x',iw-4).attr('y',y(ym)-5).attr('text-anchor','end').attr('fill','var(--accent)').attr('font-family','var(--mono)').attr('font-size','9px').attr('opacity',.85).text(`中位 MHI_f=${ym.toFixed(2)}`);
 const xf=(xd[1]-xd[0])<.2?d3.format('.3f'):d3.format('.2f');
 g.append('g').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).ticks(6).tickFormat(xf)).call(s=>{s.selectAll('text').attr('fill','rgba(74,70,63,0.5)').attr('font-family','var(--mono)').attr('font-size','9px');s.selectAll('line,path').attr('stroke','rgba(74,70,63,0.18)');});
 g.append('g').call(d3.axisLeft(y).ticks(5).tickFormat(d3.format('.1f'))).call(s=>{s.selectAll('text').attr('fill','rgba(74,70,63,0.5)').attr('font-family','var(--mono)').attr('font-size','9px');s.selectAll('line,path').attr('stroke','rgba(74,70,63,0.18)');});
@@ -423,7 +475,7 @@ rows.forEach((r,ri)=>{let acc=0;const rg=g.append('g');r.pct.forEach((p,ci)=>{if
 rg.append('rect').attr('x',0).attr('y',y(ri)).attr('width',iw).attr('height',y.bandwidth()).attr('fill','transparent').on('mouseenter',e=>{const top=r.pct.map((p,i)=>[cats[i],p]).filter(d=>d[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,3);showTip(tip,e,el,`<div class="t">${r.name}</div>`+top.map(d=>`<div class="r"><span>${d[0]}</span><b>${(d[1]*100).toFixed(0)}%</b></div>`).join('')+`<div class="r"><span>品牌数</span><b>${r.tot}</b></div>`);}).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',()=>tip.style.opacity=0);});})();
 
 /* 楼层剖面 · 前滩 × 兴业 小倍数 */
-(async function(){const fm=await(await fetch('./data/phase1/floor_matrix.json')).json();const comp=await(await fetch('./data/phase1/mhi_composite.json')).json();const malls=['前滩太古里','兴业太古汇'];const el=document.getElementById('viz-floor');if(!el)return;el.style.display='grid';el.style.gridTemplateColumns='repeat(2,1fr)';el.style.gap='1.4rem';const tip=mkTip(el);
+(async function(){const fm=await(await fetch('./data/phase1/floor_matrix.json')).json();const comp=await(await fetch('./data/phase1/mhi_composite.json')).json();const malls=['前滩太古里','兴业太古汇'];const el=document.getElementById('viz-floor');if(!el)return;el.style.display='grid';el.style.gridTemplateColumns='repeat(auto-fit,minmax(240px,1fr))';el.style.gap='1.4rem';const tip=mkTip(el);
 malls.forEach(mn=>{const m=fm[mn];if(!m)return;const cats=m.categories,levels=m.levels;const wrap=document.createElement('div');const cr=comp.find(c=>c.name===mn);wrap.innerHTML=`<div class="floor-title">${mn.replace('商场','')}${cr?` <span class="mhi">H=${cr.H.toFixed(2)}</span>`:''}</div>`;const box=document.createElement('div');wrap.appendChild(box);el.appendChild(wrap);
 const W=260,rowH=42,gap=9,H=levels.length*(rowH+gap),lblW=46;const svg=d3.select(box).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','auto');const order=[...levels].reverse();const maxRow=d3.max(m.matrix.map(r=>d3.sum(r)))||1;const x=d3.scaleLinear().domain([0,maxRow]).range([0,W-lblW-6]);
 order.forEach((lv,oi)=>{const li=levels.indexOf(lv);const row=m.matrix[li];const y0=oi*(rowH+gap);svg.append('rect').attr('x',lblW).attr('y',y0).attr('width',W-lblW-6).attr('height',rowH).attr('rx',6).attr('fill','rgba(74,70,63,0.04)');svg.append('text').attr('x',0).attr('y',y0+rowH/2+3).attr('font-size','9.5px').attr('font-family','var(--mono)').attr('fill','var(--fg-soft)').text(lv);let acc=0;row.forEach((v,ci)=>{if(v<=0)return;const x0=acc;acc+=v;svg.append('rect').attr('x',lblW+x(x0)).attr('y',y0+3).attr('height',rowH-6).attr('width',0).attr('rx',2).attr('fill',CATCOL[cats[ci]]).on('mouseenter',e=>showTip(tip,e,el,`<div class="t">${mn.replace('商场','')} · ${lv}</div><div class="r"><span>${cats[ci]}</span><b>${v}</b></div>`)).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',()=>tip.style.opacity=0).transition().delay(oi*70+ci*8).duration(460).attr('width',x(v));});});});})();
@@ -439,6 +491,11 @@ g.selectAll('rect').data(rows).join('rect').attr('x',(_,i)=>x(i)).attr('width',x
 .transition().delay((_,i)=>i*7).duration(520).ease(d3.easeCubicOut).attr('y',d=>y(d.H)).attr('height',d=>ih-y(d.H));
 rows.forEach((d,i)=>{if(!star.includes(d.name))return;g.append('text').attr('x',x(i)+x.bandwidth()/2).attr('y',y(d.H)-7).attr('text-anchor','middle').attr('fill','#4a463f').attr('font-size','10px').attr('font-weight',600).text(d.name.replace('太古','')).style('opacity',0).transition().delay(700).style('opacity',1);g.append('line').attr('x1',x(i)+x.bandwidth()/2).attr('x2',x(i)+x.bandwidth()/2).attr('y1',y(d.H)-5).attr('y2',y(d.H)).attr('stroke','#4a463f').attr('stroke-width',.8).style('opacity',0).transition().delay(700).style('opacity',.6);});
 g.append('text').attr('x',2).attr('y',ih+16).attr('fill','var(--hot)').attr('font-size','9px').attr('font-family','var(--mono)').text('← 同质 high H');g.append('text').attr('x',iw-2).attr('y',ih+16).attr('text-anchor','end').attr('fill','var(--cold)').attr('font-size','9px').attr('font-family','var(--mono)').text('low H 独特 →');})();
+
+/* 三项指数排行榜 · 点表头排序 */
+(async function(){const data=await(await fetch('./data/phase1/mhi_composite.json')).json();const el=document.getElementById('rank-table');if(!el)return;const star=['前滩太古里','兴业太古汇'];const cols=[{k:'MHI_i',l:'MHI_i'},{k:'MHI_f',l:'MHI_f'},{k:'H',l:'复合 H'}];let sk='H',asc=false;
+function render(){const rows=[...data].sort((a,b)=>asc?a[sk]-b[sk]:b[sk]-a[sk]);let h='<thead><tr><th>#</th><th>商场</th><th>档位</th>'+cols.map(c=>`<th data-k="${c.k}" class="${c.k===sk?'sorted':''}">${c.l}${c.k===sk?(asc?' ▲':' ▼'):''}</th>`).join('')+'</tr></thead><tbody>';rows.forEach((d,i)=>{h+=`<tr class="${star.includes(d.name)?'star':''}"><td class="rk">${i+1}</td><td>${d.name}</td><td>${d.positioning}</td>`+cols.map(c=>`<td>${(+d[c.k]).toFixed(3)}</td>`).join('')+'</tr>';});el.innerHTML=h+'</tbody>';el.querySelectorAll('th[data-k]').forEach(th=>th.onclick=()=>{const k=th.dataset.k;if(k===sk)asc=!asc;else{sk=k;asc=false;}render();});}
+render();})();
 
 function mkTip(el){const t=document.createElement('div');t.className='viz-tip';el.style.position='relative';el.appendChild(t);return t;}
 function showTip(t,e,el,h){const r=el.getBoundingClientRect();t.innerHTML=h;t.style.left=(e.clientX-r.left+12)+'px';t.style.top=(e.clientY-r.top+12)+'px';t.style.opacity=1;}
