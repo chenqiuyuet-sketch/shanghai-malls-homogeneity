@@ -1,715 +1,448 @@
-<!doctype html>
-<html lang="zh-Hans">
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>千店一面 · 上海购物中心同质化的三层观察</title>
-  <meta name="description" content="以 80 个上海购物中心样本与 13 个高端商场子集为对象，从品牌、业态、楼层模板三个维度，重新讨论同质化命题，并以前滩太古里为锚点考察异质性是否仍然可能。" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>千店一面 · 上海购物中心同质化的三层观察</title>
+<meta name="description" content="以 80 个上海购物中心样本与高端商场子集为对象，从品牌、业态、楼层模板三个维度量化同质化，并以前滩太古里为锚点考察异质性是否仍然可能。">
 
-  <!-- 字体 · Google Fonts 一次性加载 -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400;500;600&family=Noto+Serif+SC:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
-    rel="stylesheet"
-  />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
-  <!-- 项目样式 -->
-  <link rel="stylesheet" href="./styles/tokens.css" />
-  <link rel="stylesheet" href="./styles/typography.css" />
-  <link rel="stylesheet" href="./styles/components.css" />
+<style>
+:root {
+  --bg: #ecebe4;            /* 暖调米灰底 */
+  --sl: #ffffff;            /* 浮雕亮面（左上） */
+  --sd: #c8c3b4;            /* 浮雕暗面（右下，暖调） */
+  --fg: #4a463f;            /* 暖深灰文字 */
+  --fg-mute: rgba(74,70,63,0.64);
+  --fg-soft: rgba(74,70,63,0.42);
+  --accent: #5b6cc4;        /* 蓝紫，暖底上略柔 */
+  --accent-soft: rgba(91,108,196,0.14);
+  --hot: #d4503f;           /* 暖红 · 同质 */
+  --cold: #5683c4;          /* 冷蓝 · 独特 */
+  --easing: cubic-bezier(.23,1,.32,1);
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --sans: 'PingFang SC', 'IBM Plex Sans', system-ui, sans-serif;
 
-  <!-- D3 v7（用于 MDS 散点 / 余弦热力图） -->
-  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  /* 浮雕阴影预设 */
+  --raise: 7px 7px 16px var(--sd), -7px -7px 16px var(--sl);
+  --raise-sm: 4px 4px 9px var(--sd), -4px -4px 9px var(--sl);
+  --inset: inset 5px 5px 11px var(--sd), inset -5px -5px 11px var(--sl);
+  --inset-sm: inset 3px 3px 6px var(--sd), inset -3px -3px 6px var(--sl);
+}
 
-  <!-- Leaflet（用于整合度散点的 OSM 真实底图） -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+a { color: inherit; text-decoration: none; }
+
+body { display: grid; grid-template-columns: 276px 1fr; min-height: 100vh; }
+@media (max-width: 900px) { body { grid-template-columns: 1fr; } #cursor { display:none; } }
+
+/* 磁吸光标 */
+#cursor {
+  position: fixed; pointer-events: none; z-index: 9999;
+  width: 28px; height: 28px; border-radius: 100%;
+  background: var(--bg);
+  box-shadow: var(--raise-sm);
+  transform: translate(-50%,-50%);
+  transition: width .22s var(--easing), height .22s var(--easing), box-shadow .22s var(--easing);
+  top: -100px; left: -100px;
+}
+#cursor.is-text { width: 3px!important; height: 22px!important; border-radius: 2px!important; background: var(--accent); box-shadow: none; }
+#cursor.is-locked { box-shadow: var(--inset-sm); }
+@media (hover: none) { #cursor { display:none; } }
+@media (hover: hover) and (pointer: fine) { *, *::before, *::after { cursor: none !important; } }
+
+/* ───── 侧栏 ───── */
+.sidebar {
+  position: sticky; top: 0; align-self: start; height: 100vh;
+  padding: 2.4rem 1.5rem; overflow-y: auto;
+}
+.sidebar .brand { font-size: 1.35rem; font-weight: 700; letter-spacing: .04em; margin-bottom: .3rem; }
+.sidebar .brand-en { font-family: var(--mono); font-size: .66rem; font-weight: 300; color: var(--fg-soft); letter-spacing: .04em; line-height: 1.5; margin-bottom: 2.2rem; }
+.sidebar nav { display: flex; flex-direction: column; gap: .5rem; }
+.sidebar nav a {
+  display: flex; align-items: baseline; gap: .7rem;
+  padding: .65rem .9rem; border-radius: 12px;
+  color: var(--fg-mute); font-size: .9rem;
+  background: var(--bg);
+  transition: box-shadow .25s var(--easing), color .25s var(--easing);
+}
+.sidebar nav a:hover { color: var(--fg); box-shadow: var(--raise-sm); }
+.sidebar nav a.active { color: var(--accent); box-shadow: var(--inset-sm); }
+.sidebar nav .num { font-family: var(--mono); font-size: .66rem; color: var(--fg-soft); width: 1.4em; }
+.sidebar nav a.active .num { color: var(--accent); }
+.sidebar .meta { margin-top: 2rem; padding: 1.1rem 1rem; border-radius: 12px; box-shadow: var(--inset-sm); font-family: var(--mono); color: var(--fg-soft); font-size: .66rem; line-height: 1.8; }
+
+/* ───── 主区 ───── */
+main { max-width: 1180px; padding-right: clamp(0px,2vw,2rem); }
+
+/* Hero */
+.hero { min-height: 100vh; padding: clamp(2rem,7vw,6rem) clamp(1.5rem,5vw,4.5rem); display: flex; flex-direction: column; justify-content: center; }
+.hero .eyebrow { font-family: var(--mono); font-size: .8rem; letter-spacing: .1em; color: var(--accent); text-transform: uppercase; margin-bottom: 2rem; }
+.hero h1 { font-size: clamp(3rem,8.5vw,6.5rem); font-weight: 700; letter-spacing: .02em; line-height: 1; margin-bottom: 1.4rem; text-shadow: 1px 1px 1px var(--sl), -1px -1px 1px var(--sd); }
+.hero h1 .q { color: var(--hot); }
+.hero .sub-en { font-family: var(--mono); font-weight: 300; font-size: clamp(1rem,2vw,1.3rem); color: var(--fg-mute); margin-bottom: 2.2rem; }
+.hero .lede { max-width: 40rem; font-size: 1.1rem; color: var(--fg-mute); line-height: 1.9; margin-bottom: 2.6rem; }
+.hero .lede b { color: var(--fg); font-weight: 600; }
+
+.kpis { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+.kpi { padding: 1.4rem 1.8rem; border-radius: 18px; background: var(--bg); box-shadow: var(--raise); transition: box-shadow .3s var(--easing), transform .3s var(--easing); }
+.kpi:hover { transform: translateY(-2px); box-shadow: 10px 10px 22px var(--sd), -10px -10px 22px var(--sl); }
+.kpi .v { font-family: var(--mono); font-size: clamp(2rem,4.5vw,3rem); font-weight: 500; line-height: 1; letter-spacing: -.02em; }
+.kpi .v .u { font-size: .42em; color: var(--fg-soft); margin-left: .3em; }
+.kpi .k { font-size: .8rem; color: var(--fg-soft); margin-top: .6rem; }
+.kpi.hot .v { color: var(--hot); }
+
+.scroll-hint { margin-top: 3rem; font-family: var(--mono); font-size: .68rem; color: var(--fg-soft); letter-spacing: .2em; }
+
+/* 章节 */
+section.chapter { padding: clamp(3rem,7vw,6rem) clamp(1.5rem,5vw,4.5rem); }
+.chapter__num { font-family: var(--mono); font-size: .74rem; letter-spacing: .12em; color: var(--accent); text-transform: uppercase; }
+.chapter__title { font-size: clamp(1.8rem,4vw,2.7rem); font-weight: 700; letter-spacing: .02em; line-height: 1.12; margin: .5rem 0 1.2rem; max-width: 26ch; }
+.chapter__lede { max-width: 42rem; font-size: 1.05rem; color: var(--fg-mute); line-height: 1.85; margin-bottom: 1.3rem; }
+.chapter__body { max-width: 42rem; color: var(--fg-mute); line-height: 1.85; }
+.chapter__body p { margin-bottom: 1.1rem; }
+.chapter__body b { color: var(--fg); font-weight: 600; }
+.chapter__body .hot { color: var(--hot); font-weight: 600; }
+
+/* 三层卡片 */
+.layers { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.4rem; margin: 2.2rem 0; }
+@media (max-width:760px){ .layers{ grid-template-columns:1fr; } }
+.layer { padding: 1.6rem 1.5rem; border-radius: 18px; background: var(--bg); box-shadow: var(--raise); transition: transform .25s var(--easing); }
+.layer:hover { transform: translateY(-3px); }
+.layer .lyr-idx { font-family: var(--mono); font-size: .66rem; color: var(--fg-soft); letter-spacing: .12em; }
+.layer .lyr-name { font-size: 1.2rem; font-weight: 700; margin: .35rem 0 .1rem; }
+.layer .lyr-metric { font-family: var(--mono); font-size: .82rem; color: var(--accent); margin-bottom: .7rem; }
+.layer.l3 .lyr-metric { color: var(--hot); }
+.layer .lyr-desc { font-size: .9rem; color: var(--fg-mute); line-height: 1.7; }
+
+/* stage 浮雕卡 + 数据图凹槽 */
+.stage { margin: 2.2rem 0; padding: 1.3rem; border-radius: 20px; background: var(--bg); box-shadow: var(--raise); }
+.stage__bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; padding: 0 .3rem; }
+.stage__label { font-family: var(--mono); font-size: .68rem; letter-spacing: .12em; color: var(--fg-soft); text-transform: uppercase; }
+.stage__live { font-family: var(--mono); font-size: .64rem; color: var(--accent); display: inline-flex; align-items: center; gap: .4rem; }
+.stage__live::before { content:""; width:7px; height:7px; border-radius:50%; background: var(--accent); box-shadow: var(--raise-sm); }
+.stage__well { border-radius: 16px; box-shadow: var(--inset); padding: 1.2rem; }   /* 数据图凹槽 */
+.tabs { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.tab { background: var(--bg); border: 0; color: var(--fg-mute); font-family: var(--sans); font-size: .82rem; padding: .45rem .95rem; border-radius: 20px; cursor: pointer; box-shadow: var(--raise-sm); display: inline-flex; align-items: baseline; gap: .4rem; transition: box-shadow .2s var(--easing), color .2s var(--easing); }
+.tab:hover { color: var(--fg); }
+.tab.active { color: var(--accent); box-shadow: var(--inset-sm); }
+.tab .c { font-family: var(--mono); font-size: .7rem; opacity: .7; }
+
+.viz-tip { position: absolute; pointer-events: none; background: var(--bg); border-radius: 10px; box-shadow: var(--raise); padding: .65rem .8rem; font-size: .78rem; opacity: 0; transition: opacity .15s; z-index: 20; min-width: 150px; }
+.viz-tip .t { font-weight: 600; margin-bottom: .35rem; color: var(--fg); }
+.viz-tip .r { display: flex; justify-content: space-between; gap: 1rem; color: var(--fg-mute); font-family: var(--mono); font-size: .72rem; }
+.viz-tip .r b { color: var(--fg); }
+
+.caption { font-size: .82rem; color: var(--fg-soft); line-height: 1.7; margin-top: 1rem; padding: 0 .3rem; }
+.caption b { color: var(--fg-mute); }
+
+/* 业态色例 */
+.legend { display: flex; flex-wrap: wrap; gap: .5rem .9rem; margin: 1rem .3rem 0; font-size: .72rem; color: var(--fg-mute); }
+.legend .it { display: inline-flex; align-items: center; gap: .4rem; }
+.legend .sw { width: 11px; height: 11px; border-radius: 3px; box-shadow: var(--raise-sm); }
+
+/* 楼层小倍数标题 */
+.floor-title { font-size: .82rem; font-weight: 600; text-align: center; margin-bottom: .6rem; color: var(--fg); }
+.floor-title .mhi { font-family: var(--mono); font-size: .64rem; color: var(--accent); font-weight: 400; }
+
+/* 地图凹槽 */
+.map-well { border-radius: 16px; box-shadow: var(--inset); padding: 10px; overflow: hidden; }
+.map-well .leaflet-container { border-radius: 10px; }
+.fig-img { width: 100%; border-radius: 12px; display: block; }
+
+/* 深度对照：判决数 + 候选卡 */
+.verdict { display: flex; align-items: baseline; gap: 1.2rem; flex-wrap: wrap; margin: 1.8rem 0; padding: 1.5rem 1.9rem; border-radius: 18px; box-shadow: var(--inset); }
+.verdict .big { font-family: var(--mono); font-size: clamp(2.4rem,6vw,3.6rem); font-weight: 500; color: var(--hot); line-height: 1; }
+.verdict .lbl { font-size: .92rem; color: var(--fg-mute); max-width: 30rem; line-height: 1.7; }
+.verdict .lbl b { color: var(--fg); }
+.cand-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin: 1.6rem 0; }
+@media (max-width: 760px) { .cand-grid { grid-template-columns: 1fr; } }
+.cand { padding: 1.4rem 1.5rem; border-radius: 18px; background: var(--bg); box-shadow: var(--raise); transition: transform .25s var(--easing); }
+.cand:hover { transform: translateY(-3px); }
+.cand .pill { display: inline-block; font-family: var(--mono); font-size: .6rem; letter-spacing: .12em; padding: .25rem .7rem; border-radius: 20px; box-shadow: var(--inset-sm); color: var(--fg-soft); margin-bottom: .8rem; text-transform: uppercase; }
+.cand.sel .pill { color: var(--accent); }
+.cand .cname { font-size: 1.18rem; font-weight: 700; }
+.cand .cval { font-family: var(--mono); font-size: 1.9rem; font-weight: 500; margin: .35rem 0 .55rem; color: var(--fg-mute); }
+.cand.sel .cval { color: var(--accent); }
+.cand .cdesc { font-size: .85rem; color: var(--fg-mute); line-height: 1.65; }
+
+/* 讨论收束 */
+.takeaways { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.4rem; margin: 2rem 0; }
+@media (max-width: 760px) { .takeaways { grid-template-columns: 1fr; } }
+.take { padding: 1.5rem 1.5rem; border-radius: 18px; box-shadow: var(--inset); }
+.take .ti { font-family: var(--mono); font-size: .64rem; letter-spacing: .12em; color: var(--accent); margin-bottom: .5rem; }
+.take .th { font-size: 1.05rem; font-weight: 700; margin-bottom: .5rem; }
+.take .tb { font-size: .88rem; color: var(--fg-mute); line-height: 1.7; }
+.credits { margin-top: 2.6rem; padding: 1.4rem 1.6rem; border-radius: 16px; box-shadow: var(--raise-sm); font-size: .82rem; color: var(--fg-mute); line-height: 1.9; }
+.credits b { color: var(--fg); font-weight: 600; }
+</style>
 </head>
 <body>
 
-  <!-- ==================== 顶部铭牌 ==================== -->
-  <header class="masthead">
-    <div class="masthead-title">千店一面 <span style="color:var(--ink-mute);font-weight:400;">/ 上海购物中心同质化</span></div>
-    <div class="masthead-meta">CH. 2026 · WORKING DRAFT v0.2</div>
+<div id="cursor"></div>
+
+<aside class="sidebar">
+  <div class="brand">千店一面</div>
+  <div class="brand-en">on the homogenization<br>of Shanghai malls</div>
+  <nav>
+    <a href="#hero" class="active" data-t="hero"><span class="num">00</span><span>楔子</span></a>
+    <a href="#frame" data-t="frame"><span class="num">01</span><span>三层框架</span></a>
+    <a href="#brand" data-t="brand"><span class="num">02</span><span>品牌同质化</span></a>
+    <a href="#function" data-t="function"><span class="num">03</span><span>业态构成</span></a>
+    <a href="#floor" data-t="floor"><span class="num">04</span><span>楼层模板</span></a>
+    <a href="#geo" data-t="geo"><span class="num">05</span><span>地理整合度</span></a>
+    <a href="#space" data-t="space"><span class="num">06</span><span>两座太古</span></a>
+    <a href="#discussion" data-t="discussion"><span class="num">07</span><span>综合讨论</span></a>
+  </nav>
+  <div class="meta">城市分析 · 第 4 组<br>陈 · 黄 · 张 · 吴 · 姚 · 舒<br>2026 春季学期<br><br>80 MALLS · 3 LAYERS<br>暖调米灰 · neumorphism</div>
+</aside>
+
+<main>
+  <!-- Hero -->
+  <header class="hero" id="hero">
+    <div class="eyebrow">城市分析 · 上海购物中心研究</div>
+    <h1>为什么逛起来<br>都像<span class="q">同一家</span>？</h1>
+    <div class="sub-en">80 malls · 3 layers · 1 question</div>
+    <p class="lede">
+      我们调研了上海 <b>80 家</b>购物中心。超过六成，在去掉招牌之后你认不出是哪一家。这份研究把「<b>千店一面</b>」的直觉，拆成品牌、业态、楼层三个可以量化的维度。
+    </p>
+    <div class="kpis">
+      <div class="kpi"><div class="v">80<span class="u">家</span></div><div class="k">全量样本</div></div>
+      <div class="kpi"><div class="v">13<span class="u">家</span></div><div class="k">高端子集</div></div>
+      <div class="kpi hot"><div class="v">2<span class="u">家</span></div><div class="k">深度对照 · 前滩 × 兴业</div></div>
+    </div>
+    <div class="scroll-hint">SCROLL ↓</div>
   </header>
 
-  <!-- ==================== 章节导航 ==================== -->
-  <nav class="toc" aria-label="章节导航">
-    <button class="toc-item" data-target="hero">
-      <span class="toc-item-num">00</span><span class="toc-item-label">楔子</span>
-    </button>
-    <button class="toc-item" data-target="frame">
-      <span class="toc-item-num">01</span><span class="toc-item-label">研究框架</span>
-    </button>
-    <button class="toc-item" data-target="brand">
-      <span class="toc-item-num">02</span><span class="toc-item-label">品牌维度</span>
-    </button>
-    <button class="toc-item" data-target="function">
-      <span class="toc-item-num">03</span><span class="toc-item-label">业态维度</span>
-    </button>
-    <button class="toc-item" data-target="floor">
-      <span class="toc-item-num">04</span><span class="toc-item-label">楼层模板</span>
-    </button>
-    <button class="toc-item" data-target="geo">
-      <span class="toc-item-num">05</span><span class="toc-item-label">地理结论</span>
-    </button>
-    <button class="toc-item" data-target="space">
-      <span class="toc-item-num">06</span><span class="toc-item-label">空间结论</span>
-    </button>
-    <button class="toc-item" data-target="discussion">
-      <span class="toc-item-num">07</span><span class="toc-item-label">综合讨论</span>
-    </button>
-    <button class="toc-item" data-target="appendix">
-      <span class="toc-item-num">08</span><span class="toc-item-label">方法学附录</span>
-    </button>
-  </nav>
-
-  <!-- ==================== 英雄区 ==================== -->
-  <section id="hero" class="hero">
-    <div class="hero-frame">
-
-      <div class="hero-eyebrow">
-        <span class="eyebrow">城市设计 · 课程汇报 · 演示稿</span>
-      </div>
-
-      <h1 class="hero-title">
-        千店一面
-        <span class="hero-title-latin">on the homogenization of Shanghai's shopping centers</span>
-      </h1>
-
-      <p class="hero-subtitle">
-        从 80 个商场样本与 13 个高端商场子集出发，以品牌、业态与楼层模板三个相互独立的维度，重新打开「商场看上去越来越像」这一直觉判断，并以前滩太古里为锚点，观察异质性是否仍然可能。
-      </p>
-
-      <div class="hero-meta">
-        <div class="hero-meta-block">
-          <span class="hero-meta-label">Group</span>
-          <span class="hero-meta-value">城市分析 · 第 4 组</span>
-        </div>
-        <div class="hero-meta-block">
-          <span class="hero-meta-label">Members</span>
-          <span class="hero-meta-value">陈、黄、张、吴、姚、舒</span>
-        </div>
-        <div class="hero-meta-block">
-          <span class="hero-meta-label">Submission</span>
-          <span class="hero-meta-value">2026 春季学期 · 期末</span>
-        </div>
-        <div class="hero-meta-block">
-          <span class="hero-meta-label">Anchor case</span>
-          <span class="hero-meta-value">前滩太古里</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="hero-scroll-hint" aria-hidden="true">
-      Scroll
+  <!-- 三层框架 -->
+  <section class="chapter" id="frame">
+    <div class="chapter__num">Chapter 01 · Framework</div>
+    <h2 class="chapter__title">三层框架，三个不可互相替代的视角</h2>
+    <p class="chapter__lede">把同质化拆成三层，每层一个独立指标，彼此不能互相推导。</p>
+    <div class="layers">
+      <div class="layer l1"><div class="lyr-idx">LAYER 01</div><div class="lyr-name">品牌池</div><div class="lyr-metric">MHI_i · Whittaker</div><div class="lyr-desc">两家商场共享多少同样的品牌，越高越像。</div></div>
+      <div class="layer l2"><div class="lyr-idx">LAYER 02</div><div class="lyr-name">业态构成</div><div class="lyr-metric">MHI_f · 余弦相似</div><div class="lyr-desc">14 类业态的配比是否趋同，餐饮服饰主导。</div></div>
+      <div class="layer l3"><div class="lyr-idx">LAYER 03</div><div class="lyr-name">楼层模板</div><div class="lyr-metric">D_t · Wasserstein</div><div class="lyr-desc">业态在楼层上的铺排节奏，真正留有差异的一层。</div></div>
     </div>
   </section>
 
-  <!-- ==================== 研究框架 ==================== -->
-  <section id="frame" class="chapter">
-    <div class="chapter-header fade-in">
-      <span class="chapter-num">01 / framework</span>
-      <h2 class="chapter-title">三层框架，三个不可互相替代的视角</h2>
-      <p class="chapter-deck">
-        「商场越来越像」是一句直觉判断，并不是一个可计算命题。要把这句话变成可以被反驳的研究，需要先把「相像」拆成三个不在同一层级的问题：相像于品牌组合，相像于业态填充，还是相像于楼层模板。
-      </p>
+  <!-- 品牌章 -->
+  <section class="chapter" id="brand">
+    <div class="chapter__num">Chapter 02 · Brand</div>
+    <h2 class="chapter__title">品牌池正在向同一套底版收敛</h2>
+    <p class="chapter__lede">少数连锁品牌几乎渗透全市，把任意两家商场的重合度都拉高了。</p>
+
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.01 · 头部品牌覆盖</span><span class="stage__live">LIVE</span></div>
+      <div class="stage__well"><div id="viz-cov" style="height:500px"></div></div>
+      <div class="caption"><b>读图</b>：横轴是该品牌覆盖了 80 家中的多少家。星巴克 59 家领跑。悬停看渗透率。</div>
     </div>
 
-    <div class="container fade-in">
-      <div class="framework">
-
-        <article class="framework-card">
-          <div class="framework-card-num">i</div>
-          <h3 class="framework-card-title">品牌维度<br/><span style="font-family:var(--ff-display-latin);font-style:italic;font-size:var(--fs-base);color:var(--ink-mute);font-weight:300;">Brand Index</span></h3>
-          <div class="framework-card-formula">
-            MHI<sub>i</sub> = α &middot; A<sub>new</sub> + (1&minus;α) &middot; Jaccard
-          </div>
-          <p class="framework-card-body">
-            以惠特克（Robert Whittaker）α/β/γ 多样性框架为骨架，把品牌集合的差异度刻画为「相对全样本基线的可比指标」，让 80 家商场可以在同一刻度上排序。
-          </p>
-        </article>
-
-        <article class="framework-card">
-          <div class="framework-card-num">ii</div>
-          <h3 class="framework-card-title">业态维度<br/><span style="font-family:var(--ff-display-latin);font-style:italic;font-size:var(--fs-base);color:var(--ink-mute);font-weight:300;">Functional Index</span></h3>
-          <div class="framework-card-formula">
-            MHI<sub>f</sub> = 1 &minus; cos(v<sub>i</sub>, v<sub>̄</sub>)
-          </div>
-          <p class="framework-card-body">
-            把每家商场的业态构成投射为高维向量，并以余弦相似度量度它与全样本平均的偏离，从而把「比例的同质化」与品牌层的同质化区分开。
-          </p>
-        </article>
-
-        <article class="framework-card">
-          <div class="framework-card-num">iii</div>
-          <h3 class="framework-card-title">楼层模板<br/><span style="font-family:var(--ff-display-latin);font-style:italic;font-size:var(--fs-base);color:var(--ink-mute);font-weight:300;">Floor Template Distance</span></h3>
-          <div class="framework-card-formula">
-            D[i,j] = &sum;<sub>c</sub> w<sub>ij</sub>(c) &middot; W<sub>1</sub>(P<sub>i</sub>, P<sub>j</sub>)
-          </div>
-          <p class="framework-card-body">
-            把每家商场抽象为「下沉层、入口层、中层、目的地层」四级模板上的业态分布，再以沃瑟斯坦（Wasserstein-1）距离逐对衡量楼层节奏的差异，最终构成 80×80 的距离矩阵 D。
-          </p>
-        </article>
-
-      </div>
-    </div>
-
-    <div class="chapter-body fade-in" style="margin-top: var(--sp-12)">
-      <p class="lead">
-        三个维度彼此并列，不能压缩成一个标量。如果一家商场的品牌池与同侪重合，它在 MHI<sub>i</sub> 上得分较低；如果它的业态比例与全样本均值重合，它在 MHI<sub>f</sub> 上得分较低；如果它的楼层节奏与其他商场重合，它在 D 上与其他点紧贴。这三种「相像」并不互相蕴含，因此本研究保留三个独立读数，让证据本身说话。
-      </p>
-    </div>
-
-    <div class="viz-frame fade-in">
-      <div class="viz-frame-header">
-        <div>
-          <div class="viz-title">技术路线 · 七阶段交互流程</div>
-          <div class="viz-subtitle">点击任意阶段查看每一步的执行内容与负责组员 · 对应阶段一原图 fig01 + tech_route</div>
-        </div>
-        <div class="viz-meta">FIG. 01 · WORKFLOW<br/>STEPS = 7<br/>BY 6 人组</div>
-      </div>
-      <div class="viz-canvas" id="viz-tech-route" style="min-height:240px;padding:6px 14px 18px"></div>
-      <div class="viz-caption">
-        <b>读图提示</b>：横向七阶段对应阶段一 tech_route.png 与 fig01_data_pipeline.png 两张原图的合并交互版本。点击任一阶段，下方面板展开详细执行说明与负责组员。
-      </div>
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.02 · MHI_i × MHI_f 四象限</span><span class="stage__live">LIVE</span></div>
+      <div class="tabs" id="quad-tabs"></div>
+      <div class="stage__well"><div id="viz-quad" style="height:520px"></div></div>
+      <div class="caption"><b>读图</b>：<span style="color:var(--hot)">红方块</span> = 前滩太古里；点按 MHI<sub>i</sub> 高低着色（红=同质，蓝=独特）。上方 tab 切档位。</div>
     </div>
   </section>
 
-  <!-- ==================== 品牌维度 ==================== -->
-  <section id="brand" class="chapter">
-    <div class="chapter-header fade-in">
-      <span class="chapter-num">02 / brand</span>
-      <h2 class="chapter-title">第一重观察 · 品牌池的同质化程度</h2>
-      <p class="chapter-deck">
-        以惠特克框架的相对多样性逻辑出发，把 80 家商场的品牌集合放在同一基线上读数。MHI<sub>i</sub> 越接近 1，意味着该商场的品牌组合越偏离全样本基线，越具识别度；越接近 0，意味着它的品牌池正在向上海高端商场的「公共底版」收敛。
-      </p>
+  <!-- 业态章 -->
+  <section class="chapter" id="function">
+    <div class="chapter__num">Chapter 03 · Function</div>
+    <h2 class="chapter__title">业态构成：餐饮与服饰撑起同一张底版</h2>
+    <p class="chapter__lede">把每家商场的品牌按 14 类业态归并，再各自归一到百分比。80 条并排的色带，几乎是同一种红蓝节奏。</p>
+    <div class="chapter__body">
+      <p>品牌层的趋同还能用「连锁渗透」解释，业态层的趋同则更结构性。当餐饮与服饰鞋包两类长期占去半壁，剩下的十二类只能在边角上腾挪，<b>商场之间的配比差异被压到很窄的区间</b>。</p>
     </div>
 
-    <div class="chapter-body fade-in">
-
-      <div class="stat-row">
-        <div class="stat">
-          <div class="stat-value">80<span class="unit">家</span></div>
-          <div class="stat-label">全量样本 · 上海购物中心</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">13<span class="unit">家</span></div>
-          <div class="stat-label">高端子集 · MHI<sub>i</sub> &lt; 0.45</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">0.32<span class="unit">σ</span></div>
-          <div class="stat-label">高端子集内部标准差 · 显著低于全样本</div>
-        </div>
-      </div>
-
-      <p>
-        把 80 个样本沿 MHI<sub>i</sub> 排序后，得分最低的 13 个商场构成「高端同质化俱乐部」。它们共享同一批奢侈品、轻奢与设计师品牌池，使得品牌维度上的差异度不足以将它们彼此区分。这并不意味着它们已经互相替代，而是说明：单纯依赖品牌清单已经不足以解释「商场为什么仍然各自有人去」。
-      </p>
-
-      <div class="viz-frame">
-        <div class="viz-frame-header">
-          <div>
-            <div class="viz-title">80 个商场在品牌同质化 × 业态同质化平面上的散布</div>
-            <div class="viz-subtitle">横轴 MHI<sub>i</sub> · 纵轴 MHI<sub>f</sub> · 高端 13 家以朱砂红圈出</div>
-          </div>
-          <div class="viz-meta">FIG. 02 · QUADRANT<br/>n = 80<br/>HIGHLIGHT = 13</div>
-        </div>
-        <div class="viz-canvas" id="viz-quadrant" style="height:520px"></div>
-        <div class="viz-legend">
-          <span class="legend-item"><span class="legend-swatch" style="background:var(--vermillion);width:10px;height:10px;display:inline-block;margin-right:6px"></span>前滩太古里 · 锚点</span>
-          <span class="legend-item"><span class="legend-swatch" style="background:var(--paper);border:1.5px solid var(--vermillion);width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px"></span>高端 12 家 · 与锚点同列</span>
-          <span class="legend-item"><span class="legend-swatch" style="background:var(--brass);opacity:.6;width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px"></span>其余 67 家全样本背景</span>
-          <span class="legend-item">虚线 · MHI<sub>i</sub>/MHI<sub>f</sub> 全样本中位数</span>
-        </div>
-        <div class="viz-caption">
-          <b>读图提示</b>：左下象限是「品牌与业态双高同质」的高端俱乐部，右上象限是「品牌与业态双低同质」的特色商场；前滩太古里以朱砂红方点标注，便于直接读出它在二维空间中相对全体 80 个样本的位置。十三家高端商场在 MHI 双低区间聚拢成团，与右上半区的中端连锁与特色商场之间留下了清晰的可视化裂口。
-        </div>
-      </div>
-
-      <div class="pullquote">
-        当 13 个高端商场在品牌层趋于一致时，业态填充与楼层模板就成了真正可以「定义个性」的剩余维度。前滩太古里恰好处在这一剩余空间里被讨论。
-      </div>
-
-      <p>
-        把 80 个样本里的品牌名一一拆开数频次，可以更直观地理解上面的散点为什么会向左下角收敛：少数几个连锁品牌几乎渗透全市。星巴克出现在 59 家商场里，霸王茶姬 42 家，瑞幸、星巴克、必胜客这些「公共底版」品牌的存在本身就拉高了任意两家商场的 Jaccard 重合度。
-      </p>
-
-      <div class="viz-frame">
-        <div class="viz-frame-header">
-          <div>
-            <div class="viz-title">头部 30 个品牌在 80 家商场中的覆盖数</div>
-            <div class="viz-subtitle">越红越无处不在 · 数据来自阶段一 6,369 个品牌的覆盖汇总</div>
-          </div>
-          <div class="viz-meta">FIG. 02B · COVERAGE<br/>TOP 30<br/>N_BRANDS = 6369</div>
-        </div>
-        <div class="viz-canvas" id="viz-brand-coverage" style="height:640px"></div>
-        <div class="viz-caption">
-          <b>读图提示</b>：横轴是该品牌覆盖了 80 家中的多少家。星巴克、霸王茶姬、瑞幸这一档已经突破 40 家以上的「准全覆盖」阈值，沪上阿姨、海底捞、必胜客等紧随其后。这些品牌组成的「公共底版」是 MHI<sub>i</sub> 收敛到左下角的直接动因。鼠标悬停查看每个品牌的渗透率。
-        </div>
-      </div>
-
-      <div class="viz-frame">
-        <div class="viz-frame-header">
-          <div>
-            <div class="viz-title">80 家商场 MHI<sub>i</sub> 分布直方图</div>
-            <div class="viz-subtitle">把品牌同质化指数的真实分布画出来 · 前滩太古里位置以朱砂红标出</div>
-          </div>
-          <div class="viz-meta">FIG. 04 · DISTRIBUTION<br/>BIN = 20<br/>MIN ~ MAX</div>
-        </div>
-        <div class="viz-canvas" id="viz-mhi-i-dist" style="height:360px"></div>
-        <div class="viz-caption">
-          <b>读图提示</b>：MHI<sub>i</sub> 越大代表品牌池越独立。直方图右偏意味着多数商场聚集在低 MHI<sub>i</sub> 区域，前滩太古里位于偏低段（红色 anchor 线）。中位数虚线把样本分成左右两半，便于读出前滩与中位数的相对位置。
-        </div>
-      </div>
-
-      <p>
-        这一观察构成本研究后续章节的边界：既然 80 个样本里只剩 13 个在品牌层值得比较，那么余下两个维度的子矩阵分析就有了清晰的对象。下一章先以十三维业态向量审视填充比例的趋同程度，再进入楼层模板的距离结构。
-      </p>
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.03 · 80 家业态构成</span><span class="stage__live">LIVE</span></div>
+      <div class="stage__well"><div id="viz-func" style="height:560px"></div></div>
+      <div id="func-legend" class="legend"></div>
+      <div class="caption"><b>读图</b>：每条色带是一家商场，按<span style="color:#d4673f">餐饮</span>占比从高到低排列。<span style="color:#d4673f">餐饮</span>与<span style="color:#5b6cc4">服饰鞋包</span>合计普遍过半。悬停看该家前三业态。</div>
     </div>
   </section>
 
-  <!-- ==================== 业态维度 ==================== -->
-  <section id="function" class="chapter">
-    <div class="chapter-header fade-in">
-      <span class="chapter-num">03 / function</span>
-      <h2 class="chapter-title">第二重观察 · 业态填充比例的同质化方向</h2>
-      <p class="chapter-deck">
-        品牌池可能完全重合，业态比例却未必同步。把每家商场的业态构成投射为多维向量，再以余弦相似度逐对衡量，可以独立于品牌层观察「填充节奏」这条线索是否也在收敛。
-      </p>
+  <!-- 楼层章 -->
+  <section class="chapter" id="floor">
+    <div class="chapter__num">Chapter 04 · Floor</div>
+    <h2 class="chapter__title">楼层模板：最后一处还留着差异的地方</h2>
+    <p class="chapter__lede">业态沿楼层的铺排节奏，是品牌与构成都收敛之后，仍能分辨彼此的一层。下面是深度对照的两家，前滩太古里与兴业太古汇的垂直剖面。</p>
+    <div class="chapter__body">
+      <p>同样以餐饮见长，两家的处理并不一样。前滩把餐饮摊在地面与顶层的开放街区，兴业则把高区让给写字楼配套的轻食。这种差别无法从品牌名单里读出，只有把业态投到楼层上才显形，这也正是 <b>D<sub>t</sub>（Wasserstein 距离）</b>想要捕捉的「垂直分布的搬运成本」。</p>
     </div>
 
-    <div class="chapter-body fade-in">
-      <p>
-        从奢侈时装、轻奢设计师、美妆护肤、珠宝钟表、鞋包、精致正餐、咖啡茶饮、生活方式、运动健身、数码体验、艺术文创、服务超市到亲子儿童，每家商场在这十三类业态上的品牌占比构成一支十三维向量 v<sub>i</sub>。两个向量越接近，余弦相似度 cos(v<sub>i</sub>, v<sub>j</sub>) 越接近 1；越偏离，越接近 0。这条度量与品牌池本身完全无关，因而可以在品牌层之外提供独立证据。
-      </p>
-
-      <div class="viz-frame">
-        <div class="viz-frame-header">
-          <div>
-            <div class="viz-title">业态向量余弦相似度 · 13 × 13 高端子集</div>
-            <div class="viz-subtitle">深红 · 业态构成接近；浅金 · 业态构成分歧</div>
-          </div>
-          <div class="viz-meta">FIG. 03 · COSINE<br/>n = 13<br/>DIM = 13</div>
-        </div>
-        <div class="viz-canvas" id="viz-heatmap"></div>
-        <div class="viz-caption">
-          <b>读图提示</b>：对角线为自身相似度（=1，以斜纹留白），前滩太古里所在行列以朱砂红虚线高亮。矩阵主体落在 0.65 至 0.98 区间，太古系两家彼此最为相近，纯奢一极（恒隆、国金）与艺术取向（K11）、社区高端（嘉里不夜城）形成可读的色阶层级。tooltip 给出每对商场前三位重合品类，供下一步定性讨论引用。
-        </div>
-      </div>
-
-      <p>
-        V3 在视觉上回答两个问题：高端 13 家是否在业态层也已经聚拢为一团？前滩太古里在这一层是否仍然处在偏离主集群的位置？热力图给出的回答是「大体聚拢、局部偏离」。十三家两两相似度中位数已经在 0.85 以上，几乎所有商场都共享同一套以奢侈、轻奢、餐饮、生活方式为重心的填充结构；前滩与兴业太古汇之间高达 0.98 的相似度，提示「同一开发主体」在业态层的近乎复刻。然而恒隆广场与 K11 之间的 0.50、与嘉里不夜城之间的 0.49，又说明这条度量并未完全饱和：定位极化的商场仍在业态层留下了可读的差异。
-      </p>
-
-      <div class="viz-frame">
-        <div class="viz-frame-header">
-          <div>
-            <div class="viz-title">80 家商场 × 14 业态品牌数堆叠</div>
-            <div class="viz-subtitle">每根柱子代表一家商场，按颜色从下到上叠加 14 大类品牌的数量</div>
-          </div>
-          <div class="viz-meta">FIG. 03B · COMPOSITION<br/>n = 80<br/>BIZ = 14</div>
-        </div>
-        <div class="viz-canvas" id="viz-function-composition" style="height:560px"></div>
-        <div class="viz-caption">
-          <b>读图提示</b>：柱子按「总品牌数」从左到右递增，鼠标悬停查看每家商场具体的业态明细。可以直观看出，餐饮（最底层红色）几乎在每家商场都占主导地位，服饰鞋包（次底层）紧随其后；这两层共同构成了「行业公共底版」，也正是 MHI<sub>f</sub> 普遍偏高的直接成因。
-        </div>
-      </div>
-
-      <div class="viz-frame">
-        <div class="viz-frame-header">
-          <div>
-            <div class="viz-title">80 家商场 MHI<sub>f</sub> 分布直方图</div>
-            <div class="viz-subtitle">业态向量余弦相似度平均后的分布 · 前滩太古里位置以朱砂红标出</div>
-          </div>
-          <div class="viz-meta">FIG. 05 · DISTRIBUTION<br/>BIN = 18<br/>MIN ~ MAX</div>
-        </div>
-        <div class="viz-canvas" id="viz-mhi-f-dist" style="height:360px"></div>
-        <div class="viz-caption">
-          <b>读图提示</b>：MHI<sub>f</sub> 越大代表业态结构与其他商场越像，全样本集中在 0.85 以上的高同质化区间，左尾的少数商场（奥莱与极端定位的特色商场）拉出了一条长尾。前滩太古里位于偏低区间，与「水平展开 × 餐饮强化」的实际现场体感一致。
-        </div>
-      </div>
-
-      <p>
-        把品牌层与业态层的两条标度做平均，得到一个综合的「复合 MHI 指数 H」，可以一眼读出全 80 家在两层叠加意义下的同质化排名。下面这张可切换排名图把 H 摊开做横向柱状图，并允许按消费定位档位切换 6 个子集查看。
-      </p>
-
-      <div class="viz-frame">
-        <div class="viz-frame-header">
-          <div>
-            <div class="viz-title">复合 MHI 指数 H · 80 家商场排名 + 5 档消费切片</div>
-            <div class="viz-subtitle">H = (S<sub>i</sub> + S<sub>f</sub>) / 2 · 按 H 升序 · 越右越同质</div>
-          </div>
-          <div class="viz-meta">FIG. 07+08 · COMPOSITE H<br/>n = 80<br/>SLICES = 6</div>
-        </div>
-        <div class="viz-canvas" id="viz-composite" style="height:880px"></div>
-        <div class="viz-caption">
-          <b>读图提示</b>：点击顶部分档切换。<b>全部 80 家</b>视图里可以纵览整体 H 分布的尾部与中位数；切到<b>高端 13 家</b>可以看到太古系、恒隆系、嘉里系内部的相对排名；<b>大众 / 亲民</b>档与<b>中端</b>档 H 普遍偏高，是同质化最严重的区域。前滩太古里以朱砂红描边突出。
-        </div>
-      </div>
-
-      <p>
-        下一章把目光转向楼层模板，看看这条尚未饱和的差异是否能在垂直维度上被进一步识别。
-      </p>
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.04 · 楼层 × 业态剖面</span><span class="stage__live">LIVE</span></div>
+      <div class="stage__well"><div id="viz-floor" style="min-height:300px"></div></div>
+      <div class="caption"><b>读图</b>：自下而上为地下层 → 顶层，每段长度是该层某业态的品牌数。<span style="color:#d4673f">餐饮</span>多沉在地下与顶层（美食广场加高区餐厅），<span style="color:#5b6cc4">服饰鞋包</span>占据中区主力。悬停看具体数目。</div>
     </div>
   </section>
 
-  <!-- ==================== 楼层模板维度 ==================== -->
-  <section id="floor" class="chapter">
-    <div class="chapter-header fade-in">
-      <span class="chapter-num">04 / floor template</span>
-      <h2 class="chapter-title">第三重观察 · 楼层模板的步调是否还在区分商场</h2>
-      <p class="chapter-deck">
-        把每家商场的实际楼层映射到「下沉层、入口层、中层、目的地层」四级模板上，并按品类构造一份四行 × N 列的概率矩阵 P<sub>i</sub>。两家商场之间的差异，就化为四级模板上业态累积分布的沃瑟斯坦距离之加权和。
-      </p>
+  <!-- 地理整合度章 -->
+  <section class="chapter" id="geo">
+    <div class="chapter__num">Chapter 05 · Geography</div>
+    <h2 class="chapter__title">区位整合度：谁站在网络的中心</h2>
+    <p class="chapter__lede">把 80 家商场放回上海的真实地图，按彼此的可达性算一个区位整合度。越靠近全市几何与路网中心，分值越高。</p>
+    <div class="chapter__body">
+      <p>同质化不只发生在店铺清单里，也写在区位上。中心城区的商场互相离得近、彼此可替代，外环与新城的商场则被距离稀释。姚负责的 depthmap 上海全局路网建构，正是要把这层「空间句法」的整合度算扎实，下方的地图先给出基于可达性的近似版本。</p>
     </div>
 
-    <div class="chapter-body fade-in">
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.05 · 80 家区位整合度 · OSM</span><span class="stage__live">LIVE</span></div>
+      <div class="map-well"><div id="viz-geo" style="height:560px"></div></div>
+      <div class="caption"><b>读图</b>：点的大小与颜色都编码整合度，<span style="color:#A02822">红</span>高 → <span style="color:#5A7B9C">蓝</span>低。前滩太古里与兴业太古汇已标注，鼠标移入地图可滚轮缩放。</div>
+    </div>
 
-      <div class="viz-frame">
-        <div class="viz-frame-header">
-          <div>
-            <div class="viz-title">楼层抽象 · 把高度异构的楼层压缩为四级模板</div>
-            <div class="viz-subtitle">B 下沉 · G 入口 · M 中层 · T 目的地</div>
-          </div>
-          <div class="viz-meta">FIG. 04A · TEMPLATE<br/>LAYERS = 4</div>
-        </div>
-        <div id="viz-floor" class="viz-canvas" style="height:480px"></div>
-        <div class="viz-caption">
-          <b>读图提示</b>：以前滩太古里、兴业太古汇、上海国金中心三家为例，左侧呈现各自的实际楼层（含 LG、地下、夹层、天台等异构形态），右侧把它们对齐到 B/G/M/T 四级模板，并按业态填充比例着色，使后续两两距离的计算具有可比基础。
-        </div>
-      </div>
-
-      <p>
-        相比单纯计算「楼层数差异」或「品类比例差异」，沃瑟斯坦距离对「错位」尤其敏感：一家商场把奢侈品放在入口层与一家把奢侈品放在中层之间的差异，会被这一指标显著放大，而不会被简单的比例差异平均掉。
-      </p>
-
-      <div class="viz-frame">
-        <div class="viz-frame-header">
-          <div>
-            <div class="viz-title">80 × 80 楼层模板距离矩阵 D</div>
-            <div class="viz-subtitle">按 MHI<sub>i</sub> 升序重排（锚点固定首位），左上角 13 × 13 即高端子集 D<sup>H</sup></div>
-          </div>
-          <div class="viz-meta">FIG. 04B · DISTANCE<br/>n = 80<br/>METRIC = W<sub>1</sub></div>
-        </div>
-        <div id="viz-distance" class="viz-canvas" style="height:620px"></div>
-        <div class="viz-caption">
-          <b>读图提示</b>：颜色越红，两商场的楼层模板差异越大，越浅则模板越接近。矩阵按 MHI<sub>i</sub> 升序排列，左上角 13 × 13 的朱砂红框即高端子矩阵 D<sup>H</sup>；该子块整体偏浅，说明高端商场之间的楼层模板已高度趋同。前滩太古里所在行列以朱砂红虚线标出，可作为对照锚点。鼠标悬停任一格即可读出 W<sub>1</sub> 距离与两商场的分层信息。
-        </div>
-      </div>
-
-      <p>
-        在 80 个商场之间，上述流程生成 80 × 80 的距离矩阵 D；在 13 个高端商场之间，它进一步收束为 13 × 13 的子矩阵 D<sup>H</sup>。后者就是下一节那张散点图所投影的对象。
-      </p>
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.05b · depthmap 轴线整合度（姚）</span><span class="stage__live">EPS</span></div>
+      <div class="stage__well"><img class="fig-img" src="./assets/phase1/integration_axial_paper.png" alt="depthmap 轴线整合度分析图"></div>
+      <div class="caption"><b>读图</b>：基于轴线地图（axial map）的全局整合度，暖色为高整合廊道。此图为空间句法分析的初版，后续将与商场点位叠合。</div>
     </div>
   </section>
 
-  <!-- ==================== MDS 散点（核心可视化） ==================== -->
-  <section id="mds" class="chapter">
-    <div class="chapter-header fade-in">
-      <span class="chapter-num">04 / mds projection</span>
-      <h2 class="chapter-title">十三宫格 · 把楼层模板距离投影到二维平面</h2>
-      <p class="chapter-deck">
-        对 13×13 的距离子矩阵 D<sup>H</sup> 执行多维尺度分析（MDS），将每家高端商场嵌入二维平面，使欧氏距离尽量保留原始 D<sup>H</sup> 中的差异结构。本 demo 使用示意坐标演示交互形态。
-      </p>
+  <!-- 两座太古章 -->
+  <section class="chapter" id="space">
+    <div class="chapter__num">Chapter 06 · Twins</div>
+    <h2 class="chapter__title">两座太古：被算法选中的一对</h2>
+    <p class="chapter__lede">前滩太古里的「最像的另一家」是谁？把品牌与业态合成一个相似度 MHI<sub>sf</sub>，在 79 个对象里逐一比对，胜出的是兴业太古汇。</p>
+
+    <div class="verdict">
+      <div class="big">0.84</div>
+      <div class="lbl">MHI<sub>sf</sub>（前滩太古里 × 兴业太古汇）。同名同源的两家太古，在去掉招牌之后，<b>品牌与业态的合成相似度高达 0.84</b>，是全市与前滩最接近的一对。</div>
     </div>
 
-    <div class="viz-frame fade-in">
-      <div class="viz-frame-header">
-        <div>
-          <div class="viz-title">高端商场楼层模板距离的二维投影</div>
-          <div class="viz-subtitle">朱砂红 · 前滩太古里（锚点）；黄铜金 · 其余十二家高端商场</div>
-        </div>
-        <div class="viz-meta">
-          FIG. 05 · MDS<br/>
-          STRESS ≈ 0.14<br/>
-          ITER. = 300
-        </div>
+    <div class="cand-grid">
+      <div class="cand sel">
+        <span class="pill">深度对照 · 入选</span>
+        <div class="cname">兴业太古汇</div>
+        <div class="cval">0.8385</div>
+        <div class="cdesc">最高零售楼层 3 层，楼层识别率 86%。与前滩共享同一套高端品牌矩阵，业态配比也最贴近，因此选作正式的深度对照对象。</div>
       </div>
-
-      <div id="viz-mds" class="viz-canvas"></div>
-
-      <div class="viz-legend">
-        <div class="legend-item">
-          <span class="legend-swatch anchor"></span>
-          <span>前滩太古里 · Anchor</span>
-        </div>
-        <div class="legend-item">
-          <span class="legend-swatch standard"></span>
-          <span>其余高端商场 · n=12</span>
-        </div>
-        <div class="legend-item">
-          <span style="font-family:var(--ff-mono);color:var(--ink-mute);">虚线 · 锚点 → 各点距离</span>
-        </div>
-      </div>
-
-      <div class="viz-caption">
-        <b>读图提示</b>：维度一对应楼层模板的异质度（向右越远，模板越独特）；维度二对应业态填充的节奏差异。前滩太古里位于右下象限的离群位置，与多数高端商场拉开距离；兴业太古汇虽同属太古地产，仍处在锚点与主集群之间的过渡位置。鼠标悬停可读出每家商场的详细信息。
+      <div class="cand">
+        <span class="pill">次位候选 · 落选</span>
+        <div class="cname">环贸 iapm</div>
+        <div class="cval">0.8274</div>
+        <div class="cdesc">相似度紧随其后，差距仅 0.011。最高零售楼层 6 层、垂直结构更深，与前滩的可比性略弱，仅作参照不进入深度对照。</div>
       </div>
     </div>
-
-    <div class="chapter-body fade-in">
-      <p>
-        即便在品牌池高度重合的 13 个商场之间，楼层模板维度仍然给出了清晰的分组：主集群由陆家嘴、徐家汇、静安南京西路一线的竖向购物中心构成，它们共享相近的「奢侈品上楼、餐饮在顶」节奏；前滩太古里以开放街区把高端业态由竖向重新铺陈到水平横向，在 MDS 平面上向右下方拉出一段明显的距离。
-      </p>
-      <p>
-        这一结果支撑了本研究的核心论断：在品牌池高度趋同的当下，<mark>楼层模板成为真正定义高端商场个性的剩余空间</mark>，而前滩太古里以此为基础重新提出了一种异质性方案。指标层面的结论到此完成；接下来两章把这一论断放回上海的街网与剖面，验证它是否仍然成立。
-      </p>
+    <div class="chapter__body">
+      <p>挑出这一对之后，真正的差异要回到上一章的楼层剖面去找。前滩把餐饮铺在开放街区的地面与顶层，兴业则把高区让给写字楼配套。<b>同一份品牌名单，落到不同的楼层模板上，逛起来的体感才被重新拉开。</b></p>
     </div>
   </section>
 
-  <!-- ==================== 地理结论 ==================== -->
-  <section id="geo" class="chapter">
-    <div class="chapter-header fade-in">
-      <span class="chapter-num">05 / geography</span>
-      <h2 class="chapter-title">第四重观察 · 把同质化放回上海的地图上</h2>
-      <p class="chapter-deck">
-        指标只能告诉我们「相像」与「不像」，无法告诉我们「为什么前滩太古里和其余高端商场不像」。把 13 家高端商场放回上海的街网拓扑里，借助空间设计网络分析（sDNA）的通达性测度，可以把视觉上的离群转译为可解释的区位逻辑。
-      </p>
+  <!-- 综合讨论章 -->
+  <section class="chapter" id="discussion">
+    <div class="chapter__num">Chapter 07 · Discussion</div>
+    <h2 class="chapter__title">同质化最重的，不是高端</h2>
+    <p class="chapter__lede">把品牌、业态、楼层三层合成一个复合同质化指数 H，对 80 家排个序，结论有点反直觉。</p>
+
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.06 · 复合同质化 H · 80 家</span><span class="stage__live">LIVE</span></div>
+      <div class="stage__well"><div id="viz-disc" style="height:420px"></div></div>
+      <div class="caption"><b>读图</b>：每条是一家商场，按复合 H 从高到低排列，<span style="color:#d4503f">红</span>高 → <span style="color:#5683c4">蓝</span>低。两座太古被标出，落在低同质的一端。悬停看档位。</div>
     </div>
 
-    <div class="chapter-body fade-in">
-      <p>
-        陆家嘴、徐家汇与南京西路一线的高端商场共享相近的轨交节点密度、人行可达半径与街网整合度，它们的楼层模板在 MDS 平面上聚成主集群，并非偶然。前滩位于黄浦江南岸的新生岸线区段，其街网拓扑、地块尺度与步行体验，并不属于主集群所处的城市纹理。
-      </p>
+    <div class="takeaways">
+      <div class="take"><div class="ti">FINDING 01</div><div class="th">同质峰值在中端</div><div class="tb">复合 H 最高的是大众与中端的郊区新城商场（百联金山 H≈0.99）。它们共享同一份连锁品牌与餐饮服饰配比，几乎可以互换。</div></div>
+      <div class="take"><div class="ti">FINDING 02</div><div class="th">高端反而更独特</div><div class="tb">前滩 H≈0.50、兴业 H≈0.48，排在第 68、69 位。高端凭品牌门槛与楼层设计，把可替代性压了下来。</div></div>
+      <div class="take"><div class="ti">FINDING 03</div><div class="th">楼层是最后防线</div><div class="tb">品牌与业态都收敛后，楼层模板（D<sub>t</sub>）是唯一还稳定留有差异的维度，也是体验差别的真正来源。</div></div>
+    </div>
 
-      <div class="viz-frame">
-        <div class="viz-frame-header">
-          <div>
-            <div class="viz-title">上海中心城区 · 高端商场区位与 sDNA 通达性</div>
-            <div class="viz-subtitle">基于 1000m 半径的 betweenness centrality，与 13 家高端商场标点叠加</div>
-          </div>
-          <div class="viz-meta">FIG. 06 · GEO<br/>RADIUS = 1km<br/>n = 13</div>
-        </div>
-        <div id="viz-geo" class="viz-canvas" style="height:620px"></div>
-        <div class="viz-caption">
-          <b>读图提示</b>：底图取自上海中心城区路网，色阶按 sDNA-betweenness 排序；前滩太古里以朱砂红方点标注，其余十二家高端商场以黄铜金圆点标注。该图将印证「锚点的离群位置由街网拓扑决定，而非由品牌选品决定」这一推断。
-        </div>
-      </div>
-
-      <p>
-        若 sDNA 测度显示前滩位于一个与主集群差异显著的通达性带，那么 MDS 平面上的离群就有了城市学解释：前滩的楼层模板不是被「设计得不同」，而是被「街网拓扑允许变得不同」。这一解释把可视化数据与城市形态学连接到一起。
-      </p>
-
-      <div class="viz-frame">
-        <div class="viz-frame-header">
-          <div>
-            <div class="viz-title">80 商场整合度散点 · 叠加上海 16 区底图</div>
-            <div class="viz-subtitle">基于姚的 Haversine 距离整合度（I ∈ 0.4–2.0）· d3.geoMercator 等角投影 + DataV 上海 16 区 GeoJSON 底图</div>
-          </div>
-          <div class="viz-meta">FIG. 06B · POINT INTEG<br/>n = 80<br/>BY 姚 / 几何修正</div>
-        </div>
-        <div id="viz-integration" class="viz-canvas" style="height:760px"></div>
-        <div class="viz-caption">
-          <b>投影说明</b>：姚的原图（<code>整合度分析及标点.png</code>）把经度、纬度直接当作 XY 投在 1647 × 1223 的画布上，长宽比 1.35；但上海真实地理比例是 0.6（南北 133 km、东西 81 km），原图把南北方向压缩了约 2.2 倍。本图改用 d3.geoMercator 等角投影 + fitSize 自适应，恢复真实比例，并叠加上海 16 区行政边界作底图。
-          <br/><br/>
-          <b>本图算法</b>：「商场两两 Haversine 距离的平均倒数」归一化到 [0.4, 2.0] 作为<b>点位居中度</b>近似，并非 depthmap 真正的轴线图 Integration HH。前 5 名（环贸 iapm、静安嘉里、One ITC、恒基旭辉、久光百货）都集中在静安–黄浦的几何中心；前滩太古里 I = 1.80 排第 28（深红边圆点标出）；兴业太古汇 I = 1.97 排第 11（朱砂红边）。这是<b>「商场点位之间的可达性」</b>，下一张图才是<b>「街道轴线之间的拓扑可达性」</b>。
-          <br/><br/>
-          <b>数据补丁说明</b>：姚原 xlsx 共 80 家但漏前滩太古里（被"龙光蓝鲸世界购物中心"占位），本图陈用姚同款 Haversine 公式 + 姚归一化区间 [0.4, 2.0] 补算前滩，加入后共 81 家。建议姚下一轮把样本与黄/吴的 80 家主表对齐。
-        </div>
-      </div>
-
-      <div class="viz-frame">
-        <div class="viz-frame-header">
-          <div>
-            <div class="viz-title">上海全市轴线图 Integration HH · depthmap 真整合度</div>
-            <div class="viz-subtitle">姚用 depthmapX 0.27 跑出的全市路网空间句法整合度色谱图（青 = 整合度低 / 红 = 整合度高）</div>
-          </div>
-          <div class="viz-meta">FIG. 06C · AXIAL INTEG<br/>BY 姚 / depthmapX<br/>SOURCE = 整合度.eps</div>
-        </div>
-        <div style="background:var(--paper);padding:18px;line-height:0;border:1px solid var(--rule);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.4);">
-          <img src="assets/phase1/integration_axial_paper.png"
-               alt="上海全市轴线图 Integration HH 整合度 · paper 米色版"
-               style="width:100%;height:auto;display:block;"
-               loading="lazy"/>
-        </div>
-        <div class="viz-caption">
-          <b>这才是真正的空间句法整合度</b>：姚把上海全市路网导入 depthmapX，建模为轴线图（axial map），再运行 Integration HH 算法。每根线段的颜色对应它到全网其他所有线段的拓扑深度的倒数：青蓝 = 拓扑深度大、整合度低（外环边缘、崇明、奉贤）；黄绿 = 中度（环线带）；橙红 = 拓扑深度浅、整合度高（黄浦延安路、静安南京西路、徐汇衡复风貌区）。市中心红色集中区与上一张「点居中度」前 5 名分布大体吻合，但这里看到的是<b>整段路网的可达性结构</b>，不是单点。
-          <br/><br/>
-          <b>注意</b>：本图直接来自姚的 <code>整合度.eps</code>（depthmapX 0.27 输出），未做 Mercator 校正，南北方向被压扁约 2.2 倍。要做正交版本需要：(1) 把路网先转为 EPSG:3857 (Web Mercator) 或 EPSG:32651 (UTM 51N) 再导入 depthmap，或 (2) 用 sDNA / spatial syntax 的 Python 实现重算后用 d3 重渲染。当前版本已足够作为"整合度结构"的可读证据，但精确分析需要这一校正。
-        </div>
-      </div>
+    <div class="credits">
+      <b>城市分析 · 第 4 组</b> ｜ 陈（统筹 + 前端可视化）· 黄（数据采集）· 张（地理结论一）· 吴（MHI 计算）· 姚（depthmap 路网建构 + 业态分类 + 田野）· 舒（田野 + 结论二）<br>
+      数据：80 家上海购物中心实地与官网调研 ｜ 方法：Whittaker α/β/γ · 余弦相似 · Wasserstein 距离 · depthmap 整合度 ｜ 2026 春季学期
     </div>
   </section>
+</main>
 
-  <!-- ==================== 空间结论 ==================== -->
-  <section id="space" class="chapter">
-    <div class="chapter-header fade-in">
-      <span class="chapter-num">06 / spatial</span>
-      <h2 class="chapter-title">第五重观察 · 两座太古的并置比较</h2>
-      <p class="chapter-deck">
-        前滩太古里与兴业太古汇同属太古地产，品牌池高度重合，地理位置与街网拓扑却各居黄浦江两岸。把两者并置阅读，可以把「品牌相同、模板不同」这一论断落到具体的剖面与平面上。
-      </p>
-    </div>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="./scripts/viz_integration.js"></script>
+<script>
+/* 磁吸光标 */
+(function(){const c=document.getElementById('cursor');if(!c||matchMedia('(hover:none)').matches)return;let x=innerWidth/2,y=innerHeight/2,tx=x,ty=y;addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;});(function l(){x+=(tx-x)*.85;y+=(ty-y)*.85;c.style.left=x+'px';c.style.top=y+'px';requestAnimationFrame(l);})();
+document.querySelectorAll('h1,h2,p,.chapter__lede,.caption,.brand').forEach(el=>{el.addEventListener('mouseenter',()=>c.classList.add('is-text'));el.addEventListener('mouseleave',()=>c.classList.remove('is-text'));});
+document.querySelectorAll('a,button,.tab,.kpi,.layer').forEach(el=>{el.addEventListener('mouseenter',()=>c.classList.add('is-locked'));el.addEventListener('mouseleave',()=>c.classList.remove('is-locked'));});})();
 
-    <div class="viz-frame fade-in">
-      <div class="viz-frame-header">
-        <div>
-          <div class="viz-title">两座太古 · 楼层模板与街区肌理并置</div>
-          <div class="viz-subtitle">左 · 前滩太古里 · 横向开放街区；右 · 兴业太古汇 · 竖向核心筒</div>
-        </div>
-        <div class="viz-meta">FIG. 07 · COMPARE<br/>HORIZ. vs VERT.<br/>n = 2</div>
-      </div>
-      <div id="viz-compare" class="viz-canvas" style="height:560px"></div>
-      <div class="viz-caption">
-        <b>读图提示</b>：左侧呈现前滩太古里的横向开放街区肌理与平摊式业态布置，右侧呈现兴业太古汇的竖向核心筒与上下分层的传统模板。两图将以同样的色谱标注业态层级，便于读者直接对比楼层模板节奏的差异。
-      </div>
-    </div>
+/* 侧栏高亮 */
+(function(){const ls=document.querySelectorAll('.sidebar nav a');const m={};ls.forEach(a=>m[a.dataset.t]=a);const o=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){ls.forEach(l=>l.classList.remove('active'));m[e.target.id]?.classList.add('active');}});},{rootMargin:'-45% 0px -50% 0px'});document.querySelectorAll('main [id]').forEach(s=>o.observe(s));})();
 
-    <div class="viz-frame fade-in" id="mhi-sf-card">
-      <div class="viz-frame-header">
-        <div>
-          <div class="viz-title">阶段一 · MHI<sub>sf</sub> 候选筛选 · 选定兴业太古汇作深度对照</div>
-          <div class="viz-subtitle">把楼层 × 业态当作向量，对两个候选与前滩太古里做余弦相似度，最终选定兴业（环贸 iapm 落选）</div>
-        </div>
-        <div class="viz-meta">PHASE 1 · MHI_sf<br/>BY 黄 / 吴<br/>2026-05-24</div>
-      </div>
-      <div id="viz-mhi-sf" class="viz-canvas" style="min-height:220px;padding:18px 22px;"></div>
-      <div class="viz-caption">
-        阶段一把楼层 × 14 业态的真实矩阵跑出来后，按 MHI<sub>sf</sub> 排序候选：兴业太古汇 0.8385、环贸 iapm 0.8274。最终选定 MHI<sub>sf</sub> 更高的<b>兴业太古汇</b>作为前滩太古里的深度对照对象，环贸 iapm 作为「落选 #2 候选」保留数据但不进入后续田野与建模分析。深度对照样本最终 <b>n = 2（前滩 + 兴业）</b>。完整图集与方法学公式见 <a href="phase1.html#fig-09" target="_blank" rel="noopener">阶段一交接说明 · 图 09 / 10</a>。
-      </div>
-    </div>
+/* 品牌覆盖 bar */
+(async function(){const d=await(await fetch('./data/phase1/brand_coverage.json')).json();const top=d.slice(0,22);const el=document.getElementById('viz-cov');const W=el.clientWidth,H=500,M={t:8,r:56,b:22,l:92},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const max=d3.max(top,x=>x.mall_count);const x=d3.scaleLinear().domain([0,max]).range([0,iw]);const y=d3.scaleBand().domain(top.map(x=>x.brand)).range([0,ih]).padding(.3);const col=d3.scaleLinear().domain([8,max]).range(['#9aa6b8','#d4503f']);const tip=mkTip(el);
+g.selectAll('rect').data(top).join('rect').attr('x',0).attr('y',d=>y(d.brand)).attr('height',y.bandwidth()).attr('width',0).attr('rx',3).attr('fill',d=>col(d.mall_count))
+.on('mouseenter',function(e,d){d3.select(this).attr('opacity',.8);showTip(tip,e,el,`<div class="t">${d.brand}</div><div class="r"><span>覆盖</span><b>${d.mall_count}/80</b></div><div class="r"><span>渗透率</span><b>${(d.mall_count/80*100).toFixed(0)}%</b></div>`);}).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',function(){d3.select(this).attr('opacity',1);tip.style.opacity=0;})
+.transition().delay((_,i)=>i*26).duration(560).ease(d3.easeCubicOut).attr('width',d=>x(d.mall_count));
+g.selectAll('text.v').data(top).join('text').attr('x',d=>x(d.mall_count)+6).attr('y',d=>y(d.brand)+y.bandwidth()/2+4).attr('fill','#4a463f').attr('font-family','var(--mono)').attr('font-size','11px').style('opacity',0).text(d=>d.mall_count).transition().delay((_,i)=>480+i*18).style('opacity',1);
+g.selectAll('text.l').data(top).join('text').attr('x',-10).attr('y',d=>y(d.brand)+y.bandwidth()/2+4).attr('text-anchor','end').attr('fill','rgba(74,70,63,0.8)').attr('font-size','11px').text(d=>d.brand);})();
 
-    <div class="chapter-body fade-in">
-      <p>
-        这一并置揭示出：在品牌相同、业态相近时，楼层模板的差异更接近城市形态意义上的差异，而装修风格只是这一差异在表层的痕迹。前滩以横向街区把竖向逻辑彻底改写，使「高端商场」这一类型在上海获得了一种新的空间可能性。
-      </p>
-    </div>
-  </section>
+/* 四象限 */
+(async function(){const data=await(await fetch('./data/phase1/quadrant_phase1.json')).json();const el=document.getElementById('viz-quad');const tabsEl=document.getElementById('quad-tabs');const tip=mkTip(el);let active='total';
+(data.slices||[]).forEach(s=>{const b=document.createElement('button');b.className='tab'+(s.key==='total'?' active':'');b.innerHTML=`${s.label}<span class="c">${s.count}</span>`;b.onclick=()=>{tabsEl.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');active=s.key;draw();};tabsEl.appendChild(b);});
+function draw(){el.innerHTML='';const slice=(data.slices||[]).find(s=>s.key===active);const malls=slice&&slice.positionings?data.malls.filter(m=>slice.positionings.includes(m.positioning)):data.malls;const W=el.clientWidth,H=520,M={t:22,r:22,b:44,l:48},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const xd=data.axes.x_domain,yd=data.axes.y_domain;const x=d3.scaleLinear().domain(xd).range([0,iw]);const y=d3.scaleLinear().domain(yd).range([ih,0]);const xm=data.axes.x_median,ym=data.axes.y_median;
+g.append('g').selectAll('line').data(x.ticks(6)).join('line').attr('x1',d=>x(d)).attr('x2',d=>x(d)).attr('y1',0).attr('y2',ih).attr('stroke','rgba(74,70,63,0.07)');
+g.append('g').selectAll('line').data(y.ticks(5)).join('line').attr('x1',0).attr('x2',iw).attr('y1',d=>y(d)).attr('y2',d=>y(d)).attr('stroke','rgba(74,70,63,0.07)');
+[[x(xm),0,x(xm),ih],[0,y(ym),iw,y(ym)]].forEach(c=>g.append('line').attr('x1',c[0]).attr('y1',c[1]).attr('x2',c[2]).attr('y2',c[3]).attr('stroke','rgba(74,70,63,0.25)').attr('stroke-dasharray','3,3'));
+const xf=(xd[1]-xd[0])<.2?d3.format('.3f'):d3.format('.2f');
+g.append('g').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).ticks(6).tickFormat(xf)).call(s=>{s.selectAll('text').attr('fill','rgba(74,70,63,0.5)').attr('font-family','var(--mono)').attr('font-size','9px');s.selectAll('line,path').attr('stroke','rgba(74,70,63,0.18)');});
+g.append('g').call(d3.axisLeft(y).ticks(5).tickFormat(d3.format('.1f'))).call(s=>{s.selectAll('text').attr('fill','rgba(74,70,63,0.5)').attr('font-family','var(--mono)').attr('font-size','9px');s.selectAll('line,path').attr('stroke','rgba(74,70,63,0.18)');});
+g.append('text').attr('x',4).attr('y',ih-6).attr('fill','rgba(212,80,63,0.7)').attr('font-size','10px').attr('font-family','var(--mono)').text('↙ 双低同质');
+g.append('text').attr('x',iw-4).attr('y',14).attr('text-anchor','end').attr('fill','rgba(86,131,196,0.7)').attr('font-size','10px').attr('font-family','var(--mono)').text('双高同质 ↗');
+const col=d=>d3.interpolateRgb('#d4503f','#5683c4')((d.x-xd[0])/(xd[1]-xd[0]));
+const std=malls.filter(m=>m.role!=='anchor');
+g.selectAll('circle.s').data(std).join('circle').attr('cx',d=>x(d.x)).attr('cy',d=>y(d.y)).attr('r',0).attr('fill',d=>d.role==='highend'?col(d):'rgba(74,70,63,0.28)').attr('stroke',d=>d.role==='highend'?'rgba(255,255,255,0.7)':'none').attr('stroke-width',1)
+.on('mouseenter',function(e,d){d3.select(this).attr('r',d.role==='highend'?9:6);showTip(tip,e,el,th(d));}).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',function(e,d){d3.select(this).attr('r',d.role==='highend'?6:3.6);tip.style.opacity=0;})
+.transition().delay((_,i)=>i*9).duration(440).attr('r',d=>d.role==='highend'?6:3.6);
+const a=malls.find(m=>m.role==='anchor');if(a){const ax=x(a.x),ay=y(a.y);g.append('rect').attr('x',ax-5).attr('y',ay-5).attr('width',10).attr('height',10).attr('fill','var(--hot)').attr('transform',`rotate(45,${ax},${ay})`).on('mouseenter',e=>showTip(tip,e,el,th(a))).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',()=>tip.style.opacity=0);g.append('text').attr('x',ax+12).attr('y',ay+4).attr('fill','var(--hot)').attr('font-size','11px').attr('font-weight',600).text('前滩太古里').style('opacity',0).transition().delay(600).style('opacity',1);}
+if(slice&&slice.key!=='total')g.append('text').attr('x',4).attr('y',-8).attr('fill','var(--accent)').attr('font-family','var(--mono)').attr('font-size','11px').text(`▸ ${slice.label} · n=${malls.length}`);}
+function th(d){return `<div class="t">${d.name}</div><div class="r"><span>MHI_i</span><b>${d.x.toFixed(4)}</b></div><div class="r"><span>MHI_f</span><b>${d.y.toFixed(3)}</b></div><div class="r"><span>档位</span><b>${d.positioning}</b></div>`;}
+draw();addEventListener('resize',()=>{clearTimeout(window.__r);window.__r=setTimeout(draw,200);});})();
 
-  <!-- ==================== 综合讨论 ==================== -->
-  <section id="discussion" class="chapter">
-    <div class="chapter-header fade-in">
-      <span class="chapter-num">07 / discussion</span>
-      <h2 class="chapter-title">把三重观察重新合起来</h2>
-      <p class="chapter-deck">
-        品牌池、业态比例、楼层模板这三层并不彼此蕴含，因此「同质化」从来不是单一命题。把三层读数合起来，我们可以更精确地说明：上海高端商场的趋同只发生在前两层，而真正划分识别度的剩余空间，仍然位于楼层模板与城市形态之间。
-      </p>
-    </div>
+/* 14 业态调色板（暖调，餐饮红 / 服饰蓝领衔） */
+const CATCOL={'餐饮':'#d4673f','服饰鞋包':'#5b6cc4','美妆个护':'#c98a9b','珠宝钟表眼镜':'#b59a5e','亲子儿童零售':'#7fae8a','运动户外':'#5683c4','健身':'#6fb0b8','数码家电':'#8a8fa3','家居生活杂货':'#b0a08c','商超食品零售':'#c2a23f','娱乐体验':'#9b7fb8','生活服务':'#a0a890','教育培训':'#cf9f6f','医疗健康':'#9aa6b8'};
 
-    <div class="chapter-body fade-in">
-      <p>
-        第一层告诉我们：80 个样本中只剩 13 家在品牌层值得相互比较；第二层告诉我们：这 13 家在业态填充上同样高度趋近；第三层告诉我们：即便如此，楼层模板仍能把前滩太古里从主集群中清晰区分出来。三层结果叠加之后，「千店一面」就从一句直觉判断改写成一份具体的诊断：同质化发生在哪一层、不发生在哪一层。
-      </p>
+/* 业态堆叠 · 80 家归一构成 */
+(async function(){const fv=await(await fetch('./data/phase1/function_vectors.json')).json();const cats=fv.axes;const el=document.getElementById('viz-func');if(!el)return;
+document.getElementById('func-legend').innerHTML=cats.map(c=>`<span class="it"><span class="sw" style="background:${CATCOL[c]}"></span>${c}</span>`).join('');
+const rows=fv.data.map(m=>{const tot=d3.sum(m.vector)||1;return{name:m.name,pct:m.vector.map(v=>v/tot),food:(m.vector[0]+m.vector[1])/tot,tot:d3.sum(m.vector)};}).sort((a,b)=>b.food-a.food);
+const W=el.clientWidth,H=560,M={t:6,r:10,b:8,l:10},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const y=d3.scaleBand().domain(d3.range(rows.length)).range([0,ih]).padding(.16);const x=d3.scaleLinear().domain([0,1]).range([0,iw]);const tip=mkTip(el);
+rows.forEach((r,ri)=>{let acc=0;const rg=g.append('g');r.pct.forEach((p,ci)=>{if(p<=0)return;const x0=acc;acc+=p;rg.append('rect').attr('x',x(x0)).attr('y',y(ri)).attr('height',y.bandwidth()).attr('width',0).attr('fill',CATCOL[cats[ci]]).transition().delay(ri*4).duration(480).ease(d3.easeCubicOut).attr('width',x(p));});
+rg.append('rect').attr('x',0).attr('y',y(ri)).attr('width',iw).attr('height',y.bandwidth()).attr('fill','transparent').on('mouseenter',e=>{const top=r.pct.map((p,i)=>[cats[i],p]).filter(d=>d[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,3);showTip(tip,e,el,`<div class="t">${r.name}</div>`+top.map(d=>`<div class="r"><span>${d[0]}</span><b>${(d[1]*100).toFixed(0)}%</b></div>`).join('')+`<div class="r"><span>品牌数</span><b>${r.tot}</b></div>`);}).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',()=>tip.style.opacity=0);});})();
 
-      <div class="inline-note">
-        <b>对设计实践的提示</b>：当品牌池与业态配比已经成为「行业公共底版」时，购物中心的差异化竞争只能在楼层模板与城市形态层面展开。前滩太古里的成功更多源自形态层面的判断，而非招商档位的堆砌。
-      </div>
+/* 楼层剖面 · 前滩 × 兴业 小倍数 */
+(async function(){const fm=await(await fetch('./data/phase1/floor_matrix.json')).json();const comp=await(await fetch('./data/phase1/mhi_composite.json')).json();const malls=['前滩太古里','兴业太古汇'];const el=document.getElementById('viz-floor');if(!el)return;el.style.display='grid';el.style.gridTemplateColumns='repeat(2,1fr)';el.style.gap='1.4rem';const tip=mkTip(el);
+malls.forEach(mn=>{const m=fm[mn];if(!m)return;const cats=m.categories,levels=m.levels;const wrap=document.createElement('div');const cr=comp.find(c=>c.name===mn);wrap.innerHTML=`<div class="floor-title">${mn.replace('商场','')}${cr?` <span class="mhi">H=${cr.H.toFixed(2)}</span>`:''}</div>`;const box=document.createElement('div');wrap.appendChild(box);el.appendChild(wrap);
+const W=260,rowH=42,gap=9,H=levels.length*(rowH+gap),lblW=46;const svg=d3.select(box).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','auto');const order=[...levels].reverse();const maxRow=d3.max(m.matrix.map(r=>d3.sum(r)))||1;const x=d3.scaleLinear().domain([0,maxRow]).range([0,W-lblW-6]);
+order.forEach((lv,oi)=>{const li=levels.indexOf(lv);const row=m.matrix[li];const y0=oi*(rowH+gap);svg.append('rect').attr('x',lblW).attr('y',y0).attr('width',W-lblW-6).attr('height',rowH).attr('rx',6).attr('fill','rgba(74,70,63,0.04)');svg.append('text').attr('x',0).attr('y',y0+rowH/2+3).attr('font-size','9.5px').attr('font-family','var(--mono)').attr('fill','var(--fg-soft)').text(lv);let acc=0;row.forEach((v,ci)=>{if(v<=0)return;const x0=acc;acc+=v;svg.append('rect').attr('x',lblW+x(x0)).attr('y',y0+3).attr('height',rowH-6).attr('width',0).attr('rx',2).attr('fill',CATCOL[cats[ci]]).on('mouseenter',e=>showTip(tip,e,el,`<div class="t">${mn.replace('商场','')} · ${lv}</div><div class="r"><span>${cats[ci]}</span><b>${v}</b></div>`)).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',()=>tip.style.opacity=0).transition().delay(oi*70+ci*8).duration(460).attr('width',x(v));});});});})();
 
-      <p>
-        这一论断也意味着：以指标对比为目的的同质化讨论，应当先确定「在哪一层比较」。把三层并起来取均值，会把真正具有解释力的差异平均掉，最终得到一个看似全面、实则什么也没说清楚的结论。
-      </p>
-    </div>
-  </section>
+/* 地理整合度 · Leaflet + OSM（复用 viz_integration.js） */
+(async function(){const el=document.getElementById('viz-geo');if(!el||typeof renderIntegration!=='function')return;try{const data=await(await fetch('./data/phase1/integration.json')).json();renderIntegration({container:el,data});}catch(err){el.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--fg-soft);font-family:var(--mono);font-size:12px">INTEGRATION LOAD FAILED</div>';}})();
 
-  <!-- ==================== 方法学附录 ==================== -->
-  <section id="appendix" class="chapter">
-    <div class="chapter-header fade-in">
-      <span class="chapter-num">08 / methods</span>
-      <h2 class="chapter-title">方法学附录</h2>
-      <p class="chapter-deck">
-        把三层指标的公式、样本筛选规则、数据来源与待补环节集中放在最后一章，便于读者按图索骥地复现本研究的每一步。本节为占位骨架，待真实数据接入后逐项补全。
-      </p>
-    </div>
+/* 复合同质化 H · 80 家排序条 */
+(async function(){const comp=await(await fetch('./data/phase1/mhi_composite.json')).json();const el=document.getElementById('viz-disc');if(!el)return;const rows=[...comp].sort((a,b)=>b.H-a.H);const ext=d3.extent(rows,d=>d.H);const W=el.clientWidth,H=420,M={t:8,r:10,b:24,l:10},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const x=d3.scaleBand().domain(d3.range(rows.length)).range([0,iw]).padding(.12);const y=d3.scaleLinear().domain([0,1]).range([ih,0]);const col=d=>d3.interpolateRgb('#5683c4','#d4503f')((d-ext[0])/(ext[1]-ext[0]||1));const tip=mkTip(el);const star=['前滩太古里','兴业太古汇'];
+g.append('line').attr('x1',0).attr('x2',iw).attr('y1',y(0.5)).attr('y2',y(0.5)).attr('stroke','rgba(74,70,63,0.18)').attr('stroke-dasharray','3,3');
+g.selectAll('rect').data(rows).join('rect').attr('x',(_,i)=>x(i)).attr('width',x.bandwidth()).attr('y',ih).attr('height',0).attr('rx',1).attr('fill',d=>star.includes(d.name)?'#4a463f':col(d.H))
+.on('mouseenter',function(e,d){d3.select(this).attr('opacity',.75);showTip(tip,e,el,`<div class="t">${d.name}</div><div class="r"><span>复合 H</span><b>${d.H.toFixed(3)}</b></div><div class="r"><span>排名</span><b>#${d.rank}/80</b></div><div class="r"><span>档位</span><b>${d.positioning}</b></div>`);}).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',function(){d3.select(this).attr('opacity',1);tip.style.opacity=0;})
+.transition().delay((_,i)=>i*7).duration(520).ease(d3.easeCubicOut).attr('y',d=>y(d.H)).attr('height',d=>ih-y(d.H));
+rows.forEach((d,i)=>{if(!star.includes(d.name))return;g.append('text').attr('x',x(i)+x.bandwidth()/2).attr('y',y(d.H)-7).attr('text-anchor','middle').attr('fill','#4a463f').attr('font-size','10px').attr('font-weight',600).text(d.name.replace('太古','')).style('opacity',0).transition().delay(700).style('opacity',1);g.append('line').attr('x1',x(i)+x.bandwidth()/2).attr('x2',x(i)+x.bandwidth()/2).attr('y1',y(d.H)-5).attr('y2',y(d.H)).attr('stroke','#4a463f').attr('stroke-width',.8).style('opacity',0).transition().delay(700).style('opacity',.6);});
+g.append('text').attr('x',2).attr('y',ih+16).attr('fill','var(--hot)').attr('font-size','9px').attr('font-family','var(--mono)').text('← 同质 high H');g.append('text').attr('x',iw-2).attr('y',ih+16).attr('text-anchor','end').attr('fill','var(--cold)').attr('font-size','9px').attr('font-family','var(--mono)').text('low H 独特 →');})();
 
-    <div class="chapter-body fade-in">
-
-      <div class="appendix-block">
-        <h3>公式速查</h3>
-
-        <div class="appendix-formula">
-          <span class="appendix-formula-label">MHI<sub>i</sub></span>
-          α · A<sub>new</sub> + (1 &minus; α) · Jaccard(B<sub>i</sub>, B<sub>baseline</sub>)
-        </div>
-
-        <div class="appendix-formula">
-          <span class="appendix-formula-label">MHI<sub>f</sub></span>
-          1 &minus; cos(v<sub>i</sub>, v<sub>̄</sub>) ， v<sub>i</sub> ∈ ℝ<sup>8</sup>
-        </div>
-
-        <div class="appendix-formula">
-          <span class="appendix-formula-label">D[i,j]</span>
-          ∑<sub>c ∈ {B,G,M,T}</sub> w<sub>ij</sub>(c) · W<sub>1</sub>(P<sub>i</sub><sup>c</sup>, P<sub>j</sub><sup>c</sup>)
-        </div>
-      </div>
-
-      <div class="appendix-block">
-        <h3>样本筛选</h3>
-        <p>
-          全样本 n=80 取自上海中心城区运营满 24 个月以上、营业面积 ≥ 4 万 m² 的购物中心；高端子集 n=13 由 MHI<sub>i</sub> 排序后取前 13 家自动生成，与「招商档位」标签解耦，避免循环论证。锚点 n=1 固定为前滩太古里，对照点 n=1 固定为兴业太古汇。
-        </p>
-      </div>
-
-      <div class="appendix-block">
-        <h3>数据来源</h3>
-        <p class="appendix-source">品牌清单 · 赢商网、商场官方品牌目录 · 截至 2026-04</p>
-        <p class="appendix-source">业态分类 · 商业地产研究院八大类目体系</p>
-        <p class="appendix-source">楼层结构 · 现场踏勘 + 商场官方平面图</p>
-        <p class="appendix-source">街网与可达性 · OpenStreetMap 2026 春季快照 + sDNA 0.6</p>
-      </div>
-
-      <div class="appendix-block appendix-pending">
-        <h3>待补环节</h3>
-        <ul>
-          <li>80 家商场的完整品牌池电子化（约 30% 已完成）</li>
-          <li>业态向量八维体系的最终维度定稿，待业态组组内讨论</li>
-          <li>B/G/M/T 楼层抽象规则在带 LG 层与天台层场景下的细则</li>
-          <li>沃瑟斯坦距离的逐对计算与正则化处理</li>
-          <li>sDNA 在中环以外区段的边界处理</li>
-          <li>MDS 应力值与 Shepard 图的稳健性核验</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== 版权 ==================== -->
-  <footer id="colophon" class="colophon">
-    <div class="colophon-grid">
-      <div>
-        <div class="colophon-title">关于本稿</div>
-        <p class="colophon-body">
-          本 demo 是「千店一面」研究项目最终交付形态的早期形态，目的在于在团队内部确认视觉语言、数据可视化的交互形态与叙事节奏。正式稿将以本演示文件为骨架，逐章替换为真实数据与方法学附录：业态维度（V3）、楼层模板（V4 / V7）、地理结论（V6）与空间结论（V8）依序补齐，最终生成一份可在网页与 PDF 双形态下交付的完整作品。
-        </p>
-      </div>
-      <div class="colophon-meta">
-        <div>Typeset in</div>
-        <div style="color:var(--ink);margin:6px 0 18px;">
-          <span style="font-family:var(--ff-display-latin);font-style:italic;">Fraunces</span>
-          &amp;
-          <span style="font-family:var(--ff-display-cjk);">思源宋体</span>
-        </div>
-        <div>Body</div>
-        <div style="color:var(--ink);margin:6px 0 18px;font-family:var(--ff-body);">Manrope · PingFang SC</div>
-        <div>Built with</div>
-        <div style="color:var(--ink);margin-top:6px;font-family:var(--ff-mono);">D3.js v7 · zero build</div>
-      </div>
-      <div class="colophon-meta">
-        <div>Version</div>
-        <div style="color:var(--ink);margin:6px 0 18px;font-family:var(--ff-mono);">demo · 0.2</div>
-        <div>Updated</div>
-        <div style="color:var(--ink);margin:6px 0 18px;font-family:var(--ff-mono);">2026-05-22</div>
-        <div>Status</div>
-        <div style="color:var(--vermillion);margin-top:6px;font-family:var(--ff-mono);">WORKING DRAFT</div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- 脚本 -->
-  <script src="./scripts/viz_mds.js"></script>
-  <script src="./scripts/viz_heatmap.js"></script>
-  <script src="./scripts/viz_quadrant.js"></script>
-  <script src="./scripts/viz_distance.js"></script>
-  <script src="./scripts/viz_floor.js"></script>
-  <script src="./scripts/viz_geo.js"></script>
-  <script src="./scripts/viz_compare.js"></script>
-  <script src="./scripts/viz_mhi_sf.js"></script>
-  <script src="./scripts/viz_brand_coverage.js"></script>
-  <script src="./scripts/viz_mhi_dist.js"></script>
-  <script src="./scripts/viz_function_composition.js"></script>
-  <script src="./scripts/viz_composite.js"></script>
-  <script src="./scripts/viz_tech_route.js"></script>
-  <script src="./scripts/viz_integration.js"></script>
-  <script src="./scripts/main.js"></script>
+function mkTip(el){const t=document.createElement('div');t.className='viz-tip';el.style.position='relative';el.appendChild(t);return t;}
+function showTip(t,e,el,h){const r=el.getBoundingClientRect();t.innerHTML=h;t.style.left=(e.clientX-r.left+12)+'px';t.style.top=(e.clientY-r.top+12)+'px';t.style.opacity=1;}
+function moveTip(t,e,el){const r=el.getBoundingClientRect();t.style.left=(e.clientX-r.left+12)+'px';t.style.top=(e.clientY-r.top+12)+'px';}
+</script>
 </body>
 </html>
