@@ -60,6 +60,7 @@ body { display: grid; grid-template-columns: 276px 1fr; min-height: 100vh; }
 #cursor.is-text { width: 3px!important; height: 22px!important; border-radius: 2px!important; background: var(--accent); box-shadow: none; }
 #cursor.is-locked { box-shadow: var(--inset-sm); }
 @media (hover: none) { #cursor { display:none; } }
+@media (hover: hover) and (pointer: fine) { *, *::before, *::after { cursor: none !important; } }
 
 /* ───── 侧栏 ───── */
 .sidebar {

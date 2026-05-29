@@ -63,6 +63,7 @@ body { display: grid; grid-template-columns: 264px 1fr; min-height: 100vh; }
 #cursor.is-text { background: var(--accent)!important; border-color: transparent!important; width: 2.5px!important; border-radius: 2px!important; }
 #cursor.is-locked { background: rgba(79,91,213,0.16); border-color: rgba(79,91,213,0.75); }
 @media (hover: none) { #cursor { display:none; } }
+@media (hover: hover) and (pointer: fine) { *, *::before, *::after { cursor: none !important; } }
 
 /* ───── 侧栏 ───── */
 .sidebar {
