@@ -11,7 +11,7 @@
   const COMPARE = "兴业太古汇";
 
   function renderIntegration(opts) {
-    const { container, data, axialUrl, axialField } = opts;
+    const { container, data, axialUrl, axialField, axialLabel } = opts;
     if (!container || !data) return;
     if (typeof L === "undefined") {
       container.innerHTML =
@@ -180,7 +180,7 @@
 
     // ---------- 可选：叠加 depthmap 轴线整合度（矢量 GeoJSON） ----------
     // 姚提供 axial 矢量后即插即用；文件未就绪时静默跳过，保持点位地图不报错
-    if (axialUrl) addAxialLayer(map, axialUrl, axialField);
+    if (axialUrl) addAxialLayer(map, axialUrl, axialField, axialLabel);
 
     // 确保 mountViz IntersectionObserver 触发时尺寸已经稳定，强制 invalidateSize
     setTimeout(() => map.invalidateSize(), 100);
@@ -188,7 +188,7 @@
   }
 
   // 读取轴线网络 GeoJSON，按整合度着色叠加为可切换图层（位于商场点位之下）
-  function addAxialLayer(map, url, fieldHint) {
+  function addAxialLayer(map, url, fieldHint, label) {
     fetch(url)
       .then((r) => {
         if (!r.ok) throw new Error("axial not ready");
@@ -217,8 +217,10 @@
         };
         map.createPane("axialPane");
         map.getPane("axialPane").style.zIndex = 350; // 在 overlayPane(400) 商场点之下
+        const axialRenderer = L.canvas({ pane: "axialPane", padding: 0.5 }); // canvas 渲染上万条线更顺
         const layer = L.geoJSON(feats, {
           pane: "axialPane",
+          renderer: axialRenderer,
           style: (f) => {
             const v = +(f.properties || {})[field];
             const t = isFinite(v) ? (v - ex[0]) / (ex[1] - ex[0] || 1) : 0;
@@ -232,8 +234,9 @@
             });
           },
         }).addTo(map);
+        const ctlLabel = label || "路网整合度";
         L.control
-          .layers(null, { "路网轴线整合度（depthmap）": layer }, { collapsed: false, position: "topleft" })
+          .layers(null, { [ctlLabel]: layer }, { collapsed: false, position: "topleft" })
           .addTo(map);
       })
       .catch(() => {
