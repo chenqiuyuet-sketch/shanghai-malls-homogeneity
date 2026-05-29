@@ -342,7 +342,7 @@ table.rank .rk { color: var(--fg-soft); }
     <h2 class="chapter__title">区位整合度：谁站在网络的中心</h2>
     <p class="chapter__lede">把 80 家商场放回上海的真实地图。先看商场之间的区位整合度，再叠上整座城市路网自身的空间句法（space syntax）整合度，两层都指向同一个中心。</p>
     <div class="chapter__body">
-      <p>同质化不只发生在店铺清单里，也写在区位上。中心城区的商场互相离得近、彼此可替代，外环与新城的商场则被距离稀释，这是地图上每个点的「区位整合度」。在它之外，路网本身也有整合度高低之分。我们直接从 OpenStreetMap 取来覆盖全市域的五万四千余条路段，按空间句法的角度接近度算了一遍：越是少转几次弯就能通达全城的路段，整合度越高。这一层可以在地图左上角开关，与姚用 depthmap 跑的轴线版互为印证。</p>
+      <p>同质化不只发生在店铺清单里，也写在区位上。中心城区的商场互相离得近、彼此可替代，外环与新城的商场则被距离稀释，这是地图上每个点的「区位整合度」。在它之外，路网本身也有整合度高低之分。我们直接从 OpenStreetMap 取来覆盖全市域的五万四千余条路段，按空间句法的角度接近度算了一遍：越是少转几次弯就能通达全城的路段，整合度越高。这一层可以在地图左上角开关。姚另用 depthmapX 跑了一版轴线整合度做交叉验证，标出的高整合核心与此一致。</p>
     </div>
 
     <div class="stage">
@@ -351,11 +351,6 @@ table.rank .rk { color: var(--fg-soft); }
       <div class="caption"><b>读图</b>：圆点是 80 家商场的区位整合度，<span style="color:#A02822">红</span>高 → <span style="color:#5A7B9C">蓝</span>低，前滩太古里与兴业太古汇已标注。左上角开关可叠加<b>路网角度整合度</b>：全市域五万四千余条路段按角度接近度着色，红为穿城主轴，蓝为末端支路，线越粗越整合。鼠标移入地图可滚轮缩放。</div>
     </div>
 
-    <div class="stage">
-      <div class="stage__bar"><span class="stage__label">FIG.05b · depthmap 轴线整合度（姚）</span><span class="stage__live">EPS</span></div>
-      <div class="stage__well"><img class="fig-img" src="./assets/phase1/integration_axial_paper.png" alt="depthmap 轴线整合度分析图"></div>
-      <div class="caption"><b>读图</b>：姚用 depthmapX 跑的轴线版整合度，暖色为高整合廊道。它与上方在线 OSM 角度版口径不同（轴线划分、计算半径、归一化都不一样），数值不直接可比，但两者标出的高整合核心一致，互为交叉验证。</div>
-    </div>
   </section>
 
   <!-- 两座太古章 -->
