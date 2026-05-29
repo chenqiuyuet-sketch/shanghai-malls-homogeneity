@@ -224,7 +224,7 @@
           style: (f) => {
             const v = +(f.properties || {})[field];
             const t = isFinite(v) ? (v - ex[0]) / (ex[1] - ex[0] || 1) : 0;
-            return { color: isFinite(v) ? aColor(v) : "#999", weight: 1 + t * 2.6, opacity: 0.82 };
+            return { color: isFinite(v) ? aColor(v) : "#999", weight: 0.4 + t * 1.2, opacity: 0.8 };
           },
           onEachFeature: (f, lyr) => {
             const v = +(f.properties || {})[field];
