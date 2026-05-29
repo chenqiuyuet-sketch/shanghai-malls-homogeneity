@@ -255,7 +255,7 @@ section.chapter { padding: clamp(3rem,7vw,6rem) clamp(1.5rem,5vw,4.5rem); }
       <div class="stage__bar"><span class="stage__label">FIG.02 · MHI_i × MHI_f 四象限</span><span class="stage__live">LIVE</span></div>
       <div class="tabs" id="quad-tabs"></div>
       <div class="stage__well"><div id="viz-quad" style="height:520px"></div></div>
-      <div class="caption"><b>读图</b>：<span style="color:var(--hot)">红方块</span> = 前滩太古里；点按 MHI<sub>i</sub> 高低着色（红=同质，蓝=独特）。上方 tab 切档位。</div>
+      <div class="caption"><b>读图</b>：<span style="color:var(--hot)">红方块</span> = 前滩太古里。切换上方档位后，<b>十字虚线自动取该档自身的中位数</b>，坐标范围也收拢到该档，于是每个档位都在自己的尺度内被四分。</div>
     </div>
   </section>
 
@@ -392,7 +392,7 @@ g.selectAll('text.l').data(top).join('text').attr('x',-10).attr('y',d=>y(d.brand
 /* 四象限 */
 (async function(){const data=await(await fetch('./data/phase1/quadrant_phase1.json')).json();const el=document.getElementById('viz-quad');const tabsEl=document.getElementById('quad-tabs');const tip=mkTip(el);let active='total';
 (data.slices||[]).forEach(s=>{const b=document.createElement('button');b.className='tab'+(s.key==='total'?' active':'');b.innerHTML=`${s.label}<span class="c">${s.count}</span>`;b.onclick=()=>{tabsEl.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');active=s.key;draw();};tabsEl.appendChild(b);});
-function draw(){el.innerHTML='';const slice=(data.slices||[]).find(s=>s.key===active);const malls=slice&&slice.positionings?data.malls.filter(m=>slice.positionings.includes(m.positioning)):data.malls;const W=el.clientWidth,H=520,M={t:22,r:22,b:44,l:48},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const xd=data.axes.x_domain,yd=data.axes.y_domain;const x=d3.scaleLinear().domain(xd).range([0,iw]);const y=d3.scaleLinear().domain(yd).range([ih,0]);const xm=data.axes.x_median,ym=data.axes.y_median;
+function draw(){el.innerHTML='';const slice=(data.slices||[]).find(s=>s.key===active);const malls=slice&&slice.positionings?data.malls.filter(m=>slice.positionings.includes(m.positioning)):data.malls;const W=el.clientWidth,H=520,M={t:22,r:22,b:44,l:48},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const isTotal=active==='total';const xe=d3.extent(malls,m=>m.x),ye=d3.extent(malls,m=>m.y);const xpad=((xe[1]-xe[0])||0.01)*0.14,ypad=((ye[1]-ye[0])||0.04)*0.14;const xd=isTotal?data.axes.x_domain:[xe[0]-xpad,xe[1]+xpad];const yd=isTotal?data.axes.y_domain:[ye[0]-ypad,ye[1]+ypad];const x=d3.scaleLinear().domain(xd).range([0,iw]);const y=d3.scaleLinear().domain(yd).range([ih,0]);const xm=d3.median(malls,m=>m.x),ym=d3.median(malls,m=>m.y);
 g.append('g').selectAll('line').data(x.ticks(6)).join('line').attr('x1',d=>x(d)).attr('x2',d=>x(d)).attr('y1',0).attr('y2',ih).attr('stroke','rgba(74,70,63,0.07)');
 g.append('g').selectAll('line').data(y.ticks(5)).join('line').attr('x1',0).attr('x2',iw).attr('y1',d=>y(d)).attr('y2',d=>y(d)).attr('stroke','rgba(74,70,63,0.07)');
 [[x(xm),0,x(xm),ih],[0,y(ym),iw,y(ym)]].forEach(c=>g.append('line').attr('x1',c[0]).attr('y1',c[1]).attr('x2',c[2]).attr('y2',c[3]).attr('stroke','rgba(74,70,63,0.25)').attr('stroke-dasharray','3,3'));
@@ -407,7 +407,7 @@ g.selectAll('circle.s').data(std).join('circle').attr('cx',d=>x(d.x)).attr('cy',
 .on('mouseenter',function(e,d){d3.select(this).attr('r',d.role==='highend'?9:6);showTip(tip,e,el,th(d));}).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',function(e,d){d3.select(this).attr('r',d.role==='highend'?6:3.6);tip.style.opacity=0;})
 .transition().delay((_,i)=>i*9).duration(440).attr('r',d=>d.role==='highend'?6:3.6);
 const a=malls.find(m=>m.role==='anchor');if(a){const ax=x(a.x),ay=y(a.y);g.append('rect').attr('x',ax-5).attr('y',ay-5).attr('width',10).attr('height',10).attr('fill','var(--hot)').attr('transform',`rotate(45,${ax},${ay})`).on('mouseenter',e=>showTip(tip,e,el,th(a))).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',()=>tip.style.opacity=0);g.append('text').attr('x',ax+12).attr('y',ay+4).attr('fill','var(--hot)').attr('font-size','11px').attr('font-weight',600).text('前滩太古里').style('opacity',0).transition().delay(600).style('opacity',1);}
-if(slice&&slice.key!=='total')g.append('text').attr('x',4).attr('y',-8).attr('fill','var(--accent)').attr('font-family','var(--mono)').attr('font-size','11px').text(`▸ ${slice.label} · n=${malls.length}`);}
+if(slice&&slice.key!=='total')g.append('text').attr('x',4).attr('y',-8).attr('fill','var(--accent)').attr('font-family','var(--mono)').attr('font-size','11px').text(`▸ ${slice.label} · n=${malls.length} · 档内中位 (${xm.toFixed(3)}, ${ym.toFixed(2)})`);}
 function th(d){return `<div class="t">${d.name}</div><div class="r"><span>MHI_i</span><b>${d.x.toFixed(4)}</b></div><div class="r"><span>MHI_f</span><b>${d.y.toFixed(3)}</b></div><div class="r"><span>档位</span><b>${d.positioning}</b></div>`;}
 draw();addEventListener('resize',()=>{clearTimeout(window.__r);window.__r=setTimeout(draw,200);});})();
 
