@@ -11,7 +11,7 @@
   const COMPARE = "兴业太古汇";
 
   function renderIntegration(opts) {
-    const { container, data, axialUrl, axialField, axialLabel } = opts;
+    const { container, data, composite, axialUrl, axialField, axialLabel } = opts;
     if (!container || !data) return;
     if (typeof L === "undefined") {
       container.innerHTML =
@@ -64,7 +64,8 @@
       return 4 + t * 8;
     }
 
-    // ---------- 81 商场点 ----------
+    // ---------- 81 商场点（区位整合度图层）----------
+    const integGroup = L.layerGroup().addTo(map);
     const sorted = [...data].sort((a, b) => a.integration - b.integration);
     sorted.forEach((d) => {
       const isAnchor = d.name === ANCHOR;
@@ -76,7 +77,7 @@
         fillColor: colorFor(d.integration),
         fillOpacity: 0.92,
         opacity: 1,
-      }).addTo(map);
+      }).addTo(integGroup);
 
       marker.bindTooltip(
         `<b>${d.name}</b><br/>整合度 I = ${d.integration.toFixed(3)} · 排名 #${d.rank}`,
@@ -138,6 +139,56 @@
       }).addTo(map);
     });
 
+    // ---------- 综合同质化指数 H 图层（按 mhi_composite 大小着色画圆，可切换）----------
+    const overlays = { "区位整合度 · 点": integGroup };
+    if (composite && composite.length) {
+      const hmap = {};
+      composite.forEach((c) => { hmap[c.name] = c; });
+      const hVals = composite.map((c) => c.H);
+      const hExtent = [Math.min.apply(null, hVals), Math.max.apply(null, hVals)];
+      const hColor = (h) => {
+        const t = (h - hExtent[0]) / (hExtent[1] - hExtent[0] || 1);
+        return t < 0.5
+          ? d3.interpolateRgb("#5A7B9C", "#B89968")(t * 2)
+          : d3.interpolateRgb("#B89968", "#A02822")((t - 0.5) * 2);
+      };
+      const hGroup = L.layerGroup();
+      data.forEach((d) => {
+        const c = hmap[d.name];
+        if (!c) return;
+        const t = (c.H - hExtent[0]) / (hExtent[1] - hExtent[0] || 1);
+        const isA = d.name === ANCHOR, isC = d.name === COMPARE;
+        const m = L.circleMarker([d.lat, d.lng], {
+          radius: 4 + t * 8,
+          color: isA ? "#A02822" : isC ? "#C8362E" : "#FFFFFF",
+          weight: isA || isC ? 2.5 : 1.1,
+          fillColor: hColor(c.H),
+          fillOpacity: 0.92,
+          opacity: 1,
+        });
+        m.bindTooltip(
+          `<b>${d.name}</b><br/>综合同质化 H = ${c.H.toFixed(3)} · 排名 #${c.rank}`,
+          { direction: "top", offset: [0, -8], className: "mall-tooltip", sticky: false }
+        );
+        m.bindPopup(
+          `<div style="font-family:'PingFang SC','Noto Serif SC',sans-serif;min-width:200px">
+            <div style="font-weight:700;font-size:14.5px;color:#1A1A1A;border-bottom:1px solid #C9BFA8;padding-bottom:6px;margin-bottom:8px">${d.name}</div>
+            <div style="font-size:12px;color:#1A1A1A;line-height:1.85">
+              <div>综合同质化 H = <b style="color:#A02822">${c.H.toFixed(4)}</b></div>
+              <div>MHI_i = ${c.MHI_i.toFixed(4)} · MHI_f = ${c.MHI_f.toFixed(3)}</div>
+              <div>复合排名 ${c.rank} / ${composite.length} · ${c.positioning}</div>
+            </div>
+          </div>`,
+          { closeButton: true, autoPan: false, className: "mall-popup" }
+        );
+        m.addTo(hGroup);
+      });
+      overlays["综合同质化 · 点"] = hGroup;
+    }
+    const layerControl = L.control
+      .layers(null, overlays, { collapsed: false, position: "topleft" })
+      .addTo(map);
+
     // ---------- 自定义图例 ----------
     const legend = L.control({ position: "topright" });
     legend.onAdd = function () {
@@ -180,7 +231,7 @@
 
     // ---------- 可选：叠加 depthmap 轴线整合度（矢量 GeoJSON） ----------
     // 姚提供 axial 矢量后即插即用；文件未就绪时静默跳过，保持点位地图不报错
-    if (axialUrl) addAxialLayer(map, axialUrl, axialField, axialLabel);
+    if (axialUrl) addAxialLayer(map, axialUrl, axialField, axialLabel, layerControl);
 
     // 确保 mountViz IntersectionObserver 触发时尺寸已经稳定，强制 invalidateSize
     setTimeout(() => map.invalidateSize(), 100);
@@ -188,7 +239,7 @@
   }
 
   // 读取轴线网络 GeoJSON，按整合度着色叠加为可切换图层（位于商场点位之下）
-  function addAxialLayer(map, url, fieldHint, label) {
+  function addAxialLayer(map, url, fieldHint, label, control) {
     fetch(url)
       .then((r) => {
         if (!r.ok) throw new Error("axial not ready");
@@ -235,9 +286,11 @@
           },
         }).addTo(map);
         const ctlLabel = label || "路网整合度";
-        L.control
-          .layers(null, { [ctlLabel]: layer }, { collapsed: false, position: "topleft" })
-          .addTo(map);
+        if (control) control.addOverlay(layer, ctlLabel);
+        else
+          L.control
+            .layers(null, { [ctlLabel]: layer }, { collapsed: false, position: "topleft" })
+            .addTo(map);
       })
       .catch(() => {
         /* 轴线矢量尚未提供：保持纯点位地图，不影响其余功能 */
