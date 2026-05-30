@@ -205,6 +205,17 @@ table.rank .rk { color: var(--fg-soft); }
 .rank-hint { font-size: .78rem; color: var(--fg-soft); line-height: 1.7; margin: .8rem .3rem 0; }
 .rank-hint b { color: var(--fg-mute); }
 
+/* 因果链 flow + 档位色例（第八章） */
+.flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: .55rem; margin: 1.6rem 0 2rem; }
+.flow .step { flex: 1 1 0; min-width: 116px; padding: .95rem 1rem; border-radius: 14px; background: var(--bg); box-shadow: var(--raise-sm); font-size: .86rem; line-height: 1.45; color: var(--fg); display: flex; flex-direction: column; justify-content: center; }
+.flow .step .si { font-family: var(--mono); font-size: .58rem; letter-spacing: .12em; color: var(--fg-soft); margin-bottom: .3rem; }
+.flow .step.end { box-shadow: var(--inset-sm); color: var(--hot); font-weight: 600; }
+.flow .arrow { align-self: center; color: var(--fg-soft); font-family: var(--mono); font-size: 1.05rem; }
+.tier-legend { display: flex; flex-wrap: wrap; gap: .5rem 1rem; margin: 1rem .3rem 0; font-size: .74rem; color: var(--fg-mute); }
+.tier-legend .it { display: inline-flex; align-items: center; gap: .4rem; }
+.tier-legend .sw { width: 11px; height: 11px; border-radius: 50%; box-shadow: var(--raise-sm); }
+@media (max-width: 760px) { .flow { flex-direction: column; } .flow .arrow { transform: rotate(90deg); } }
+
 /* ───── 移动端 / 小屏适配 ───── */
 @media (max-width: 900px) {
   body { display: block; }
@@ -250,6 +261,7 @@ table.rank .rk { color: var(--fg-soft); }
     <a href="#geo" data-t="geo"><span class="num">05</span><span>地理整合度</span></a>
     <a href="#space" data-t="space"><span class="num">06</span><span>两座太古</span></a>
     <a href="#discussion" data-t="discussion"><span class="num">07</span><span>综合讨论</span></a>
+    <a href="#correlation" data-t="correlation"><span class="num">08</span><span>空间相关性</span></a>
   </nav>
   <div class="meta">城市分析 · 第 4 组<br>陈 · 黄 · 张 · 吴 · 姚 · 舒<br>2026 春季学期<br><br>80 MALLS · 3 LAYERS<br>暖调米灰 · neumorphism</div>
 </aside>
@@ -408,9 +420,72 @@ table.rank .rk { color: var(--fg-soft); }
       <div class="rank-hint">点上方标签切换指数，80 根柱子按该指数从高到低排列。<b>MHI<sub>i</sub></b> 品牌池同质化 · <b>MHI<sub>f</sub></b> 业态构成同质化 · <b>H</b> 三层复合，数值越高越「千店一面」。<span style="color:var(--hot)">前滩太古里 / 兴业太古汇</span> 高亮。</div>
     </div>
 
+  </section>
+
+  <!-- 空间相关性章（整合张的全市相关性分析） -->
+  <section class="chapter" id="correlation">
+    <div class="chapter__num">Chapter 08 · Correlation</div>
+    <h2 class="chapter__title">越靠近中心，并不越同质</h2>
+    <p class="chapter__lede">把空间这一侧的整合度，与品牌、业态、复合三个同质化指数放在一起做相关，会得到一个与直觉相反的结果：城市中心既没有更同质，空间也不是同质化的直接原因。</p>
+
+    <div class="chapter__body">
+      <p>如果只凭空间直觉，内环商场彼此挨得近、可替代性强，似乎最该千店一面。可是把 80 家按所在圈层分组后，<b>内环内的复合同质化 H 反而最低（0.593）</b>，越往外越高，到外环与中环之间升到 0.809，再到郊区新城略有回落。空间中心性与品牌、复合两个维度的同质化，方向是相反的。</p>
+    </div>
+
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.08 · 四圈层 × 指标均值</span><span class="stage__live">LIVE</span></div>
+      <div class="tabs" id="ring-tabs"></div>
+      <div class="stage__well"><div id="viz-ring" style="min-height:236px"></div></div>
+      <div class="caption"><b>读图</b>：四个圈层按中心性从内（上）到外（下）排列。看复合 <b>H</b> 这一项，最中心的内环内反而最低，<b>「越中心越同质」不成立</b>。点上方标签可切换到 MHI<sub>i</sub>、MHI<sub>f</sub>、区位整合度、路网整合度，悬停看样本数。</div>
+    </div>
+
+    <div class="chapter__body">
+      <p>这条反差不能直接读成「内环导致低同质」。内环本就聚集了更多高端与中高端项目，圈层和消费定位高度缠在一起。更稳妥的说法是，单看圈层并不能解释同质化，它要和定位、竞争环境、服务半径放在一起才说得通。</p>
+      <p>把关系量化，区位整合度与品牌同质化 MHI<sub>i</sub> 的秩相关（Spearman）为 −0.407，与复合 H 为 −0.375，两项都达到统计显著；与业态同质化 MHI<sub>f</sub> 之间则几乎看不出关系。换一个空间口径，路网整合度反过来与业态同质化 MHI<sub>f</sub> 的关系更清楚（−0.297 与 −0.305），却与品牌同质化无关。品牌与业态这两类同质化，像是被两种不同的空间机制各自牵动着。</p>
+    </div>
+
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.09 · 空间 × 同质化 · Spearman 相关矩阵</span><span class="stage__live">LIVE</span></div>
+      <div class="stage__well"><div id="viz-heat" style="min-height:300px"></div></div>
+      <div class="caption"><b>读图</b>：<span style="color:#d4503f">红</span>=同向，<span style="color:#5683c4">蓝</span>=反向，数字是 Spearman 秩相关 ρ（对重度左偏的 MHI<sub>f</sub> 比 Pearson 更稳健，n=80）。<b>虚线框出的空间 × 同质化整块都偏蓝</b>，其中区位整合度 × MHI<sub>i</sub> 最强。悬停看 ρ 与显著性 p（<span style="font-family:var(--mono)">* p&lt;.05　** p&lt;.01　*** p&lt;.001</span>）。</div>
+    </div>
+
+    <div class="chapter__body">
+      <p>品牌池更贴近商业等级、招商资源与品牌门槛，业态组合则更贴近服务半径与路网可达的日常客群。下面这张散点可以自选横纵轴，逐对验证这层关系。</p>
+    </div>
+
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.10 · 整合度 × 同质化 · 散点</span><span class="stage__live">PICK</span></div>
+      <div class="tabs" id="sx-tabs"></div>
+      <div class="tabs" id="sy-tabs"></div>
+      <div class="stage__well"><div id="viz-scatter" style="height:460px"></div></div>
+      <div id="scatter-legend" class="tier-legend"></div>
+      <div class="caption"><b>读图</b>：每点一家商场，按消费档位着色。上排选横轴（空间整合度），下排选纵轴（同质化指数）。<span style="color:var(--accent)">蓝色虚线</span>为线性趋势（最小二乘），右上角标注 Spearman ρ 与 p。<span style="color:#5683c4">高端</span>多落在低同质一侧，正是圈层与定位混杂的直接体现。</div>
+    </div>
+
+    <div class="chapter__body">
+      <p>综合起来，空间并不直接决定同质化，更像是沿着一条间接的链条起作用：</p>
+    </div>
+
+    <div class="flow" id="corr-flow">
+      <div class="step"><span class="si">01</span>地理空间 · 路网可达</div>
+      <span class="arrow">→</span>
+      <div class="step"><span class="si">02</span>客群半径 · 竞争环境</div>
+      <span class="arrow">→</span>
+      <div class="step"><span class="si">03</span>商场定位 · 招商策略</div>
+      <span class="arrow">→</span>
+      <div class="step"><span class="si">04</span>品牌池 · 业态组合</div>
+      <span class="arrow">→</span>
+      <div class="step end"><span class="si">结果</span>同质化水平</div>
+    </div>
+
+    <div class="chapter__body">
+      <p>这条链条只是数据给出的提示，还不构成因果证明。区位整合度本身又与商场两两间的平均距离近乎互为反函数，业态同质化 MHI<sub>f</sub> 又高度左偏、可解释的方差有限，这些都让全市尺度的解释力到此为止。也正因为如此，下一步要走进单体商场内部，看动线、节点与垂直组织，如何把「看起来很像的两家」在体感上重新拉开。</p>
+    </div>
+
     <div class="credits">
-      <b>城市分析 · 第 4 组</b> ｜ 陈（统筹 + 前端可视化）· 黄（数据采集）· 张（地理结论一）· 吴（MHI 计算）· 姚（depthmap 路网建构 + 业态分类 + 田野）· 舒（田野 + 结论二）<br>
-      数据：80 家上海购物中心实地与官网调研 ｜ 方法：Whittaker α/β/γ · 余弦相似（MHI_f / MHI_sf）· depthmap 整合度 ｜ 2026 春季学期
+      <b>城市分析 · 第 4 组</b> ｜ 陈（统筹 + 前端可视化）· 黄（数据采集 + 同质化指标计算）· 张（地理结论一 + 全市相关性）· 吴（品牌同质化模型建构）· 姚（depthmap 路网建构 + 业态分类 + 田野）· 舒（田野 + 结论二）<br>
+      数据：80 家上海购物中心实地与官网调研 ｜ 方法：Whittaker α/β/γ · 余弦相似（MHI_f / MHI_sf）· OSM 路网角度整合度 · Spearman 相关 ｜ 2026 春季学期
     </div>
   </section>
 </main>
@@ -500,6 +575,99 @@ g.selectAll('rect.b').data(rows).join('rect').attr('class','b').attr('x',(_,i)=>
 rows.forEach((d,i)=>{if(!star.includes(d.name))return;g.append('line').attr('x1',x(i)+x.bandwidth()/2).attr('x2',x(i)+x.bandwidth()/2).attr('y1',y(d[active])-3).attr('y2',y(d[active])-15).attr('stroke','#4a463f').attr('stroke-width',.8).style('opacity',0).transition().delay(650).style('opacity',.6);g.append('text').attr('x',x(i)+x.bandwidth()/2).attr('y',y(d[active])-18).attr('text-anchor','middle').attr('fill','#4a463f').attr('font-size','9.5px').attr('font-weight',600).text(d.name.replace('太古','')).style('opacity',0).transition().delay(650).style('opacity',1);});
 g.append('text').attr('x',2).attr('y',ih+17).attr('fill','var(--hot)').attr('font-size','9px').attr('font-family','var(--mono)').text('← 高 · 越同质');g.append('text').attr('x',iw-2).attr('y',ih+17).attr('text-anchor','end').attr('fill','var(--cold)').attr('font-size','9px').attr('font-family','var(--mono)').text('低 · 越独特 →');}
 draw();addEventListener('resize',()=>{clearTimeout(window.__rk);window.__rk=setTimeout(draw,200);});})();
+
+/* ── Chapter 08 · 空间相关性：圈层均值 / Spearman 热图 / 散点探索 ── */
+(async function(){
+  let C; try{ C=await (await fetch('./data/phase1/correlation.json')).json(); }catch(e){ return; }
+  const TIER=[['高端','#5683c4'],['中高端','#7fa8c4'],['中端','#b9a06a'],['大众/亲民','#d4673f'],['奥莱/折扣','#9aa0a8']];
+  const TC=Object.fromEntries(TIER);
+  const SPAT=new Set(['loc_integ','road500','roadnear']), HOMO=new Set(['MHI_i','MHI_f','H']);
+  const stars=p=>p<0.001?'***':p<0.01?'**':p<0.05?'*':'';
+
+  /* FIG.08 · 四圈层均值条 */
+  (function(){
+    const el=document.getElementById('viz-ring'),tabsEl=document.getElementById('ring-tabs'); if(!el)return;
+    const ms=[{k:'H',l:'复合 H',f:'.3f'},{k:'MHI_i',l:'MHI_i 品牌',f:'.3f'},{k:'MHI_f',l:'MHI_f 业态',f:'.3f'},{k:'loc_integ',l:'区位整合度',f:'.2f'},{k:'road500',l:'路网整合度',f:'.2f'}];
+    let active='H'; const tip=mkTip(el), R=C.rings;
+    ms.forEach(m=>{const b=document.createElement('button');b.className='tab'+(m.k===active?' active':'');b.textContent=m.l;b.onclick=()=>{tabsEl.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');active=m.k;draw();};tabsEl.appendChild(b);});
+    function draw(){el.innerHTML='';const m=ms.find(x=>x.k===active),fmt=d3.format(m.f);
+      const W=el.clientWidth,rowH=44,gap=16,M={t:6,r:62,b:6,l:120},ih=R.length*(rowH+gap)-gap,H=ih+M.t+M.b,iw=W-M.l-M.r;
+      const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','auto');
+      const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);
+      const vals=R.map(r=>r[active]),ext=d3.extent(vals);
+      const x=d3.scaleLinear().domain([0,ext[1]*1.04]).range([0,iw]);
+      const col=v=>d3.interpolateRgb('#5683c4','#d4503f')((v-ext[0])/((ext[1]-ext[0])||1));
+      R.forEach((r,i)=>{const y0=i*(rowH+gap);
+        g.append('text').attr('x',-12).attr('y',y0+rowH/2-1).attr('text-anchor','end').attr('font-size','12.5px').attr('fill','var(--fg)').text(r.circle);
+        g.append('text').attr('x',-12).attr('y',y0+rowH/2+14).attr('text-anchor','end').attr('font-size','9px').attr('font-family','var(--mono)').attr('fill','var(--fg-soft)').text('n='+r.n);
+        g.append('rect').attr('x',0).attr('y',y0).attr('width',iw).attr('height',rowH).attr('rx',8).attr('fill','rgba(74,70,63,0.05)');
+        g.append('rect').attr('x',0).attr('y',y0).attr('height',rowH).attr('rx',8).attr('width',0).attr('fill',col(r[active]))
+          .on('mouseenter',e=>showTip(tip,e,el,`<div class="t">${r.circle}</div><div class="r"><span>${m.l}</span><b>${fmt(r[active])}</b></div><div class="r"><span>样本</span><b>${r.n} 家</b></div>`)).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',()=>tip.style.opacity=0)
+          .transition().delay(i*80).duration(560).ease(d3.easeCubicOut).attr('width',Math.max(x(r[active]),2));
+        g.append('text').attr('y',y0+rowH/2+4).attr('x',x(r[active])+8).attr('font-size','12px').attr('font-family','var(--mono)').attr('fill','var(--fg-mute)').attr('opacity',0).text(fmt(r[active])).transition().delay(i*80+320).attr('opacity',1);
+      });
+    }
+    draw();addEventListener('resize',()=>{clearTimeout(window.__rg);window.__rg=setTimeout(draw,200);});
+  })();
+
+  /* FIG.09 · Spearman 相关矩阵 */
+  (function(){
+    const el=document.getElementById('viz-heat'); if(!el)return;
+    const L=C.spearman.labels,V=C.spearman.vars,Mx=C.spearman.matrix,n=L.length,tip=mkTip(el);
+    const color=d3.scaleLinear().domain([-1,0,1]).range(['#5683c4','#e9e7de','#d4503f']).clamp(true);
+    const cross=(a,b)=>(SPAT.has(a)&&HOMO.has(b))||(SPAT.has(b)&&HOMO.has(a));
+    const pInfo=(a,b)=>C.key.find(r=>(r.x===a&&r.y===b)||(r.x===b&&r.y===a));
+    function draw(){el.innerHTML='';
+      const cw=el.clientWidth,M={t:10,r:10,b:70,l:80},cell=Math.min(62,(cw-M.l-M.r)/n),gw=cell*n,W=M.l+gw+M.r,H=gw+M.t+M.b;
+      const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).style('width',W+'px').style('max-width','100%').style('height','auto').style('display','block').style('margin','0 auto');
+      const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);
+      for(let i=0;i<n;i++)for(let j=0;j<n;j++){const v=Mx[i][j],pe=cross(V[i],V[j])?pInfo(V[i],V[j]):null;
+        g.append('rect').attr('x',j*cell).attr('y',i*cell).attr('width',cell-2).attr('height',cell-2).attr('rx',3).attr('fill',color(v)).attr('opacity',0)
+          .on('mouseenter',e=>showTip(tip,e,el,`<div class="t">${L[i]} × ${L[j]}</div><div class="r"><span>Spearman ρ</span><b>${v.toFixed(3)}</b></div>`+(pe?`<div class="r"><span>p 值</span><b>${pe.p}${stars(pe.p)}</b></div><div class="r"><span>n</span><b>${pe.n}</b></div>`:''))).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',()=>tip.style.opacity=0)
+          .transition().delay((i+j)*22).duration(380).attr('opacity',1);
+        g.append('text').attr('x',j*cell+(cell-2)/2).attr('y',i*cell+(cell-2)/2+4).attr('text-anchor','middle').attr('font-size',cell>46?'11px':'9px').attr('font-family','var(--mono)').attr('fill',Math.abs(v)>0.5?'#fff':'rgba(74,70,63,0.72)').attr('opacity',0).text(v.toFixed(2)+(pe?stars(pe.p):'')).transition().delay((i+j)*22+200).attr('opacity',1);
+      }
+      g.append('rect').attr('x',3*cell).attr('y',0).attr('width',3*cell-2).attr('height',3*cell-2).attr('fill','none').attr('stroke','var(--accent)').attr('stroke-width',1.4).attr('stroke-dasharray','4,3').attr('rx',4).attr('opacity',0).transition().delay(720).attr('opacity',.9);
+      L.forEach((lb,i)=>{g.append('text').attr('x',-8).attr('y',i*cell+(cell-2)/2+4).attr('text-anchor','end').attr('font-size','10px').attr('fill','var(--fg-mute)').text(lb);
+        g.append('text').attr('transform',`translate(${i*cell+(cell-2)/2},${gw+8}) rotate(-42)`).attr('text-anchor','end').attr('font-size','10px').attr('fill','var(--fg-mute)').text(lb);});
+    }
+    draw();addEventListener('resize',()=>{clearTimeout(window.__hm);window.__hm=setTimeout(draw,200);});
+  })();
+
+  /* FIG.10 · 整合度 × 同质化 散点 */
+  (function(){
+    const el=document.getElementById('viz-scatter'),sxEl=document.getElementById('sx-tabs'),syEl=document.getElementById('sy-tabs'),leg=document.getElementById('scatter-legend'); if(!el)return;
+    const X=[{k:'loc_integ',l:'区位整合度'},{k:'road500',l:'路网整合度·500m'},{k:'roadnear',l:'路网整合度·最近'}];
+    const Y=[{k:'MHI_i',l:'MHI_i 品牌'},{k:'MHI_f',l:'MHI_f 业态'},{k:'H',l:'复合 H'}];
+    let ax='loc_integ',ay='MHI_i'; const tip=mkTip(el),D=C.malls;
+    leg.innerHTML=TIER.map(([k,v])=>`<span class="it"><span class="sw" style="background:${v}"></span>${k}</span>`).join('');
+    X.forEach(o=>{const b=document.createElement('button');b.className='tab'+(o.k===ax?' active':'');b.innerHTML='X · '+o.l;b.onclick=()=>{ax=o.k;sxEl.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');draw();};sxEl.appendChild(b);});
+    Y.forEach(o=>{const b=document.createElement('button');b.className='tab'+(o.k===ay?' active':'');b.innerHTML='Y · '+o.l;b.onclick=()=>{ay=o.k;syEl.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');draw();};syEl.appendChild(b);});
+    const lab=(set,k)=>set.find(o=>o.k===k).l;
+    function draw(){el.innerHTML='';
+      const W=el.clientWidth,H=460,M={t:18,r:18,b:44,l:56},iw=W-M.l-M.r,ih=H-M.t-M.b;
+      const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');
+      const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);
+      const xe=d3.extent(D,d=>d[ax]),ye=d3.extent(D,d=>d[ay]);
+      const xp=(xe[1]-xe[0])*0.06||0.1,yp=(ye[1]-ye[0])*0.06||0.1;
+      const x=d3.scaleLinear().domain([xe[0]-xp,xe[1]+xp]).range([0,iw]);
+      const y=d3.scaleLinear().domain([ye[0]-yp,ye[1]+yp]).range([ih,0]);
+      g.append('g').selectAll('line').data(x.ticks(6)).join('line').attr('x1',d=>x(d)).attr('x2',d=>x(d)).attr('y1',0).attr('y2',ih).attr('stroke','rgba(74,70,63,0.06)');
+      g.append('g').selectAll('line').data(y.ticks(5)).join('line').attr('x1',0).attr('x2',iw).attr('y1',d=>y(d)).attr('y2',d=>y(d)).attr('stroke','rgba(74,70,63,0.06)');
+      g.append('g').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).ticks(6).tickFormat(d3.format(ax==='loc_integ'?'.1f':'.2f'))).call(s=>{s.selectAll('text').attr('fill','rgba(74,70,63,0.5)').attr('font-family','var(--mono)').attr('font-size','9px');s.selectAll('line,path').attr('stroke','rgba(74,70,63,0.18)');});
+      g.append('g').call(d3.axisLeft(y).ticks(5).tickFormat(d3.format(ay==='MHI_i'?'.3f':'.2f'))).call(s=>{s.selectAll('text').attr('fill','rgba(74,70,63,0.5)').attr('font-family','var(--mono)').attr('font-size','9px');s.selectAll('line,path').attr('stroke','rgba(74,70,63,0.18)');});
+      g.append('text').attr('x',iw).attr('y',ih+34).attr('text-anchor','end').attr('font-size','10px').attr('fill','var(--fg-soft)').attr('font-family','var(--mono)').text('X · '+lab(X,ax));
+      g.append('text').attr('transform','rotate(-90)').attr('x',0).attr('y',-44).attr('text-anchor','end').attr('font-size','10px').attr('fill','var(--fg-soft)').attr('font-family','var(--mono)').text('Y · '+lab(Y,ay));
+      const mx=d3.mean(D,d=>d[ax]),my=d3.mean(D,d=>d[ay]);let sxy=0,sxx=0;D.forEach(d=>{sxy+=(d[ax]-mx)*(d[ay]-my);sxx+=(d[ax]-mx)**2;});const sl=sxy/(sxx||1),ic=my-sl*mx,xa=xe[0]-xp,xb=xe[1]+xp;
+      g.append('line').attr('x1',x(xa)).attr('y1',y(ic+sl*xa)).attr('x2',x(xb)).attr('y2',y(ic+sl*xb)).attr('stroke','var(--accent)').attr('stroke-width',1.4).attr('stroke-dasharray','5,4').attr('opacity',0).transition().delay(500).attr('opacity',.85);
+      g.selectAll('circle').data(D).join('circle').attr('cx',d=>x(d[ax])).attr('cy',d=>y(d[ay])).attr('r',0).attr('fill',d=>TC[d.positioning]||'#9aa0a8').attr('stroke','rgba(255,255,255,0.65)').attr('stroke-width',.7)
+        .on('mouseenter',function(e,d){d3.select(this).attr('r',8).attr('stroke','var(--fg)');showTip(tip,e,el,`<div class="t">${d.name}</div><div class="r"><span>${lab(X,ax)}</span><b>${d[ax]}</b></div><div class="r"><span>${lab(Y,ay)}</span><b>${d[ay]}</b></div><div class="r"><span>档位</span><b>${d.positioning}</b></div>`);}).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',function(){d3.select(this).attr('r',5).attr('stroke','rgba(255,255,255,0.65)');tip.style.opacity=0;})
+        .transition().delay((_,i)=>i*7).duration(420).attr('r',5);
+      const kk=C.key.find(r=>r.x===ax&&r.y===ay);if(kk){const tb=g.append('g').attr('transform',`translate(${iw-6},12)`);tb.append('text').attr('text-anchor','end').attr('font-size','12px').attr('font-family','var(--mono)').attr('fill','var(--fg)').text(`Spearman ρ = ${kk.rho.toFixed(3)} ${stars(kk.p)}`);tb.append('text').attr('text-anchor','end').attr('y',15).attr('font-size','9.5px').attr('font-family','var(--mono)').attr('fill','var(--fg-soft)').text(`p = ${kk.p} · n = ${kk.n}`);}
+    }
+    draw();addEventListener('resize',()=>{clearTimeout(window.__sc);window.__sc=setTimeout(draw,200);});
+  })();
+})();
 
 function mkTip(el){const t=document.createElement('div');t.className='viz-tip';el.style.position='relative';el.appendChild(t);return t;}
 function showTip(t,e,el,h){const r=el.getBoundingClientRect();t.innerHTML=h;t.style.left=(e.clientX-r.left+12)+'px';t.style.top=(e.clientY-r.top+12)+'px';t.style.opacity=1;}
