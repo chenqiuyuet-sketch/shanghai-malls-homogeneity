@@ -253,7 +253,7 @@ table.rank .rk { color: var(--fg-soft); }
   <div class="brand">千店一面</div>
   <div class="brand-en">on the homogenization<br>of Shanghai malls</div>
   <nav>
-    <a href="#hero" class="active" data-t="hero"><span class="num">00</span><span>楔子</span></a>
+    <a href="#hero" class="active" data-t="hero"><span class="num">00</span><span>开篇</span></a>
     <a href="#frame" data-t="frame"><span class="num">01</span><span>三层框架</span></a>
     <a href="#brand" data-t="brand"><span class="num">02</span><span>品牌同质化</span></a>
     <a href="#function" data-t="function"><span class="num">03</span><span>业态构成</span></a>
@@ -270,7 +270,7 @@ table.rank .rk { color: var(--fg-soft); }
   <!-- Hero -->
   <header class="hero" id="hero">
     <div class="eyebrow">城市分析 · 上海购物中心研究</div>
-    <h1>为什么逛起来<br>都像<span class="q">同一家</span>？</h1>
+    <h1>千店<span class="q">一面</span></h1>
     <div class="sub-en">80 malls · 3 layers · 1 question</div>
     <p class="lede">
       我们调研了上海 <b>80 家</b>购物中心。超过六成，在去掉招牌之后你认不出是哪一家。这份研究把「<b>千店一面</b>」的直觉，拆成品牌、业态、楼层三个可以量化的维度。
@@ -499,8 +499,13 @@ table.rank .rk { color: var(--fg-soft); }
 document.querySelectorAll('h1,h2,p,.chapter__lede,.caption,.brand').forEach(el=>{el.addEventListener('mouseenter',()=>c.classList.add('is-text'));el.addEventListener('mouseleave',()=>c.classList.remove('is-text'));});
 document.querySelectorAll('a,button,.tab,.kpi,.layer').forEach(el=>{el.addEventListener('mouseenter',()=>c.classList.add('is-locked'));el.addEventListener('mouseleave',()=>c.classList.remove('is-locked'));});})();
 
-/* 侧栏高亮 */
-(function(){const ls=document.querySelectorAll('.sidebar nav a');const m={};ls.forEach(a=>m[a.dataset.t]=a);const o=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){ls.forEach(l=>l.classList.remove('active'));const a=m[e.target.id];if(a){a.classList.add('active');if(innerWidth<=900){const nav=a.parentElement;nav.scrollTo({left:a.offsetLeft-nav.clientWidth/2+a.offsetWidth/2,behavior:'smooth'});}}}});},{rootMargin:'-45% 0px -50% 0px'});document.querySelectorAll('main [id]').forEach(s=>o.observe(s));})();
+/* 侧栏高亮 · 点击即时凹陷 + 阈值滚动监听（短章节也准确，任意时刻恰有一项激活） */
+(function(){const ls=[...document.querySelectorAll('.sidebar nav a')];const secs=ls.map(a=>document.getElementById(a.dataset.t));let tk=false,lock=0;
+function setActive(a){ls.forEach(l=>l.classList.remove('active'));if(a){a.classList.add('active');if(innerWidth<=900){const nav=a.parentElement;nav.scrollTo({left:a.offsetLeft-nav.clientWidth/2+a.offsetWidth/2,behavior:'smooth'});}}}
+function up(){tk=false;if(performance.now()<lock)return;const line=scrollY+Math.min(150,innerHeight*0.28);let idx=0;secs.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top+scrollY<=line)idx=i;});if(innerHeight+scrollY>=document.documentElement.scrollHeight-2)idx=secs.length-1;setActive(ls[idx]);}
+function onS(){if(!tk){tk=true;requestAnimationFrame(up);}}
+ls.forEach(a=>a.addEventListener('click',()=>{setActive(a);lock=performance.now()+700;}));
+addEventListener('scroll',onS,{passive:true});addEventListener('resize',onS);up();})();
 
 /* 品牌覆盖 bar */
 (async function(){const d=await(await fetch('./data/phase1/brand_coverage.json')).json();const top=d.slice(0,22);const el=document.getElementById('viz-cov');const W=el.clientWidth,H=500,M={t:8,r:56,b:22,l:92},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const max=d3.max(top,x=>x.mall_count);const x=d3.scaleLinear().domain([0,max]).range([0,iw]);const y=d3.scaleBand().domain(top.map(x=>x.brand)).range([0,ih]).padding(.3);const col=d3.scaleLinear().domain([8,max]).range(['#9aa6b8','#d4503f']);const tip=mkTip(el);
