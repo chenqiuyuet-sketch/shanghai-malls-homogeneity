@@ -254,14 +254,13 @@ table.rank .rk { color: var(--fg-soft); }
   <div class="brand-en">on the homogenization<br>of Shanghai malls</div>
   <nav>
     <a href="#hero" class="active" data-t="hero"><span class="num">00</span><span>开篇</span></a>
-    <a href="#frame" data-t="frame"><span class="num">01</span><span>三层框架</span></a>
-    <a href="#brand" data-t="brand"><span class="num">02</span><span>品牌同质化</span></a>
-    <a href="#function" data-t="function"><span class="num">03</span><span>业态构成</span></a>
-    <a href="#floor" data-t="floor"><span class="num">04</span><span>楼层模板</span></a>
-    <a href="#geo" data-t="geo"><span class="num">05</span><span>地理整合度</span></a>
-    <a href="#space" data-t="space"><span class="num">06</span><span>两座太古</span></a>
-    <a href="#discussion" data-t="discussion"><span class="num">07</span><span>综合讨论</span></a>
-    <a href="#correlation" data-t="correlation"><span class="num">08</span><span>空间相关性</span></a>
+    <a href="#brand" data-t="brand"><span class="num">01</span><span>品牌池</span></a>
+    <a href="#function" data-t="function"><span class="num">02</span><span>业态构成</span></a>
+    <a href="#discussion" data-t="discussion"><span class="num">03</span><span>复合同质化</span></a>
+    <a href="#geo" data-t="geo"><span class="num">04</span><span>地理整合度</span></a>
+    <a href="#correlation" data-t="correlation"><span class="num">05</span><span>圈层与相关性</span></a>
+    <a href="#floor" data-t="floor"><span class="num">06</span><span>楼层模板</span></a>
+    <a href="#space" data-t="space"><span class="num">07</span><span>两座太古</span></a>
   </nav>
   <div class="meta">城市分析 · 第 4 组<br>陈 · 黄 · 张 · 吴 · 姚 · 舒<br>2026 春季学期<br><br>80 MALLS · 3 LAYERS<br>暖调米灰 · neumorphism</div>
 </aside>
@@ -283,23 +282,17 @@ table.rank .rk { color: var(--fg-soft); }
     <div class="scroll-hint">SCROLL ↓</div>
   </header>
 
-  <!-- 三层框架 -->
-  <section class="chapter" id="frame">
-    <div class="chapter__num">Chapter 01 · Framework</div>
-    <h2 class="chapter__title">三层框架，三个不可互相替代的视角</h2>
-    <p class="chapter__lede">把同质化拆成三层，从店招上的品牌名单，到 14 类业态的配比，再到业态落在哪一层，一层比一层更贴近真实的逛街体验。</p>
+  <!-- Ch01 · 品牌池 -->
+  <section class="chapter" id="brand">
+    <div class="chapter__num">Chapter 01 · Brand</div>
+    <h2 class="chapter__title">品牌池正在向同一套底版收敛</h2>
+    <p class="chapter__lede">先看店招上的连锁品牌。少数头部连锁几乎渗透全市，把任意两家商场的重合度都拉高了。这是同质化三层框架的第一层。</p>
+
     <div class="layers">
-      <div class="layer l1"><div class="lyr-idx">LAYER 01</div><div class="lyr-name">品牌池</div><div class="lyr-metric">MHI_i · Whittaker</div><div class="lyr-desc">两家商场共享多少同样的品牌，越高越像。</div></div>
+      <div class="layer l1"><div class="lyr-idx">LAYER 01 · 本章</div><div class="lyr-name">品牌池</div><div class="lyr-metric">MHI_i · Whittaker</div><div class="lyr-desc">两家商场共享多少同样的品牌，越高越像。</div></div>
       <div class="layer l2"><div class="lyr-idx">LAYER 02</div><div class="lyr-name">业态构成</div><div class="lyr-metric">MHI_f · 业态余弦</div><div class="lyr-desc">14 类业态的配比是否趋同，餐饮服饰主导。</div></div>
       <div class="layer l3"><div class="lyr-idx">LAYER 03</div><div class="lyr-name">楼层模板</div><div class="lyr-metric">MHI_sf · 楼层余弦</div><div class="lyr-desc">把业态压进 4 层展开成 56 维向量，看功能是否落在相近层级。</div></div>
     </div>
-  </section>
-
-  <!-- 品牌章 -->
-  <section class="chapter" id="brand">
-    <div class="chapter__num">Chapter 02 · Brand</div>
-    <h2 class="chapter__title">品牌池正在向同一套底版收敛</h2>
-    <p class="chapter__lede">少数连锁品牌几乎渗透全市，把任意两家商场的重合度都拉高了。</p>
 
     <div class="stage">
       <div class="stage__bar"><span class="stage__label">FIG.01 · 头部品牌覆盖</span><span class="stage__live">LIVE</span></div>
@@ -315,9 +308,9 @@ table.rank .rk { color: var(--fg-soft); }
     </div>
   </section>
 
-  <!-- 业态章 -->
+  <!-- Ch02 · 业态构成 -->
   <section class="chapter" id="function">
-    <div class="chapter__num">Chapter 03 · Function</div>
+    <div class="chapter__num">Chapter 02 · Function</div>
     <h2 class="chapter__title">业态构成：餐饮与服饰撑起同一张底版</h2>
     <p class="chapter__lede">把每家商场的品牌按 14 类业态归并，再各自归一到百分比。80 条并排的色带，几乎是同一种红蓝节奏。</p>
     <div class="chapter__body">
@@ -332,25 +325,29 @@ table.rank .rk { color: var(--fg-soft); }
     </div>
   </section>
 
-  <!-- 楼层章 -->
-  <section class="chapter" id="floor">
-    <div class="chapter__num">Chapter 04 · Floor</div>
-    <h2 class="chapter__title">楼层模板：最后一处还留着差异的地方</h2>
-    <p class="chapter__lede">业态沿楼层的铺排节奏，是品牌与构成都收敛之后，仍能分辨彼此的一层。下面以前滩太古里为锚点，并排兴业太古汇（入选）与环贸 iapm（次位候选）的垂直剖面。</p>
-    <div class="chapter__body">
-      <p>同样以餐饮见长，两家的处理并不一样。前滩把餐饮摊在地面与顶层的开放街区，兴业则把高区让给写字楼配套的轻食。这种差别无法从品牌名单里读出，只有把业态投到楼层上才显形。我们用 <b>MHI<sub>sf</sub>（空间功能同质化）</b>把它量化：把 14 类业态压进地下、地面、中间、顶四层，展开成 4×14=56 维向量，再对两家做余弦相似。功能越是落在相近的层级，两家就越像。</p>
-    </div>
+  <!-- Ch03 · 复合同质化 H -->
+  <section class="chapter" id="discussion">
+    <div class="chapter__num">Chapter 03 · Composite</div>
+    <h2 class="chapter__title">同质化最重的，不是高端</h2>
+    <p class="chapter__lede">把品牌池与业态构成两层合成一个复合同质化指数 H = (S<sub>i</sub> + S<sub>f</sub>)/2，对 80 家排个序，结论有点反直觉。</p>
 
     <div class="stage">
-      <div class="stage__bar"><span class="stage__label">FIG.04 · 楼层 × 业态剖面</span><span class="stage__live">LIVE</span></div>
-      <div class="stage__well"><div id="viz-floor" style="min-height:300px"></div></div>
-      <div class="caption"><b>读图</b>：自下而上为地下层 → 顶层，每段长度是该层某业态的品牌数。<span style="color:#d4673f">餐饮</span>多沉在地下与顶层（美食广场加高区餐厅），<span style="color:#5b6cc4">服饰鞋包</span>占据中区主力。悬停看具体数目。</div>
+      <div class="stage__bar"><span class="stage__label">FIG.04 · 三项同质化指数 · 80 家排行榜</span><span class="stage__live">SORT</span></div>
+      <div class="tabs" id="rank-tabs"></div>
+      <div class="stage__well"><div id="viz-rank" style="height:440px"></div></div>
+      <div class="rank-hint">点上方标签切换指数，80 根柱子按该指数从高到低排列。<b>MHI<sub>i</sub></b> 品牌池同质化 · <b>MHI<sub>f</sub></b> 业态构成同质化 · <b>H</b> 二者复合（数值越高越「千店一面」）。<span style="color:var(--hot)">前滩太古里 / 兴业太古汇</span> 高亮。默认显示 H。</div>
+    </div>
+
+    <div class="takeaways">
+      <div class="take"><div class="ti">FINDING 01</div><div class="th">同质峰值在中端</div><div class="tb">复合 H 最高的是大众与中端的郊区新城商场（百联金山 H≈0.99）。它们共享同一份连锁品牌与餐饮服饰配比，几乎可以互换。</div></div>
+      <div class="take"><div class="ti">FINDING 02</div><div class="th">高端反而更独特</div><div class="tb">前滩 H≈0.50、兴业 H≈0.48，排在第 68、69 位。高端凭品牌门槛与楼层设计，把可替代性压了下来。</div></div>
+      <div class="take"><div class="ti">FINDING 03</div><div class="th">楼层是最后防线</div><div class="tb">品牌与业态都收敛后，把功能压进楼层再比一次（MHI<sub>sf</sub>），是最后一处还能把两家分开的地方，也是体验差别的真正来源（见 Ch07 案例）。</div></div>
     </div>
   </section>
 
-  <!-- 地理整合度章 -->
+  <!-- Ch04 · 区位 + 路网整合度 -->
   <section class="chapter" id="geo">
-    <div class="chapter__num">Chapter 05 · Geography</div>
+    <div class="chapter__num">Chapter 04 · Geography</div>
     <h2 class="chapter__title">区位整合度：谁站在网络的中心</h2>
     <p class="chapter__lede">把 80 家商场放回上海的真实地图。先看商场之间的区位整合度，再叠上整座城市路网自身的空间句法（space syntax）整合度，两层都指向同一个中心。</p>
     <div class="chapter__body">
@@ -362,69 +359,11 @@ table.rank .rk { color: var(--fg-soft); }
       <div class="map-well"><div id="viz-geo" style="height:560px"></div></div>
       <div class="caption"><b>读图</b>：默认圆点是 80 家商场的<b>区位整合度</b>，<span style="color:#A02822">红</span>高 → <span style="color:#5A7B9C">蓝</span>低，前滩太古里与兴业太古汇已标注。左上角开关可切换三套图层：<b>综合同质化 · 点</b>按复合同质化指数 H 给圆点重新定大小与颜色（同色逻辑，<span style="color:#A02822">红</span>=越同质）；<b>路网角度整合度</b>叠加全市域五万四千余条路段，红为穿城主轴、蓝为末端支路、线越粗越整合。鼠标移入地图可滚轮缩放。</div>
     </div>
-
   </section>
 
-  <!-- 两座太古章 -->
-  <section class="chapter" id="space">
-    <div class="chapter__num">Chapter 06 · Twins</div>
-    <h2 class="chapter__title">两座太古：被算法选中的一对</h2>
-    <p class="chapter__lede">前滩太古里的「最像的另一家」是谁？就用上一章的空间功能相似度 MHI<sub>sf</sub>，在 79 个对象里逐一比对，胜出的是兴业太古汇。</p>
-
-    <div class="verdict">
-      <div class="big">0.84</div>
-      <div class="lbl">MHI<sub>sf</sub>（前滩太古里 × 兴业太古汇）。同名同源的两家太古，把业态压进楼层再比对，<b>空间功能结构的相似度高达 0.84</b>，是全市与前滩最接近的一对。</div>
-    </div>
-
-    <div class="cand-grid">
-      <div class="cand sel">
-        <span class="pill">深度对照 · 入选</span>
-        <div class="cname">兴业太古汇</div>
-        <div class="cval">0.8385</div>
-        <div class="cdesc">最高零售楼层 3 层，楼层识别率 86%。与前滩共享同一套高端品牌矩阵，业态配比也最贴近，因此选作正式的深度对照对象。</div>
-      </div>
-      <div class="cand">
-        <span class="pill">次位候选 · 落选</span>
-        <div class="cname">环贸 iapm</div>
-        <div class="cval">0.8274</div>
-        <div class="cdesc">相似度紧随其后，差距仅 0.011。最高零售楼层 6 层、垂直结构更深，与前滩的可比性略弱，仅作参照不进入深度对照。</div>
-      </div>
-    </div>
-    <div class="chapter__body">
-      <p>挑出这一对之后，真正的差异要回到上一章的楼层剖面去找。前滩把餐饮铺在开放街区的地面与顶层，兴业则把高区让给写字楼配套。<b>同一份品牌名单，落到不同的楼层模板上，逛起来的体感才被重新拉开。</b></p>
-    </div>
-  </section>
-
-  <!-- 综合讨论章 -->
-  <section class="chapter" id="discussion">
-    <div class="chapter__num">Chapter 07 · Discussion</div>
-    <h2 class="chapter__title">同质化最重的，不是高端</h2>
-    <p class="chapter__lede">把品牌、业态、楼层三层合成一个复合同质化指数 H，对 80 家排个序，结论有点反直觉。</p>
-
-    <div class="stage">
-      <div class="stage__bar"><span class="stage__label">FIG.06 · 复合同质化 H · 80 家</span><span class="stage__live">LIVE</span></div>
-      <div class="stage__well"><div id="viz-disc" style="height:420px"></div></div>
-      <div class="caption"><b>读图</b>：每条是一家商场，按复合 H 从高到低排列，<span style="color:#d4503f">红</span>高 → <span style="color:#5683c4">蓝</span>低。两座太古被标出，落在低同质的一端。悬停看档位。</div>
-    </div>
-
-    <div class="takeaways">
-      <div class="take"><div class="ti">FINDING 01</div><div class="th">同质峰值在中端</div><div class="tb">复合 H 最高的是大众与中端的郊区新城商场（百联金山 H≈0.99）。它们共享同一份连锁品牌与餐饮服饰配比，几乎可以互换。</div></div>
-      <div class="take"><div class="ti">FINDING 02</div><div class="th">高端反而更独特</div><div class="tb">前滩 H≈0.50、兴业 H≈0.48，排在第 68、69 位。高端凭品牌门槛与楼层设计，把可替代性压了下来。</div></div>
-      <div class="take"><div class="ti">FINDING 03</div><div class="th">楼层是最后防线</div><div class="tb">品牌与业态都收敛后，把功能压进楼层再比一次（MHI<sub>sf</sub>），是最后一处还能把两家分开的地方，也是体验差别的真正来源。</div></div>
-    </div>
-
-    <div class="stage">
-      <div class="stage__bar"><span class="stage__label">FIG.07 · 三项同质化指数 · 80 家排行榜</span><span class="stage__live">SORT</span></div>
-      <div class="tabs" id="rank-tabs"></div>
-      <div class="stage__well"><div id="viz-rank" style="height:440px"></div></div>
-      <div class="rank-hint">点上方标签切换指数，80 根柱子按该指数从高到低排列。<b>MHI<sub>i</sub></b> 品牌池同质化 · <b>MHI<sub>f</sub></b> 业态构成同质化 · <b>H</b> 三层复合，数值越高越「千店一面」。<span style="color:var(--hot)">前滩太古里 / 兴业太古汇</span> 高亮。</div>
-    </div>
-
-  </section>
-
-  <!-- 空间相关性章（整合张的全市相关性分析） -->
+  <!-- Ch05 · 圈层与相关性 -->
   <section class="chapter" id="correlation">
-    <div class="chapter__num">Chapter 08 · Correlation</div>
+    <div class="chapter__num">Chapter 05 · Correlation</div>
     <h2 class="chapter__title">越靠近中心，并不越同质</h2>
     <p class="chapter__lede">把空间这一侧的整合度，与品牌、业态、复合三个同质化指数放在一起做相关，会得到一个与直觉相反的结果：城市中心既没有更同质，空间也不是同质化的直接原因。</p>
 
@@ -433,7 +372,7 @@ table.rank .rk { color: var(--fg-soft); }
     </div>
 
     <div class="stage">
-      <div class="stage__bar"><span class="stage__label">FIG.08 · 四圈层 × 指标均值</span><span class="stage__live">LIVE</span></div>
+      <div class="stage__bar"><span class="stage__label">FIG.06 · 四圈层 × 指标均值</span><span class="stage__live">LIVE</span></div>
       <div class="tabs" id="ring-tabs"></div>
       <div class="stage__well"><div id="viz-ring" style="min-height:236px"></div></div>
       <div class="caption"><b>读图</b>：四个圈层按中心性从内（上）到外（下）排列。看复合 <b>H</b> 这一项，最中心的内环内反而最低，<b>「越中心越同质」不成立</b>。点上方标签可切换到 MHI<sub>i</sub>、MHI<sub>f</sub>、区位整合度、路网整合度，悬停看样本数。</div>
@@ -445,7 +384,7 @@ table.rank .rk { color: var(--fg-soft); }
     </div>
 
     <div class="stage">
-      <div class="stage__bar"><span class="stage__label">FIG.09 · 空间 × 同质化 · Spearman 相关矩阵</span><span class="stage__live">LIVE</span></div>
+      <div class="stage__bar"><span class="stage__label">FIG.07 · 空间 × 同质化 · Spearman 相关矩阵</span><span class="stage__live">LIVE</span></div>
       <div class="stage__well"><div id="viz-heat" style="min-height:300px"></div></div>
       <div class="caption"><b>读图</b>：<span style="color:#d4503f">红</span>=同向，<span style="color:#5683c4">蓝</span>=反向，数字是 Spearman 秩相关 ρ（对重度左偏的 MHI<sub>f</sub> 比 Pearson 更稳健，n=80）。<b>虚线框出的空间 × 同质化整块都偏蓝</b>，其中区位整合度 × MHI<sub>i</sub> 最强。悬停看 ρ 与显著性 p（<span style="font-family:var(--mono)">* p&lt;.05　** p&lt;.01　*** p&lt;.001</span>）。</div>
     </div>
@@ -455,7 +394,7 @@ table.rank .rk { color: var(--fg-soft); }
     </div>
 
     <div class="stage">
-      <div class="stage__bar"><span class="stage__label">FIG.10 · 整合度 × 同质化 · 散点</span><span class="stage__live">PICK</span></div>
+      <div class="stage__bar"><span class="stage__label">FIG.08 · 整合度 × 同质化 · 散点</span><span class="stage__live">PICK</span></div>
       <div class="tabs" id="sx-tabs"></div>
       <div class="tabs" id="sy-tabs"></div>
       <div class="stage__well"><div id="viz-scatter" style="height:460px"></div></div>
@@ -481,6 +420,56 @@ table.rank .rk { color: var(--fg-soft); }
 
     <div class="chapter__body">
       <p>这条链条只是数据给出的提示，还不构成因果证明。区位整合度本身又与商场两两间的平均距离近乎互为反函数，业态同质化 MHI<sub>f</sub> 又高度左偏、可解释的方差有限，这些都让全市尺度的解释力到此为止。也正因为如此，下一步要走进单体商场内部，看动线、节点与垂直组织，如何把「看起来很像的两家」在体感上重新拉开。</p>
+    </div>
+  </section>
+
+  <!-- Ch06 · 楼层模板 -->
+  <section class="chapter" id="floor">
+    <div class="chapter__num">Chapter 06 · Floor</div>
+    <h2 class="chapter__title">楼层模板：最后一处还留着差异的地方</h2>
+    <p class="chapter__lede">业态沿楼层的铺排节奏，是品牌与构成都收敛之后，仍能分辨彼此的一层。下面以前滩太古里为锚点，并排兴业太古汇（入选）与环贸 iapm（次位候选）的垂直剖面。</p>
+    <div class="chapter__body">
+      <p>同样以餐饮见长，两家的处理并不一样。前滩把餐饮摊在地面与顶层的开放街区，兴业则把高区让给写字楼配套的轻食。这种差别无法从品牌名单里读出，只有把业态投到楼层上才显形。我们用 <b>MHI<sub>sf</sub>（空间功能同质化）</b>把它量化：把 14 类业态压进地下、地面、中间、顶四层，展开成 4×14=56 维向量，再对两家做余弦相似。功能越是落在相近的层级，两家就越像。</p>
+    </div>
+
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.09 · 楼层 × 业态剖面</span><span class="stage__live">LIVE</span></div>
+      <div class="stage__well"><div id="viz-floor" style="min-height:300px"></div></div>
+      <div class="caption"><b>读图</b>：自下而上为地下层 → 顶层，每段长度是该层某业态的品牌数。<span style="color:#d4673f">餐饮</span>多沉在地下与顶层（美食广场加高区餐厅），<span style="color:#5b6cc4">服饰鞋包</span>占据中区主力。悬停看具体数目。</div>
+    </div>
+  </section>
+
+  <!-- Ch07 · 两座太古 -->
+  <section class="chapter" id="space">
+    <div class="chapter__num">Chapter 07 · Twins</div>
+    <h2 class="chapter__title">两座太古：被算法选中的一对</h2>
+    <p class="chapter__lede">前滩太古里的「最像的另一家」是谁？就用上一章的空间功能相似度 MHI<sub>sf</sub>，在 79 个对象里逐一比对，胜出的是兴业太古汇。</p>
+
+    <div class="verdict">
+      <div class="big">0.84</div>
+      <div class="lbl">MHI<sub>sf</sub>（前滩太古里 × 兴业太古汇）。同名同源的两家太古，把业态压进楼层再比对，<b>空间功能结构的相似度高达 0.84</b>，是全市与前滩最接近的一对。</div>
+    </div>
+
+    <div class="chapter__body">
+      <p><b>0.84 是怎么算出来的</b>：把每家商场的品牌按所属业态（14 类）与所在楼层层级（地下层、地面层、中间层、顶层共 4 层）落进 4×14 = 56 个格子，每家得到一条 56 维计数向量。前滩与兴业各自得到一条这样的向量，再做余弦相似度，<span style="font-family:var(--mono)">cos(v<sub>前滩</sub>, v<sub>兴业</sub>) = 0.8385</span>，四舍五入显示为 0.84。它衡量的不是「业态种类是否相同」，而是<b>相同的业态有没有落在相同的楼层</b>。两家共享同一份高端品牌池，又把品牌摆在彼此相近的楼层位置，余弦值因此偏高。</p>
+    </div>
+
+    <div class="cand-grid">
+      <div class="cand sel">
+        <span class="pill">深度对照 · 入选</span>
+        <div class="cname">兴业太古汇</div>
+        <div class="cval">0.8385</div>
+        <div class="cdesc">最高零售楼层 3 层，楼层识别率 86%。与前滩共享同一套高端品牌矩阵，业态配比也最贴近，因此选作正式的深度对照对象。</div>
+      </div>
+      <div class="cand">
+        <span class="pill">次位候选 · 落选</span>
+        <div class="cname">环贸 iapm</div>
+        <div class="cval">0.8274</div>
+        <div class="cdesc">相似度紧随其后，差距仅 0.011。最高零售楼层 6 层、垂直结构更深，与前滩的可比性略弱，仅作参照不进入深度对照。</div>
+      </div>
+    </div>
+    <div class="chapter__body">
+      <p>挑出这一对之后，真正的差异要回到楼层剖面去找。前滩把餐饮铺在开放街区的地面与顶层，兴业则把高区让给写字楼配套。<b>同一份品牌名单，落到不同的楼层模板上，逛起来的体感才被重新拉开。</b>这也是阶段二要继续追问的题目。</p>
     </div>
 
     <div class="credits">
@@ -560,16 +549,7 @@ order.forEach((lv,oi)=>{const li=levels.indexOf(lv);const row=m.matrix[li];const
 /* 地理整合度 · Leaflet + OSM（复用 viz_integration.js） */
 (async function(){const el=document.getElementById('viz-geo');if(!el||typeof renderIntegration!=='function')return;try{const data=await(await fetch('./data/phase1/integration.json')).json();const composite=await(await fetch('./data/phase1/mhi_composite.json')).json();renderIntegration({container:el,data,composite,axialUrl:'./data/phase1/axial_integration.geojson',axialLabel:'路网角度整合度 · OSM'});}catch(err){el.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--fg-soft);font-family:var(--mono);font-size:12px">INTEGRATION LOAD FAILED</div>';}})();
 
-/* 复合同质化 H · 80 家排序条 */
-(async function(){const comp=await(await fetch('./data/phase1/mhi_composite.json')).json();const el=document.getElementById('viz-disc');if(!el)return;const rows=[...comp].sort((a,b)=>b.H-a.H);const ext=d3.extent(rows,d=>d.H);const W=el.clientWidth,H=420,M={t:8,r:10,b:24,l:10},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const x=d3.scaleBand().domain(d3.range(rows.length)).range([0,iw]).padding(.12);const y=d3.scaleLinear().domain([0,1]).range([ih,0]);const col=d=>d3.interpolateRgb('#5683c4','#d4503f')((d-ext[0])/(ext[1]-ext[0]||1));const tip=mkTip(el);const star=['前滩太古里','兴业太古汇'];
-g.append('line').attr('x1',0).attr('x2',iw).attr('y1',y(0.5)).attr('y2',y(0.5)).attr('stroke','rgba(74,70,63,0.18)').attr('stroke-dasharray','3,3');
-g.selectAll('rect').data(rows).join('rect').attr('x',(_,i)=>x(i)).attr('width',x.bandwidth()).attr('y',ih).attr('height',0).attr('rx',1).attr('fill',d=>star.includes(d.name)?'#4a463f':col(d.H))
-.on('mouseenter',function(e,d){d3.select(this).attr('opacity',.75);showTip(tip,e,el,`<div class="t">${d.name}</div><div class="r"><span>复合 H</span><b>${d.H.toFixed(3)}</b></div><div class="r"><span>排名</span><b>#${d.rank}/80</b></div><div class="r"><span>档位</span><b>${d.positioning}</b></div>`);}).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',function(){d3.select(this).attr('opacity',1);tip.style.opacity=0;})
-.transition().delay((_,i)=>i*7).duration(520).ease(d3.easeCubicOut).attr('y',d=>y(d.H)).attr('height',d=>ih-y(d.H));
-rows.forEach((d,i)=>{if(!star.includes(d.name))return;g.append('text').attr('x',x(i)+x.bandwidth()/2).attr('y',y(d.H)-7).attr('text-anchor','middle').attr('fill','#4a463f').attr('font-size','10px').attr('font-weight',600).text(d.name.replace('太古','')).style('opacity',0).transition().delay(700).style('opacity',1);g.append('line').attr('x1',x(i)+x.bandwidth()/2).attr('x2',x(i)+x.bandwidth()/2).attr('y1',y(d.H)-5).attr('y2',y(d.H)).attr('stroke','#4a463f').attr('stroke-width',.8).style('opacity',0).transition().delay(700).style('opacity',.6);});
-g.append('text').attr('x',2).attr('y',ih+16).attr('fill','var(--hot)').attr('font-size','9px').attr('font-family','var(--mono)').text('← 同质 high H');g.append('text').attr('x',iw-2).attr('y',ih+16).attr('text-anchor','end').attr('fill','var(--cold)').attr('font-size','9px').attr('font-family','var(--mono)').text('low H 独特 →');})();
-
-/* 三项指数排行榜 · 三 sheet 柱状图（MHI_i / MHI_f / 复合 H）*/
+/* 三项指数排行榜 · 三 sheet 柱状图（MHI_i / MHI_f / 复合 H · 默认 H）*/
 (async function(){const data=await(await fetch('./data/phase1/mhi_composite.json')).json();const el=document.getElementById('viz-rank');const tabsEl=document.getElementById('rank-tabs');if(!el)return;const star=['前滩太古里','兴业太古汇'];const metrics=[{k:'MHI_i',l:'MHI_i · 品牌池'},{k:'MHI_f',l:'MHI_f · 业态'},{k:'H',l:'复合 H'}];let active='H';const tip=mkTip(el);
 metrics.forEach(mt=>{const b=document.createElement('button');b.className='tab'+(mt.k===active?' active':'');b.innerHTML=mt.l;b.onclick=()=>{tabsEl.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');active=mt.k;draw();};tabsEl.appendChild(b);});
 function draw(){el.innerHTML='';const rows=[...data].sort((a,b)=>b[active]-a[active]);const ext=d3.extent(rows,d=>d[active]);const W=el.clientWidth,H=440,M={t:14,r:10,b:26,l:40},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const x=d3.scaleBand().domain(d3.range(rows.length)).range([0,iw]).padding(.12);const y=d3.scaleLinear().domain([0,ext[1]*1.04]).range([ih,0]);const col=v=>d3.interpolateRgb('#5683c4','#d4503f')((v-ext[0])/(ext[1]-ext[0]||1));
@@ -589,7 +569,7 @@ draw();addEventListener('resize',()=>{clearTimeout(window.__rk);window.__rk=setT
   const SPAT=new Set(['loc_integ','road500','roadnear']), HOMO=new Set(['MHI_i','MHI_f','H']);
   const stars=p=>p<0.001?'***':p<0.01?'**':p<0.05?'*':'';
 
-  /* FIG.08 · 四圈层均值条 */
+  /* FIG.06 · 四圈层均值条 */
   (function(){
     const el=document.getElementById('viz-ring'),tabsEl=document.getElementById('ring-tabs'); if(!el)return;
     const ms=[{k:'H',l:'复合 H',f:'.3f'},{k:'MHI_i',l:'MHI_i 品牌',f:'.3f'},{k:'MHI_f',l:'MHI_f 业态',f:'.3f'},{k:'loc_integ',l:'区位整合度',f:'.2f'},{k:'road500',l:'路网整合度',f:'.2f'}];
@@ -615,7 +595,7 @@ draw();addEventListener('resize',()=>{clearTimeout(window.__rk);window.__rk=setT
     draw();addEventListener('resize',()=>{clearTimeout(window.__rg);window.__rg=setTimeout(draw,200);});
   })();
 
-  /* FIG.09 · Spearman 相关矩阵 */
+  /* FIG.07 · Spearman 相关矩阵 */
   (function(){
     const el=document.getElementById('viz-heat'); if(!el)return;
     const L=C.spearman.labels,V=C.spearman.vars,Mx=C.spearman.matrix,n=L.length,tip=mkTip(el);
@@ -639,7 +619,7 @@ draw();addEventListener('resize',()=>{clearTimeout(window.__rk);window.__rk=setT
     draw();addEventListener('resize',()=>{clearTimeout(window.__hm);window.__hm=setTimeout(draw,200);});
   })();
 
-  /* FIG.10 · 整合度 × 同质化 散点 */
+  /* FIG.08 · 整合度 × 同质化 散点 */
   (function(){
     const el=document.getElementById('viz-scatter'),sxEl=document.getElementById('sx-tabs'),syEl=document.getElementById('sy-tabs'),leg=document.getElementById('scatter-legend'); if(!el)return;
     const X=[{k:'loc_integ',l:'区位整合度'},{k:'road500',l:'路网整合度·500m'},{k:'roadnear',l:'路网整合度·最近'}];
