@@ -141,6 +141,7 @@
 
     // ---------- 综合同质化指数 H 图层（按 mhi_composite 大小着色画圆，可切换）----------
     const overlays = { "区位整合度 · 点": integGroup };
+    let hGroup = null;
     if (composite && composite.length) {
       const hmap = {};
       composite.forEach((c) => { hmap[c.name] = c; });
@@ -152,7 +153,7 @@
           ? d3.interpolateRgb("#5A7B9C", "#B89968")(t * 2)
           : d3.interpolateRgb("#B89968", "#A02822")((t - 0.5) * 2);
       };
-      const hGroup = L.layerGroup();
+      hGroup = L.layerGroup();
       data.forEach((d) => {
         const c = hmap[d.name];
         if (!c) return;
@@ -189,6 +190,15 @@
       .layers(null, overlays, { collapsed: false, position: "topleft" })
       .addTo(map);
 
+    // 两个圆点图层共用同一条红蓝色尺，互斥显示（勾选其一自动取消另一）。
+    // 必须延迟到控件 _onInputClick 扫描完所有图层后再移除：它在扫描中会把
+    // 「勾选着但不在图上」的层原样加回，同步移除会被它撤销并造成勾选框失步
+    map.on("overlayadd", (e) => {
+      if (!hGroup) return;
+      const other = e.layer === integGroup ? hGroup : e.layer === hGroup ? integGroup : null;
+      if (other) setTimeout(() => { if (map.hasLayer(other)) map.removeLayer(other); }, 0);
+    });
+
     // ---------- 自定义图例 ----------
     const legend = L.control({ position: "topright" });
     legend.onAdd = function () {
@@ -204,6 +214,12 @@
           <div><span style="display:inline-block;width:18px;height:9px;background:#A02822;vertical-align:middle;border:0.3px solid rgba(0,0,0,0.1)"></span> <span style="vertical-align:middle">≥ ${iExtent[1].toFixed(1)}</span></div>
           <div><span style="display:inline-block;width:18px;height:9px;background:#B89968;vertical-align:middle;border:0.3px solid rgba(0,0,0,0.1)"></span> <span style="vertical-align:middle">≈ ${mid.toFixed(1)}</span></div>
           <div><span style="display:inline-block;width:18px;height:9px;background:#5A7B9C;vertical-align:middle;border:0.3px solid rgba(0,0,0,0.1)"></span> <span style="vertical-align:middle">≤ ${iExtent[0].toFixed(1)}</span></div>
+        </div>
+        <div style="font-weight:700;letter-spacing:.12em;margin:10px 0 4px;color:#1A1A1A">ROAD</div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div><span style="display:inline-block;width:18px;height:3px;background:#3A3530;vertical-align:middle"></span> <span style="vertical-align:middle">整合高 · 主轴</span></div>
+          <div><span style="display:inline-block;width:18px;height:2px;background:#898275;vertical-align:middle"></span> <span style="vertical-align:middle">中</span></div>
+          <div><span style="display:inline-block;width:18px;height:1px;background:#D8CFBA;vertical-align:middle"></span> <span style="vertical-align:middle">整合低 · 支路</span></div>
         </div>
         <div style="font-weight:700;letter-spacing:.12em;margin:10px 0 4px;color:#1A1A1A">SAMPLES</div>
         <div style="font-size:9.5px;line-height:1.5">
@@ -260,11 +276,11 @@
         if (!field) return;
         const vals = feats.map((f) => +(f.properties || {})[field]).filter(isFinite);
         const ex = [Math.min.apply(null, vals), Math.max.apply(null, vals)];
+        // 墨线单色系：与商场圆点的红蓝发散色尺彻底分离（图底分离），
+        // 浅沙支路退进米色底图，深墨主轴像雕版线刻浮在背景层
         const aColor = (v) => {
           const t = (v - ex[0]) / (ex[1] - ex[0] || 1);
-          return t < 0.5
-            ? d3.interpolateRgb("#5A7B9C", "#B89968")(t * 2)
-            : d3.interpolateRgb("#B89968", "#A02822")((t - 0.5) * 2);
+          return d3.interpolateRgb("#D8CFBA", "#3A3530")(t);
         };
         map.createPane("axialPane");
         map.getPane("axialPane").style.zIndex = 350; // 在 overlayPane(400) 商场点之下
@@ -275,7 +291,7 @@
           style: (f) => {
             const v = +(f.properties || {})[field];
             const t = isFinite(v) ? (v - ex[0]) / (ex[1] - ex[0] || 1) : 0;
-            return { color: isFinite(v) ? aColor(v) : "#999", weight: 0.3 + t * 0.7, opacity: 0.8 };
+            return { color: isFinite(v) ? aColor(v) : "#999", weight: 0.3 + t * 0.7, opacity: 0.4 + t * 0.5 };
           },
           onEachFeature: (f, lyr) => {
             const v = +(f.properties || {})[field];
