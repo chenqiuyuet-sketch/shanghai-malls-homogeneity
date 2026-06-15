@@ -1,0 +1,50 @@
+{
+  "sdna": {
+    "indicators": [
+      {"key":"betweenness","label":"穿行度 Betweenness","desc":"哪里最可能被经过 · 穿行骨架"},
+      {"key":"connectivity","label":"连接度 Connectivity","desc":"哪里连接的廊道最多 · 局部节点"},
+      {"key":"tpdestination","label":"目的地 TPDestination","desc":"哪里被主动选择前往 · 吸附终点"},
+      {"key":"diversion","label":"绕行比 Diversion","desc":"到达要走多绕 · 动线效率"}
+    ],
+    "hkri_floor_betweenness": [
+      {"floor":"L1","v":1443},{"floor":"L2","v":601},{"floor":"LG1","v":577},{"floor":"LG2","v":9}
+    ],
+    "diversion_reversal": {"L1":1.61,"deep":2.33}
+  },
+  "golden": {
+    "qiantan": 35, "hkri": 8, "qt_total": 7,
+    "qt_double_high": ["IWC 万国","Van Cleef & Arpels","星巴克向绿工坊"]
+  },
+  "sei": {
+    "headline": {"qt":3.89,"hkri":3.44,"delta":0.45},
+    "dims": [
+      {"label":"动线开放度","group":"空间结构","qt":5,"hkri":2},
+      {"label":"垂直通透感","group":"空间结构","qt":3,"hkri":5},
+      {"label":"公共空间功能","group":"空间结构","qt":5,"hkri":2},
+      {"label":"停留设施充足度","group":"空间质量","qt":2,"hkri":1},
+      {"label":"绿化与自然渗透","group":"空间质量","qt":4,"hkri":3},
+      {"label":"人群活力","group":"空间质量","qt":3,"hkri":4},
+      {"label":"材质色调一致性","group":"空间界面","qt":5,"hkri":3},
+      {"label":"标识导视品质","group":"空间界面","qt":4,"hkri":4},
+      {"label":"入口第一印象","group":"空间界面","qt":3,"hkri":5}
+    ]
+  },
+  "observations": [
+    {"k":"公共座位","qt":"室内无公共座位，室外有少量与餐饮外摆","hkri":"室内仅一处公共座位，餐饮等位较多"},
+    {"k":"室内绿化","qt":"室内几乎无绿化，室外较丰富","hkri":"分布无规律，总体较少"},
+    {"k":"自然采光","qt":"几个大中庭天光覆盖","hkri":"天幕覆盖整场，采光优异"},
+    {"k":"人群构成","qt":"以年轻白领为主","hkri":"年轻白领与中老年并存，外国人比例显著"}
+  ],
+  "field": [
+    {"img":"qt_atrium.jpg","mall":"前滩太古里","cap":"石区露天中庭 · 开放街区"},
+    {"img":"qt_wood_atrium.jpg","mall":"前滩太古里","cap":"木区中庭 · 木石双区材质"},
+    {"img":"qt_runner_stair.jpg","mall":"前滩太古里","cap":"跑者楼梯 · 独特垂直动线"},
+    {"img":"qt_rooftop_track.jpg","mall":"前滩太古里","cap":"顶层跑道 · 非消费性公共空间"},
+    {"img":"qt_public_seat.jpg","mall":"前滩太古里","cap":"中心广场 · 免费公共座位"},
+    {"img":"hkri_skylight.jpg","mall":"兴业太古汇","cap":"顶层天幕 · 中庭通透感强"},
+    {"img":"hkri_atrium.jpg","mall":"兴业太古汇","cap":"封闭中庭 · 集中式结构"},
+    {"img":"hkri_brand_display.jpg","mall":"兴业太古汇","cap":"中庭以品牌展示为主"},
+    {"img":"hkri_lone_seat.jpg","mall":"兴业太古汇","cap":"室内仅一处公共座位"},
+    {"img":"hkri_entry_crowd.jpg","mall":"兴业太古汇","cap":"室外入口人群 · 外国人比例高"}
+  ]
+}

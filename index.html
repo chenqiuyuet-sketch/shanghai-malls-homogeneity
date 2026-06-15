@@ -217,6 +217,49 @@ table.rank .rk { color: var(--fg-soft); }
 .tier-legend .sw { width: 11px; height: 11px; border-radius: 50%; box-shadow: var(--raise-sm); }
 @media (max-width: 760px) { .flow { flex-direction: column; } .flow .arrow { transform: rotate(90deg); } }
 
+/* ───── 阶段二 · 内部空间（sDNA / VGA / SEI / 田野）───── */
+.fig-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 680px) { .fig-pair { grid-template-columns: 1fr; } }
+.fig-card { border-radius: 14px; box-shadow: var(--inset-sm); padding: .7rem; }
+.fig-card .fc-top { display: flex; align-items: baseline; justify-content: space-between; margin: 0 .2rem .5rem; }
+.fig-card .fc-name { font-size: .9rem; font-weight: 600; }
+.fig-card .fc-name.qt { color: var(--hot); } .fig-card .fc-name.hk { color: var(--accent); }
+.fig-card .fc-tag { font-family: var(--mono); font-size: .58rem; letter-spacing: .1em; color: var(--fg-soft); }
+.fig-card img { width: 100%; border-radius: 9px; display: block; background: #11100e; }
+.fig-card .fc-cap { font-size: .74rem; color: var(--fg-soft); line-height: 1.5; margin: .5rem .2rem 0; }
+.statpair { display: grid; grid-template-columns: 1.25fr 1fr; gap: 1.2rem; align-items: stretch; }
+@media (max-width: 680px) { .statpair { grid-template-columns: 1fr; } }
+.statnote { border-radius: 14px; box-shadow: var(--raise-sm); padding: 1.1rem 1.2rem; display: flex; flex-direction: column; justify-content: center; }
+.statnote .sn-h { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
+.statnote .sn-h.qt { color: var(--hot); } .statnote .sn-h.hk { color: var(--accent); }
+.statnote .sn-b { font-size: .85rem; color: var(--fg-mute); line-height: 1.7; }
+.statnote .sn-b b { color: var(--fg); }
+.gold { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin: .4rem 0; }
+@media (max-width: 560px) { .gold { grid-template-columns: 1fr; } }
+.gold .gc { border-radius: 16px; box-shadow: var(--raise); padding: 1.4rem 1.5rem; text-align: center; }
+.gold .gc .gn { font-family: var(--mono); font-size: clamp(2.6rem,7vw,3.8rem); font-weight: 500; line-height: 1; }
+.gold .gc.qt .gn { color: var(--hot); } .gold .gc.hk .gn { color: var(--accent); }
+.gold .gc .gl { font-size: .92rem; font-weight: 700; margin: .5rem 0 .2rem; }
+.gold .gc .gd { font-size: .8rem; color: var(--fg-mute); line-height: 1.6; }
+.gold .gc .gbar { height: 6px; border-radius: 3px; box-shadow: var(--inset-sm); margin: .9rem 0 .2rem; overflow: hidden; }
+.gold .gc .gbar i { display: block; height: 100%; border-radius: 3px; width: 0; transition: width 1s var(--easing); }
+.obs { border-radius: 16px; box-shadow: var(--inset); overflow: hidden; margin: 1.6rem 0; }
+.obs .or { display: grid; grid-template-columns: 6.5rem 1fr 1fr; border-top: 1px solid rgba(74,70,63,.08); }
+.obs .or:first-child { border-top: 0; }
+.obs .or > div { padding: .8rem .9rem; line-height: 1.55; font-size: .85rem; }
+.obs .or .ok { font-family: var(--mono); font-size: .72rem; color: var(--fg-soft); align-self: center; }
+.obs .or .oq { color: var(--fg-mute); box-shadow: inset 2px 0 0 var(--hot); }
+.obs .or .oh { color: var(--fg-mute); box-shadow: inset 2px 0 0 var(--accent); }
+.obs .ohead > div { font-weight: 700; color: var(--fg); }
+.obs .ohead .oq, .obs .ohead .oh { box-shadow: none; }
+@media (max-width: 560px) { .obs .or { grid-template-columns: 4.6rem 1fr 1fr; } .obs .or > div { font-size: .74rem; padding: .6rem .6rem; } }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(176px,1fr)); gap: .8rem; }
+.gallery figure { border-radius: 12px; box-shadow: var(--raise-sm); overflow: hidden; background: var(--bg); }
+.gallery img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+.gallery figcaption { font-size: .72rem; color: var(--fg-mute); padding: .5rem .6rem; line-height: 1.45; }
+.gallery figcaption .gm { font-family: var(--mono); font-size: .56rem; letter-spacing: .08em; display: block; margin-bottom: .15rem; }
+.gallery figcaption .gm.qt { color: var(--hot); } .gallery figcaption .gm.hk { color: var(--accent); }
+
 /* ───── 移动端 / 小屏适配 ───── */
 @media (max-width: 900px) {
   body { display: block; }
@@ -262,6 +305,10 @@ table.rank .rk { color: var(--fg-soft); }
     <a href="#correlation" data-t="correlation"><span class="num">05</span><span>圈层与相关性</span></a>
     <a href="#floor" data-t="floor"><span class="num">06</span><span>楼层模板</span></a>
     <a href="#space" data-t="space"><span class="num">07</span><span>两座太古</span></a>
+    <a href="#proto" data-t="proto"><span class="num">08</span><span>空间原型</span></a>
+    <a href="#golden" data-t="golden"><span class="num">09</span><span>黄金位置</span></a>
+    <a href="#exp" data-t="exp"><span class="num">10</span><span>体验分叉</span></a>
+    <a href="#coda" data-t="coda"><span class="num">11</span><span>结语</span></a>
   </nav>
   <div class="meta">城市分析 · 第 4 组<br>陈 · 黄 · 张 · 吴 · 姚 · 舒<br>2026 春季学期<br><br>80 MALLS · 3 LAYERS<br>暖调米灰 · neumorphism</div>
 </aside>
@@ -469,9 +516,132 @@ table.rank .rk { color: var(--fg-soft); }
       <p>挑出这一对之后，真正的差异要回到楼层剖面去找。前滩把餐饮铺在开放街区的地面与顶层，兴业则把高区让给写字楼配套。<b>同一份品牌名单，落到不同的楼层模板上，逛起来的体感才被重新拉开。</b>这也是阶段二要继续追问的题目。</p>
     </div>
 
+  </section>
+
+  <!-- Ch08 · 空间原型（sDNA 建筑尺度）-->
+  <section class="chapter" id="proto">
+    <div class="chapter__num">Chapter 08 · Prototype</div>
+    <h2 class="chapter__title">走进去：两种相反的空间原型</h2>
+    <p class="chapter__lede">城市尺度说这是最像的一对，复合空间功能相似度 MHI<sub>sf</sub>=0.84。可是把两家的内部步行网络用 sDNA（spatial Design Network Analysis，空间设计网络分析）各跑一遍，组织逻辑几乎相反。</p>
+    <div class="chapter__body">
+      <p>前滩太古里是开放街区式的复合网络，穿行度最高的廊道分散在石区中轴与木区连廊的交汇处，跨越多个方向节点，没有单一主导轴。兴业太古汇则是典型的封闭中庭型集中结构：前 10% 的高穿行廊道里有 <b>97% 集中在地面层一层</b>，地面层 L1 的穿行度均值是 L2 的 2.4 倍、地下一层的 2.5 倍，地下二层几乎退出竞争。</p>
+    </div>
+
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.10 · sDNA 内部步行网络 · 前滩 vs 兴业</span><span class="stage__live">PICK</span></div>
+      <div class="tabs" id="proto-tabs"></div>
+      <div class="fig-pair">
+        <div class="fig-card"><div class="fc-top"><span class="fc-name qt">前滩太古里</span><span class="fc-tag">开放街区</span></div><img id="sdna-qt" loading="lazy" src="./data/phase2/sdna/qt_betweenness.jpg" alt="前滩 sDNA"></div>
+        <div class="fig-card"><div class="fc-top"><span class="fc-name hk">兴业太古汇</span><span class="fc-tag">封闭中庭</span></div><img id="sdna-hkri" loading="lazy" src="./data/phase2/sdna/hkri_betweenness.jpg" alt="兴业 sDNA"></div>
+      </div>
+      <div class="caption"><b>读图</b>：上方标签可切换四个指标。穿行度看「谁会被经过」，连接度看「谁连得最多」，目的地看「谁被主动选择前往」，绕行比看「到达要走多绕」。左为前滩太古里、右为兴业太古汇，色带是各自图内的低到高。</div>
+    </div>
+
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.11 · 穿行度的楼层集中度</span><span class="stage__live">LIVE</span></div>
+      <div class="statpair">
+        <div class="stage__well"><div id="viz-floorconc" style="min-height:210px"></div></div>
+        <div class="statnote"><div class="sn-h qt">前滩 · 多中心</div><div class="sn-b">穿行度均匀分布在石区与木区的多个交汇节点，<b>没有单一主导轴</b>，目的地吸附结构是多中心的，每一层都保留了自己的高值。</div></div>
+      </div>
+      <div class="caption"><b>读图</b>：兴业的穿行度高度集中在地面层一层（L1 均值 1443，远高于其余各层）。还有一个反直觉的发现，兴业地下层与高楼层的路径绕行比（均值约 2.33）反而高于地面层（1.61），<b>封闭结构系统性地削弱了跨楼层的可达性</b>。</div>
+    </div>
+
+    <div class="chapter__body">
+      <p>最像的一对，在建筑尺度上其实分道扬镳。前滩把人流摊开成多中心的街区，兴业把人流收束到一条地面主轴。空间组织的这层差异，已经为后面体验的分叉埋下伏笔。</p>
+    </div>
+  </section>
+
+  <!-- Ch09 · 黄金位置（VGA∩sDNA）-->
+  <section class="chapter" id="golden">
+    <div class="chapter__num">Chapter 09 · Golden</div>
+    <h2 class="chapter__title">看得见，还要走得到</h2>
+    <p class="chapter__lede">把「被经过」（sDNA 穿行度）和「被看见」（VGA，visibility graph analysis，视域分析）两张高值图叠在一起，双高的铺位才是真正的黄金位置。两家在这件事上差距很大。</p>
+    <div class="chapter__body">
+      <p>前滩太古里的双高重叠率达到 35%，有 7 个品牌同时占据「被看见」与「被经过」的位置，例如 IWC 万国、Van Cleef &amp; Arpels、星巴克向绿工坊。兴业太古汇的双高重叠率只有 8%，视域优势与穿行优势被分配到不同铺位，真正意义上的黄金铺位很少。</p>
+    </div>
+
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.12 · 黄金位置 · 视域 ∩ 穿行 双高重叠率</span><span class="stage__live">LIVE</span></div>
+      <div class="gold">
+        <div class="gc qt"><div class="gn">35%</div><div class="gl">前滩太古里</div><div class="gbar"><i style="width:35%;background:var(--hot)"></i></div><div class="gd">7 个品牌「被看见」与「被经过」双高，黄金铺位真实存在</div></div>
+        <div class="gc hk"><div class="gn">8%</div><div class="gl">兴业太古汇</div><div class="gbar"><i style="width:8%;background:var(--accent)"></i></div><div class="gd">视域优势与穿行优势分给不同铺位，少有真正的黄金位</div></div>
+      </div>
+      <div class="caption"><b>读图</b>：重叠率越高，说明商场里「最显眼」与「最常被路过」越是同一批位置。前滩四倍于兴业。</div>
+    </div>
+
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.13 · VGA 视域整合度 · 地面层 L1</span><span class="stage__live">LIVE</span></div>
+      <div class="fig-pair">
+        <div class="fig-card"><div class="fc-top"><span class="fc-name qt">前滩太古里 · L1</span><span class="fc-tag">VGA</span></div><img loading="lazy" src="./data/phase2/vga/qt_l1.png" alt="前滩 VGA L1"></div>
+        <div class="fig-card"><div class="fc-top"><span class="fc-name hk">兴业太古汇 · L1</span><span class="fc-tag">VGA</span></div><img loading="lazy" src="./data/phase2/vga/hkri_l1.png" alt="兴业 VGA L1"></div>
+      </div>
+      <div class="caption"><b>读图</b>：红为视域最开阔、蓝为视域受限。前滩 L1 的视域高值与穿行高值在石区中庭明显重叠，兴业的两套高值则错开。</div>
+    </div>
+
+    <div class="chapter__body">
+      <p>VGA 的差异和 sDNA 同向。前滩是多中心、既能被看见又能被走到的开放结构，兴业的视域开阔处（中庭与香水美妆区）与穿行主轴并不重合。看得见和走得到，在兴业被拆成了两件事。</p>
+    </div>
+  </section>
+
+  <!-- Ch10 · 体验分叉（SEI + 田野）-->
+  <section class="chapter" id="exp">
+    <div class="chapter__num">Chapter 10 · Experience</div>
+    <h2 class="chapter__title">体验的分叉：ΔSEI = 0.45</h2>
+    <p class="chapter__lede">建筑尺度的差异，到了人身上变成可测量的体验差。田野把空间体验拆成 9 个维度逐项打分（SEI，spatial experience index，空间体验指数），前滩综合得分 3.89，兴业 3.44，相差 0.45。</p>
+
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.14 · SEI 空间体验指数 · 九维雷达</span><span class="stage__live">LIVE</span></div>
+      <div class="stage__well"><div id="viz-radar" style="min-height:300px"></div></div>
+      <div class="caption"><b>读图</b>：九维雷达，满分 5。<span style="color:var(--hot)">前滩（暖红）</span>在动线开放度、公共空间功能、材质一致性上凸出，<span style="color:var(--accent)">兴业（蓝）</span>在垂直通透感、入口第一印象上凸出。<b>标识导视两家持平（均 4 分）</b>，是唯一没有差异的维度，说明分化来自布局类型而不是商业管理质量。</div>
+    </div>
+
+    <div class="chapter__body">
+      <p>差距最大的两维是动线开放度（前滩 5、兴业 2）与公共空间功能（前滩 5、兴业 2）。前滩用开放街区为非消费性的停留和视觉多元留出余地，兴业的封闭中庭则把空间主要让给品牌展示。把田野的现场记录并排，差别更具体：</p>
+    </div>
+
+    <div class="obs">
+      <div class="or ohead"><div class="ok">维度</div><div class="oq">前滩太古里</div><div class="oh">兴业太古汇</div></div>
+      <div class="or"><div class="ok">公共座位</div><div class="oq">室内无公共座位，室外有少量与餐饮外摆</div><div class="oh">室内仅一处公共座位，餐饮等位较多</div></div>
+      <div class="or"><div class="ok">室内绿化</div><div class="oq">室内几乎无绿化，室外较丰富</div><div class="oh">分布无规律，总体较少</div></div>
+      <div class="or"><div class="ok">自然采光</div><div class="oq">几个大中庭天光覆盖</div><div class="oh">天幕覆盖整场，采光优异</div></div>
+      <div class="or"><div class="ok">人群构成</div><div class="oq">以年轻白领为主</div><div class="oh">年轻白领与中老年并存，外国人比例显著</div></div>
+    </div>
+
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.15 · 田野照片记录</span><span class="stage__live">FIELD</span></div>
+      <div class="gallery" id="gallery"></div>
+      <div class="caption"><b>读图</b>：<span style="color:var(--hot)">前滩太古里</span>与<span style="color:var(--accent)">兴业太古汇</span>的现场记录。前滩靠露天中庭、跑者楼梯、公共座位提供开放公共性，兴业靠整场天幕提供通透感，但室内停留设施很少。</div>
+    </div>
+
+    <div class="chapter__body">
+      <p>田野的细节和雷达吻合。前滩室内几乎没有免费座位和绿化，公共性主要由几个露天中庭的天光与顶层跑道承担；兴业有整场天幕、采光优异，室内却只有一处公共座位，中庭以品牌展示为主。</p>
+    </div>
+  </section>
+
+  <!-- 结语 -->
+  <section class="chapter" id="coda">
+    <div class="chapter__num">Coda · 结语</div>
+    <h2 class="chapter__title">品牌趋同，不等于体验趋同</h2>
+    <p class="chapter__lede">三个尺度连起来看，结论就清楚了。</p>
+
+    <div class="flow" id="coda-flow">
+      <div class="step"><span class="si">城市尺度</span>MHI<sub>sf</sub>=0.84 · 最像的一对</div>
+      <span class="arrow">→</span>
+      <div class="step"><span class="si">建筑尺度</span>sDNA · VGA · 空间组织相反</div>
+      <span class="arrow">→</span>
+      <div class="step end"><span class="si">体验尺度</span>ΔSEI=0.45 · 体感被重新拉开</div>
+    </div>
+
+    <div class="chapter__body">
+      <p>品牌资本的同质化是结构性趋势，80 家商场的品牌池、业态与楼层都在收敛。但前滩太古里用开放街区、木石双区的材质系统和跑者楼梯这些空间手段，在体验层制造了可测量的差异。这说明，<b>空间设计是品牌同质化与消费体验之间的一个独立缓冲变量</b>。</p>
+      <p>对城市设计的启示也随之而来。当业态配置的趋同已经难以逆转，设计师真正有效的介入在空间组织层，而不是业态层。能不能在商业逻辑允许的范围内，用开放动线、公共停留和材质差异，为真实的场所性留出物质条件，是衡量高密度商业空间设计品质的核心标准之一。</p>
+    </div>
+
+    <p class="chapter__lede" style="font-weight:600;color:var(--fg);margin-top:1.4rem">千店可以一面。但走进去，<span style="color:var(--hot)">未必一面</span>。</p>
+
     <div class="credits">
       <b>城市分析 · 第 4 组</b> ｜ 陈（统筹 + 前端可视化）· 黄（数据采集 + 同质化指标计算）· 张（地理结论一 + 全市相关性）· 吴（品牌同质化模型建构）· 姚（depthmap 路网建构 + 业态分类 + 田野）· 舒（田野 + 结论二）<br>
-      数据：80 家上海购物中心实地与官网调研 ｜ 方法：Whittaker α/β/γ · 余弦相似（MHI_f / MHI_sf）· OSM 路网角度整合度 · Spearman 相关 ｜ 2026 春季学期
+      数据：80 家上海购物中心实地与官网调研，前滩太古里 / 兴业太古汇内部三维步行网络建模 ｜ 方法：Whittaker α/β/γ · 余弦相似（MHI_f / MHI_sf）· OSM 路网角度整合度 · Spearman 相关 · sDNA 三维步行网络 · VGA 视域分析 · SEI 田野量表 ｜ 2026 春季学期
     </div>
   </section>
 </main>
@@ -648,6 +818,63 @@ draw();addEventListener('resize',()=>{clearTimeout(window.__rk);window.__rk=setT
       const kk=C.key.find(r=>r.x===ax&&r.y===ay);if(kk){const tb=g.append('g').attr('transform',`translate(${iw-6},12)`);tb.append('text').attr('text-anchor','end').attr('font-size','12px').attr('font-family','var(--mono)').attr('fill','var(--fg)').text(`Spearman ρ = ${kk.rho.toFixed(3)} ${stars(kk.p)}`);tb.append('text').attr('text-anchor','end').attr('y',15).attr('font-size','9.5px').attr('font-family','var(--mono)').attr('fill','var(--fg-soft)').text(`p = ${kk.p} · n = ${kk.n}`);}
     }
     draw();addEventListener('resize',()=>{clearTimeout(window.__sc);window.__sc=setTimeout(draw,200);});
+  })();
+})();
+
+/* ── 阶段二 · 内部空间：sDNA 切换 / 楼层集中度 / SEI 雷达 / 田野 gallery ── */
+(async function(){
+  let P; try{ P=await (await fetch('./data/phase2/phase2.json')).json(); }catch(e){ return; }
+
+  /* FIG.10 · sDNA 指标切换 */
+  (function(){
+    const tabsEl=document.getElementById('proto-tabs'),qt=document.getElementById('sdna-qt'),hk=document.getElementById('sdna-hkri');
+    if(!tabsEl||!qt||!hk)return; let active='betweenness';
+    P.sdna.indicators.forEach(ind=>{const b=document.createElement('button');b.className='tab'+(ind.key===active?' active':'');b.innerHTML=ind.label;b.title=ind.desc;b.onclick=()=>{active=ind.key;tabsEl.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');qt.src=`./data/phase2/sdna/qt_${ind.key}.jpg`;hk.src=`./data/phase2/sdna/hkri_${ind.key}.jpg`;};tabsEl.appendChild(b);});
+  })();
+
+  /* FIG.11 · 兴业楼层穿行度集中度 */
+  (function(){
+    const el=document.getElementById('viz-floorconc'); if(!el)return; const D=P.sdna.hkri_floor_betweenness;
+    function draw(){el.innerHTML='';const W=el.clientWidth,rowH=34,gap=12,M={t:8,r:50,b:8,l:42},ih=D.length*(rowH+gap)-gap,H=ih+M.t+M.b,iw=W-M.l-M.r;
+      const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','auto');
+      const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);
+      const x=d3.scaleLinear().domain([0,d3.max(D,d=>d.v)*1.05]).range([0,iw]);
+      D.forEach((d,i)=>{const y0=i*(rowH+gap);
+        g.append('text').attr('x',-10).attr('y',y0+rowH/2+4).attr('text-anchor','end').attr('font-size','11px').attr('font-family','var(--mono)').attr('fill','var(--fg-mute)').text(d.floor);
+        g.append('rect').attr('x',0).attr('y',y0).attr('width',iw).attr('height',rowH).attr('rx',7).attr('fill','rgba(74,70,63,0.05)');
+        g.append('rect').attr('x',0).attr('y',y0).attr('height',rowH).attr('rx',7).attr('width',0).attr('fill',i===0?'var(--accent)':'rgba(91,108,196,0.38)')
+          .transition().delay(i*90).duration(640).ease(d3.easeCubicOut).attr('width',Math.max(x(d.v),3));
+        g.append('text').attr('y',y0+rowH/2+4).attr('x',x(d.v)+7).attr('font-size','11px').attr('font-family','var(--mono)').attr('fill','var(--fg-mute)').attr('opacity',0).text(d.v).transition().delay(i*90+340).attr('opacity',1);
+      });
+    }
+    draw();addEventListener('resize',()=>{clearTimeout(window.__fc);window.__fc=setTimeout(draw,200);});
+  })();
+
+  /* FIG.14 · SEI 九维雷达 */
+  (function(){
+    const el=document.getElementById('viz-radar'); if(!el)return; const dims=P.sei.dims,n=dims.length,tip=mkTip(el);
+    const GC={'空间结构':'#1D9E75','空间质量':'#5683c4','空间界面':'#BA7517'};
+    function draw(){el.innerHTML='';const cw=el.clientWidth,size=Math.min(cw,420),cx=size/2,cy=size/2+4,R=size/2-84;
+      const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${size} ${size+12}`).style('width',Math.min(cw,size)+'px').style('max-width','100%').style('height','auto').style('display','block').style('margin','0 auto');
+      const g=svg.append('g');const ang=i=>(-Math.PI/2)+i*2*Math.PI/n;const pt=(i,r)=>[cx+Math.cos(ang(i))*R*r/5,cy+Math.sin(ang(i))*R*r/5];
+      [1,2,3,4,5].forEach(r=>g.append('polygon').attr('points',dims.map((_,i)=>pt(i,r).join(',')).join(' ')).attr('fill','none').attr('stroke','rgba(74,70,63,0.10)'));
+      dims.forEach((d,i)=>{const e=pt(i,5);g.append('line').attr('x1',cx).attr('y1',cy).attr('x2',e[0]).attr('y2',e[1]).attr('stroke','rgba(74,70,63,0.10)');
+        const l=pt(i,5.28);g.append('text').attr('x',l[0]).attr('y',l[1]).attr('text-anchor',Math.abs(l[0]-cx)<8?'middle':(l[0]>cx?'start':'end')).attr('dominant-baseline','middle').attr('font-size','9px').attr('fill',GC[d.group]||'var(--fg-mute)').text(d.label);});
+      function poly(key,color,fill){const pts=dims.map((d,i)=>pt(i,d[key]));
+        g.append('polygon').attr('points',pts.map(p=>p.join(',')).join(' ')).attr('fill',fill).attr('stroke',color).attr('stroke-width',2).attr('opacity',0).transition().duration(600).attr('opacity',1);
+        pts.forEach((p,i)=>g.append('circle').attr('cx',p[0]).attr('cy',p[1]).attr('r',3.4).attr('fill',color)
+          .on('mouseenter',e=>showTip(tip,e,el,`<div class="t">${dims[i].label}</div><div class="r"><span>前滩</span><b>${dims[i].qt}/5</b></div><div class="r"><span>兴业</span><b>${dims[i].hkri}/5</b></div>`)).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',()=>tip.style.opacity=0));}
+      poly('hkri','#5683c4','rgba(86,131,196,0.12)');
+      poly('qt','#d4503f','rgba(212,80,63,0.14)');
+      g.append('text').attr('x',cx).attr('y',cy-R-26).attr('text-anchor','middle').attr('font-size','10px').attr('font-family','var(--mono)').attr('fill','var(--fg-soft)').text(`前滩 3.89 · 兴业 3.44 · ΔSEI 0.45`);
+    }
+    draw();addEventListener('resize',()=>{clearTimeout(window.__rd);window.__rd=setTimeout(draw,200);});
+  })();
+
+  /* FIG.15 · 田野 gallery */
+  (function(){
+    const el=document.getElementById('gallery'); if(!el)return;
+    el.innerHTML=P.field.map(f=>{const cls=f.mall.indexOf('前滩')>=0?'qt':'hk';return `<figure><img loading="lazy" src="./data/phase2/field/${f.img}" alt="${f.cap}"><figcaption><span class="gm ${cls}">${f.mall}</span>${f.cap}</figcaption></figure>`;}).join('');
   })();
 })();
 
