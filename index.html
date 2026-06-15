@@ -358,7 +358,7 @@ table.rank .rk { color: var(--fg-soft); }
   <section class="chapter" id="brand">
     <div class="chapter__num">Chapter 01 · Brand</div>
     <h2 class="chapter__title">品牌池正在向同一套底版收敛</h2>
-    <p class="chapter__lede">先看店招上的连锁品牌。少数头部连锁几乎渗透全市，把任意两家商场的重合度都拉高了。这是同质化三层框架的第一层。</p>
+    <p class="chapter__lede">本章考察店招层面的连锁品牌构成。少数头部连锁几乎渗透全市，显著提高了任意两家商场之间的品牌重合度。这是同质化三层框架的第一层。</p>
 
     <div class="layers">
       <div class="layer l1"><div class="lyr-idx">LAYER 01 · 本章</div><div class="lyr-name">品牌池</div><div class="lyr-metric">MHI_i · Whittaker</div><div class="lyr-desc">两家商场共享多少同样的品牌，越高越像。</div></div>
@@ -369,14 +369,14 @@ table.rank .rk { color: var(--fg-soft); }
     <div class="stage">
       <div class="stage__bar"><span class="stage__label">FIG.01 · 头部品牌覆盖</span><span class="stage__live">LIVE</span></div>
       <div class="stage__well"><div id="viz-cov" style="height:500px"></div></div>
-      <div class="caption"><b>读图</b>：横轴是该品牌覆盖了 80 家中的多少家。星巴克 59 家领跑。悬停看渗透率。</div>
+      <div class="caption"><b>读图</b>：横轴为该品牌在 80 家样本中的覆盖数量，星巴克以 59 家居首。悬停可查看各品牌的渗透率。</div>
     </div>
 
     <div class="stage">
       <div class="stage__bar"><span class="stage__label">FIG.02 · MHI_i × MHI_f 四象限</span><span class="stage__live">LIVE</span></div>
       <div class="tabs" id="quad-tabs"></div>
       <div class="stage__well"><div id="viz-quad" style="height:520px"></div></div>
-      <div class="caption"><b>读图</b>：<span style="color:var(--hot)">红方块</span> = 前滩太古里。<b>坐标轴在各档位之间保持统一</b>（全市同一尺度，便于直接对比），只有<b>十字虚线（中位数）随该档自身重新计算</b>，于是同一张尺子上能看出每档点云的整体位置与档内四分。</div>
+      <div class="caption"><b>读图</b>：<span style="color:var(--hot)">红方块</span>为前滩太古里。<b>坐标轴在各档位之间保持统一</b>（采用全市同一尺度，便于直接对比），仅<b>十字虚线（中位数）随各档位自身重新计算</b>，于是在同一坐标尺度上既能比较各档位点云的整体位置，也能观察档内的四分结构。</div>
     </div>
   </section>
 
@@ -384,16 +384,16 @@ table.rank .rk { color: var(--fg-soft); }
   <section class="chapter" id="function">
     <div class="chapter__num">Chapter 02 · Function</div>
     <h2 class="chapter__title">业态构成：餐饮与服饰，同一张底版</h2>
-    <p class="chapter__lede">把每家商场的品牌按 14 类业态归并，再各自归一到百分比。80 条并排的色带，几乎是同一种红蓝节奏。</p>
+    <p class="chapter__lede">将每家商场的品牌按 14 类业态归并，再各自归一化为百分比。80 条并排的色带呈现出几乎一致的红蓝节奏。</p>
     <div class="chapter__body">
-      <p>品牌层的趋同还能用「连锁渗透」解释，业态层的趋同则更结构性。当餐饮与服饰鞋包两类长期占去半壁，剩下的十二类只能在边角上腾挪，<b>商场之间的配比差异被压到很窄的区间</b>。</p>
+      <p>品牌层的趋同尚可用「连锁渗透」解释，业态层的趋同则更具结构性。当餐饮与服饰鞋包两类长期占据近半比重，其余十二类只能在有限空间内分配，<b>商场之间的业态配比差异因此被压缩在很窄的区间内</b>。</p>
     </div>
 
     <div class="stage">
       <div class="stage__bar"><span class="stage__label">FIG.03 · 80 家业态构成</span><span class="stage__live">LIVE</span></div>
       <div class="stage__well"><div id="viz-func" style="height:560px"></div></div>
       <div id="func-legend" class="legend"></div>
-      <div class="caption"><b>读图</b>：每条色带是一家商场，按<span style="color:#d4673f">餐饮</span>占比从高到低排列。<span style="color:#d4673f">餐饮</span>与<span style="color:#5b6cc4">服饰鞋包</span>合计普遍过半。悬停看该家前三业态。</div>
+      <div class="caption"><b>读图</b>：每条色带代表一家商场，按<span style="color:#d4673f">餐饮</span>占比从高到低排列。<span style="color:#d4673f">餐饮</span>与<span style="color:#5b6cc4">服饰鞋包</span>合计普遍过半。悬停可查看该商场占比前三的业态。</div>
     </div>
   </section>
 
@@ -401,13 +401,13 @@ table.rank .rk { color: var(--fg-soft); }
   <section class="chapter" id="discussion">
     <div class="chapter__num">Chapter 03 · Composite</div>
     <h2 class="chapter__title">同质化最重的，不是高端</h2>
-    <p class="chapter__lede">把品牌池与业态构成两层合成一个复合同质化指数 H = (S<sub>i</sub> + S<sub>f</sub>)/2，对 80 家排个序，结论有点反直觉。</p>
+    <p class="chapter__lede">将品牌池与业态构成两层合成复合同质化指数 H = (S<sub>i</sub> + S<sub>f</sub>)/2，对 80 家样本排序后，结论与直觉相悖。</p>
 
     <div class="stage">
       <div class="stage__bar"><span class="stage__label">FIG.04 · 三项同质化指数 · 80 家排行榜</span><span class="stage__live">SORT</span></div>
       <div class="tabs" id="rank-tabs"></div>
       <div class="stage__well"><div id="viz-rank" style="height:440px"></div></div>
-      <div class="rank-hint">点上方标签切换指数，80 根柱子按该指数从高到低排列。<b>MHI<sub>i</sub></b> 品牌池同质化 · <b>MHI<sub>f</sub></b> 业态构成同质化 · <b>H</b> 二者复合（数值越高越「千店一面」）。<span style="color:var(--hot)">前滩太古里 / 兴业太古汇</span> 高亮。默认显示 H。</div>
+      <div class="rank-hint">点击上方标签可切换指数，80 根柱形按所选指数从高到低排列。<b>MHI<sub>i</sub></b> 为品牌池同质化 · <b>MHI<sub>f</sub></b> 为业态构成同质化 · <b>H</b> 为二者复合，数值越高代表越趋于「千店一面」。<span style="color:var(--hot)">前滩太古里 / 兴业太古汇</span> 已高亮，默认显示 H。</div>
     </div>
 
     <div class="takeaways">
@@ -421,15 +421,15 @@ table.rank .rk { color: var(--fg-soft); }
   <section class="chapter" id="geo">
     <div class="chapter__num">Chapter 04 · Geography</div>
     <h2 class="chapter__title">区位整合度：谁站在网络的中心</h2>
-    <p class="chapter__lede">把 80 家商场放回上海的真实地图。先看商场之间的区位整合度，再叠上整座城市路网自身的空间句法（space syntax）整合度，两层都指向同一个中心。</p>
+    <p class="chapter__lede">将 80 家商场置入上海的真实地理空间。先观察商场之间的区位整合度，再叠加整座城市路网自身的空间句法（space syntax）整合度，两层均指向同一中心。</p>
     <div class="chapter__body">
-      <p>同质化不只发生在店铺清单里，也写在区位上。中心城区的商场互相离得近、彼此可替代，外环与新城的商场则被距离稀释，这是地图上每个点的「区位整合度」。在它之外，路网本身也有整合度高低之分。我们直接从 OpenStreetMap 取来覆盖全市域的五万四千余条路段，按空间句法的角度接近度算了一遍：越是少转几次弯就能通达全城的路段，整合度越高。这一层可以在地图左上角开关。姚另用 depthmapX 跑了一版轴线整合度做交叉验证，标出的高整合核心与此一致。</p>
+      <p>同质化不仅体现在店铺清单中，也反映在区位上。中心城区的商场彼此邻近、可替代性强，外环与新城的商场则因距离而被稀释，这构成了地图上每个点的「区位整合度」。区位之外，路网本身也存在整合度的高低差异。我们从 OpenStreetMap 获取覆盖全市域的五万四千余条路段，依据空间句法的角度接近度计算其整合度：转向次数越少即可通达全城的路段，整合度越高。该图层可在地图左上角开关。姚另用 depthmapX 计算了一版轴线整合度作交叉验证，所标出的高整合核心与此一致。</p>
     </div>
 
     <div class="stage">
       <div class="stage__bar"><span class="stage__label">FIG.05 · 区位整合度 + 路网角度整合度 · OSM</span><span class="stage__live">LIVE</span></div>
       <div class="map-well"><div id="viz-geo" style="height:560px"></div></div>
-      <div class="caption"><b>读图</b>：默认圆点是 80 家商场的<b>区位整合度</b>，<span style="color:#A02822">红</span>高 → <span style="color:#5A7B9C">蓝</span>低，前滩太古里与兴业太古汇已标注。左上角开关切换图层：两个圆点图层（<b>区位整合度</b> / <b>综合同质化 H</b>）共用红蓝色尺、<b>二选一显示</b>，勾选其一自动关掉另一；<b>路网角度整合度</b>改用墨色单色系叠在圆点之下，全市域五万四千余条路段，<b>深墨为穿城主轴、浅沙为末端支路</b>，线越深越粗越整合，颜色上与圆点互不干扰。鼠标移入地图可滚轮缩放。</div>
+      <div class="caption"><b>读图</b>：默认圆点是 80 家商场的<b>区位整合度</b>，<span style="color:#A02822">红</span>高 → <span style="color:#5A7B9C">蓝</span>低，前滩太古里与兴业太古汇已标注。左上角开关切换图层：两个圆点图层（<b>区位整合度</b> / <b>综合同质化 H</b>）共用红蓝色尺、<b>二选一显示</b>，勾选其一自动关掉另一；<b>路网角度整合度</b>改用墨色单色系叠在圆点之下，全市域五万四千余条路段，<b>深墨为穿城主轴、浅沙为末端支路</b>，线条越深越粗代表越整合，在配色上与圆点互不干扰。将鼠标移入地图后可用滚轮缩放。</div>
     </div>
   </section>
 
@@ -437,32 +437,32 @@ table.rank .rk { color: var(--fg-soft); }
   <section class="chapter" id="correlation">
     <div class="chapter__num">Chapter 05 · Correlation</div>
     <h2 class="chapter__title">越靠近中心，并不越同质</h2>
-    <p class="chapter__lede">把空间这一侧的整合度，与品牌、业态、复合三个同质化指数放在一起做相关，会得到一个与直觉相反的结果：城市中心既没有更同质，空间也不是同质化的直接原因。</p>
+    <p class="chapter__lede">将空间侧的整合度与品牌、业态、复合三个同质化指数进行相关分析，得到的结果与直觉相反：城市中心并未更趋同质，空间也并非同质化的直接成因。</p>
 
     <div class="chapter__body">
-      <p>如果只凭空间直觉，内环商场彼此挨得近、可替代性强，似乎最该千店一面。可是把 80 家按所在圈层分组后，<b>内环内的复合同质化 H 反而最低（0.593）</b>，越往外越高，到外环与中环之间升到 0.809，再到郊区新城略有回落。空间中心性与品牌、复合两个维度的同质化，方向是相反的。</p>
+      <p>仅凭空间直觉，内环商场彼此邻近、可替代性强，似乎最应趋于千店一面。然而将 80 家样本按所在圈层分组后，<b>内环内的复合同质化 H 反而最低（0.593）</b>，并随圈层外移而升高，至外环与中环之间达到 0.809，再到郊区新城略有回落。空间中心性与品牌、复合两个维度的同质化呈相反方向。</p>
     </div>
 
     <div class="stage">
       <div class="stage__bar"><span class="stage__label">FIG.06 · 四圈层 × 指标均值</span><span class="stage__live">LIVE</span></div>
       <div class="tabs" id="ring-tabs"></div>
       <div class="stage__well"><div id="viz-ring" style="min-height:236px"></div></div>
-      <div class="caption"><b>读图</b>：四个圈层按中心性从内（上）到外（下）排列。看复合 <b>H</b> 这一项，最中心的内环内反而最低，<b>「越中心越同质」不成立</b>。点上方标签可切换到 MHI<sub>i</sub>、MHI<sub>f</sub>、区位整合度、路网整合度，悬停看样本数。</div>
+      <div class="caption"><b>读图</b>：四个圈层按中心性从内（上）到外（下）排列。以复合 <b>H</b> 一项为例，最中心的内环内反而最低，<b>「越中心越同质」不成立</b>。点击上方标签可切换至 MHI<sub>i</sub>、MHI<sub>f</sub>、区位整合度、路网整合度，悬停可查看样本数。</div>
     </div>
 
     <div class="chapter__body">
-      <p>这条反差不能直接读成「内环导致低同质」。内环本就聚集了更多高端与中高端项目，圈层和消费定位高度缠在一起。更稳妥的说法是，单看圈层并不能解释同质化，它要和定位、竞争环境、服务半径放在一起才说得通。</p>
-      <p>把关系量化，区位整合度与品牌同质化 MHI<sub>i</sub> 的秩相关（Spearman）为 −0.407，与复合 H 为 −0.375，两项都达到统计显著；与业态同质化 MHI<sub>f</sub> 之间则几乎看不出关系。换一个空间口径，路网整合度反过来与业态同质化 MHI<sub>f</sub> 的关系更清楚（−0.297 与 −0.305），却与品牌同质化无关。品牌与业态这两类同质化，像是被两种不同的空间机制各自牵动着。</p>
+      <p>这一反差不能直接解读为「内环导致低同质」。内环本身聚集了更多高端与中高端项目，圈层与消费定位高度交织。更稳妥的判断是，圈层单独并不足以解释同质化，需与定位、竞争环境、服务半径共同考量才能成立。</p>
+      <p>进一步量化这一关系，区位整合度与品牌同质化 MHI<sub>i</sub> 的秩相关（Spearman）为 −0.407，与复合 H 为 −0.375，两项均达到统计显著；与业态同质化 MHI<sub>f</sub> 之间则几乎不存在相关。改用另一空间口径，路网整合度与业态同质化 MHI<sub>f</sub> 的相关反而更明确（−0.297 与 −0.305），却与品牌同质化无关。品牌与业态这两类同质化，似乎分别受两种不同的空间机制驱动。</p>
     </div>
 
     <div class="stage">
       <div class="stage__bar"><span class="stage__label">FIG.07 · 空间 × 同质化 · Spearman 相关矩阵</span><span class="stage__live">LIVE</span></div>
       <div class="stage__well"><div id="viz-heat" style="min-height:300px"></div></div>
-      <div class="caption"><b>读图</b>：<span style="color:#d4503f">红</span>=同向，<span style="color:#5683c4">蓝</span>=反向，数字是 Spearman 秩相关 ρ（对重度左偏的 MHI<sub>f</sub> 比 Pearson 更稳健，n=80）。<b>虚线框出的空间 × 同质化整块都偏蓝</b>，其中区位整合度 × MHI<sub>i</sub> 最强。悬停看 ρ 与显著性 p（<span style="font-family:var(--mono)">* p&lt;.05　** p&lt;.01　*** p&lt;.001</span>）。</div>
+      <div class="caption"><b>读图</b>：<span style="color:#d4503f">红</span>=同向，<span style="color:#5683c4">蓝</span>=反向，数字为 Spearman 秩相关 ρ（对重度左偏的 MHI<sub>f</sub>，其稳健性优于 Pearson，n=80）。<b>虚线框出的空间 × 同质化整块均偏蓝</b>，其中区位整合度 × MHI<sub>i</sub> 最强。悬停可查看 ρ 与显著性 p（<span style="font-family:var(--mono)">* p&lt;.05　** p&lt;.01　*** p&lt;.001</span>）。</div>
     </div>
 
     <div class="chapter__body">
-      <p>品牌池更贴近商业等级、招商资源与品牌门槛，业态组合则更贴近服务半径与路网可达的日常客群。下面这张散点可以自选横纵轴，逐对验证这层关系。</p>
+      <p>品牌池更贴近商业等级、招商资源与品牌门槛，业态组合则更贴近服务半径与路网可达的日常客群。下方散点图可自选横纵轴，逐对验证这一关系。</p>
     </div>
 
     <div class="stage">
@@ -471,11 +471,11 @@ table.rank .rk { color: var(--fg-soft); }
       <div class="tabs" id="sy-tabs"></div>
       <div class="stage__well"><div id="viz-scatter" style="height:460px"></div></div>
       <div id="scatter-legend" class="tier-legend"></div>
-      <div class="caption"><b>读图</b>：每点一家商场，按消费档位着色。上排选横轴（空间整合度），下排选纵轴（同质化指数）。<span style="color:var(--accent)">蓝色虚线</span>为线性趋势（最小二乘），右上角标注 Spearman ρ 与 p。<span style="color:#5683c4">高端</span>多落在低同质一侧，正是圈层与定位混杂的直接体现。</div>
+      <div class="caption"><b>读图</b>：每点一家商场，按消费档位着色。上排选横轴（空间整合度），下排选纵轴（同质化指数）。<span style="color:var(--accent)">蓝色虚线</span>为线性趋势（最小二乘），右上角标注 Spearman ρ 与 p。<span style="color:#5683c4">高端</span>商场多落在低同质一侧，正是圈层与定位相互交织的直接体现。</div>
     </div>
 
     <div class="chapter__body">
-      <p>可见空间并不直接决定同质化，它更像是沿着一条间接的链条在起作用：</p>
+      <p>可见空间并不直接决定同质化，而更可能沿着一条间接的链条发挥作用：</p>
     </div>
 
     <div class="flow" id="corr-flow">
@@ -491,7 +491,7 @@ table.rank .rk { color: var(--fg-soft); }
     </div>
 
     <div class="chapter__body">
-      <p>这条链条只是数据给出的提示，还不构成因果证明。区位整合度本身又与商场两两间的平均距离近乎互为反函数，业态同质化 MHI<sub>f</sub> 又高度左偏、可解释的方差有限，这些都让全市尺度的解释力到此为止。也正因为如此，下一步要走进单体商场内部，看动线、节点与垂直组织，如何把「看起来很像的两家」在体感上重新拉开。</p>
+      <p>这一链条仅为数据给出的提示，尚不构成因果证明。区位整合度本身与商场两两间的平均距离近乎互为反函数，业态同质化 MHI<sub>f</sub> 又呈重度左偏、可解释方差有限，这些都使全市尺度的解释力到此为止。正因如此，下一步需进入单体商场内部，考察动线、节点与垂直组织如何将「看似相近的两家」在空间体验上重新区分开。</p>
     </div>
   </section>
 
@@ -499,15 +499,15 @@ table.rank .rk { color: var(--fg-soft); }
   <section class="chapter" id="floor">
     <div class="chapter__num">Chapter 06 · Floor</div>
     <h2 class="chapter__title">楼层模板：最后一处还留着差异的地方</h2>
-    <p class="chapter__lede">业态沿楼层的铺排节奏，是品牌与构成都收敛之后，仍能分辨彼此的一层。下面以前滩太古里为锚点，并排兴业太古汇（入选）与环贸 iapm（次位候选）的垂直剖面。</p>
+    <p class="chapter__lede">业态沿楼层的排布，是在品牌与业态构成都已收敛之后，仍能区分彼此的一层。下方以前滩太古里为锚点，并置兴业太古汇（入选）与环贸 iapm（次位候选）的垂直剖面。</p>
     <div class="chapter__body">
-      <p>同样以餐饮见长，两家的处理并不一样。前滩把餐饮摊在地面与顶层的开放街区，兴业则把高区让给写字楼配套的轻食。这种差别无法从品牌名单里读出，只有把业态投到楼层上才显形。我们用 <b>MHI<sub>sf</sub>（空间功能同质化）</b>把它量化：把 14 类业态压进地下、地面、中间、顶四层，展开成 4×14=56 维向量，再对两家做余弦相似。功能越是落在相近的层级，两家就越像。</p>
+      <p>尽管两家同样以餐饮见长，处理方式却不相同。前滩将餐饮布置在地面与顶层的开放街区，兴业则把高区分配给写字楼配套的轻食。这种差异无法从品牌名单中读出，只有把业态投射到楼层之上才得以显现。我们以 <b>MHI<sub>sf</sub>（空间功能同质化）</b>对其加以量化：将 14 类业态归入地下、地面、中间、顶四个层级，展开为 4×14=56 维向量，再对两家计算余弦相似度。功能落位的层级越接近，两家的相似度越高。</p>
     </div>
 
     <div class="stage">
       <div class="stage__bar"><span class="stage__label">FIG.09 · 楼层 × 业态剖面</span><span class="stage__live">LIVE</span></div>
       <div class="stage__well"><div id="viz-floor" style="min-height:300px"></div></div>
-      <div class="caption"><b>读图</b>：自下而上为地下层 → 顶层，每段长度是该层某业态的品牌数。<span style="color:#d4673f">餐饮</span>多沉在地下与顶层（美食广场加高区餐厅），<span style="color:#5b6cc4">服饰鞋包</span>占据中区主力。悬停看具体数目。</div>
+      <div class="caption"><b>读图</b>：自下而上为地下层至顶层，每段长度为该层某业态的品牌数量。<span style="color:#d4673f">餐饮</span>主要分布在地下与顶层（美食广场与高区餐厅），<span style="color:#5b6cc4">服饰鞋包</span>占据中区主力。悬停可查看具体数量。</div>
     </div>
   </section>
 
@@ -515,7 +515,7 @@ table.rank .rk { color: var(--fg-soft); }
   <section class="chapter" id="space">
     <div class="chapter__num">Chapter 07 · Twins</div>
     <h2 class="chapter__title">两座太古：被算法选中的一对</h2>
-    <p class="chapter__lede">前滩太古里的「最像的另一家」是谁？就用上一章的空间功能相似度 MHI<sub>sf</sub>，在 79 个对象里逐一比对，胜出的是兴业太古汇。</p>
+    <p class="chapter__lede">与前滩太古里「最相像的另一家」是哪一家？以上一章的空间功能相似度 MHI<sub>sf</sub> 为准，在 79 个对象中逐一比对，结果为兴业太古汇。</p>
 
     <div class="cand-grid">
       <div class="cand sel">
@@ -533,10 +533,10 @@ table.rank .rk { color: var(--fg-soft); }
     </div>
 
     <div class="chapter__body">
-      <p><b>0.8385 是怎么算出来的</b>：把每家商场的品牌按所属业态（14 类）与所在楼层层级（地下层、地面层、中间层、顶层共 4 层）落进 4×14 = 56 个格子，每家得到一条 56 维计数向量。前滩与兴业各自得到一条这样的向量，再做余弦相似度，<span style="font-family:var(--mono)">cos(v<sub>前滩</sub>, v<sub>兴业</sub>) = 0.8385</span>。它衡量的不是「业态种类是否相同」，而是<b>相同的业态有没有落在相同的楼层</b>。两家共享同一份高端品牌池，又把品牌摆在彼此相近的楼层位置，余弦值因此偏高。</p>
+      <p><b>0.8385 的计算方式</b>：将每家商场的品牌按所属业态（14 类）与所在楼层层级（地下层、地面层、中间层、顶层共 4 层）归入 4×14 = 56 个单元，每家得到一条 56 维计数向量。前滩与兴业各自得到这样一条向量，再计算余弦相似度，<span style="font-family:var(--mono)">cos(v<sub>前滩</sub>, v<sub>兴业</sub>) = 0.8385</span>。该指标衡量的并非「业态种类是否相同」，而是<b>相同的业态是否落在相同的楼层</b>。两家共享同一份高端品牌池，又将品牌布置在彼此相近的楼层位置，余弦值因此偏高。</p>
     </div>
     <div class="chapter__body">
-      <p>挑出这一对之后，真正的差异要回到楼层剖面去找。前滩把餐饮铺在开放街区的地面与顶层，兴业则把高区让给写字楼配套。<b>同一份品牌名单，落到不同的楼层模板上，逛起来的体感才被重新拉开。</b>这也是阶段二要继续追问的题目。</p>
+      <p>在选定这一对之后，真正的差异需回到楼层剖面来考察。前滩将餐饮布置在开放街区的地面与顶层，兴业则把高区分配给写字楼配套。<b>同一份品牌名单，落入不同的楼层模板，实际的空间体验才被重新区分开。</b>这也是阶段二需要继续追问的问题。</p>
     </div>
 
   </section>
@@ -545,9 +545,9 @@ table.rank .rk { color: var(--fg-soft); }
   <section class="chapter" id="proto">
     <div class="chapter__num">Chapter 08 · Prototype</div>
     <h2 class="chapter__title">走进去：两种相反的空间原型</h2>
-    <p class="chapter__lede">城市尺度说这是最像的一对，复合空间功能相似度 MHI<sub>sf</sub>=0.84。可是把两家的内部步行网络用 sDNA（spatial Design Network Analysis，空间设计网络分析）各跑一遍，组织逻辑几乎相反。</p>
+    <p class="chapter__lede">在城市尺度上，这是最相像的一对，复合空间功能相似度 MHI<sub>sf</sub>=0.84。然而对两家的内部步行网络分别进行 sDNA（spatial Design Network Analysis，空间设计网络分析）分析后，其组织逻辑几乎相反。</p>
     <div class="chapter__body">
-      <p>前滩太古里是开放街区式的复合网络，穿行度最高的廊道分散在石区中轴与木区连廊的交汇处，跨越多个方向节点，没有单一主导轴。兴业太古汇则是典型的封闭中庭型集中结构：前 10% 的高穿行廊道里有 <b>97% 集中在地面层一层</b>，地面层 L1 的穿行度均值是 L2 的 2.4 倍、地下一层的 2.5 倍，地下二层几乎退出竞争。</p>
+      <p>前滩太古里属于开放街区式的复合网络，穿行度最高的廊道分散在石区中轴与木区连廊的交汇处，跨越多个方向节点，不存在单一主导轴。兴业太古汇则属于典型的封闭中庭型集中结构：前 10% 的高穿行廊道中，<b>97% 集中于地面层 L1</b>，L1 的穿行度均值为 L2 的 2.4 倍、地下一层的 2.5 倍，地下二层则基本不参与整合。</p>
     </div>
 
     <div class="stage">
@@ -557,7 +557,7 @@ table.rank .rk { color: var(--fg-soft); }
         <div class="fig-card"><div class="fc-top"><span class="fc-name qt">前滩太古里</span><span class="fc-tag">开放街区</span></div><img id="sdna-qt" loading="lazy" src="./data/phase2/sdna/qt_betweenness.jpg" alt="前滩 sDNA"></div>
         <div class="fig-card"><div class="fc-top"><span class="fc-name hk">兴业太古汇</span><span class="fc-tag">封闭中庭</span></div><img id="sdna-hkri" loading="lazy" src="./data/phase2/sdna/hkri_betweenness.jpg" alt="兴业 sDNA"></div>
       </div>
-      <div class="caption"><b>读图</b>：上方标签可切换四个指标。穿行度看「谁会被经过」，连接度看「谁连得最多」，目的地看「谁被主动选择前往」，绕行比看「到达要走多绕」。左为前滩太古里、右为兴业太古汇，色带是各自图内的低到高。</div>
+      <div class="caption"><b>读图</b>：点击上方标签可切换四个指标。穿行度反映「何处最常被经过」，连接度反映「何处连接最多」，目的地反映「何处被主动选择前往」，绕行比反映「到达的迂回程度」。左为前滩太古里、右为兴业太古汇，色带对应各自图内的数值由低到高。</div>
     </div>
 
     <div class="stage">
@@ -566,11 +566,11 @@ table.rank .rk { color: var(--fg-soft); }
         <div class="stage__well"><div id="viz-floorconc" style="min-height:210px"></div></div>
         <div class="statnote"><div class="sn-h qt">前滩 · 多中心</div><div class="sn-b">穿行度均匀分布在石区与木区的多个交汇节点，<b>没有单一主导轴</b>，目的地吸附结构是多中心的，每一层都保留了自己的高值。</div></div>
       </div>
-      <div class="caption"><b>读图</b>：兴业的穿行度高度集中在地面层一层（L1 均值 1443，远高于其余各层）。还有一个反直觉的发现，兴业地下层与高楼层的路径绕行比（均值约 2.33）反而高于地面层（1.61），<b>封闭结构系统性地削弱了跨楼层的可达性</b>。</div>
+      <div class="caption"><b>读图</b>：兴业的穿行度高度集中于地面层 L1（均值 1443，远高于其余各层）。另一个反直觉的现象是，兴业地下层与高楼层的路径绕行比（均值约 2.33）反而高于地面层（1.61），<b>封闭结构系统性地削弱了跨楼层的可达性</b>。</div>
     </div>
 
     <div class="chapter__body">
-      <p>最像的一对，在建筑尺度上其实分道扬镳。前滩把人流摊开成多中心的街区，兴业把人流收束到一条地面主轴。空间组织的这层差异，会在后面的体验上进一步放大。</p>
+      <p>这最相像的一对，在建筑尺度上实则分道扬镳。前滩将人流分散为多中心的街区结构，兴业则将人流收束于一条地面主轴。空间组织的这一差异，会在后续的体验层面进一步放大。</p>
     </div>
   </section>
 
@@ -578,9 +578,9 @@ table.rank .rk { color: var(--fg-soft); }
   <section class="chapter" id="golden">
     <div class="chapter__num">Chapter 09 · Golden</div>
     <h2 class="chapter__title">看得见，还要走得到</h2>
-    <p class="chapter__lede">把「被经过」（sDNA 穿行度）和「被看见」（VGA，visibility graph analysis，视域分析）两张高值图叠在一起，双高的铺位才是真正的黄金位置。两家在这件事上差距很大。</p>
+    <p class="chapter__lede">将「被经过」（sDNA 穿行度）与「被看见」（VGA，visibility graph analysis，视域分析）两张高值图叠合，同时位于双高区的铺位才是真正的黄金位置。两家在这一点上差异显著。</p>
     <div class="chapter__body">
-      <p>前滩太古里的双高重叠率达到 35%，有 7 个品牌同时占据「被看见」与「被经过」的位置，例如 IWC 万国、Van Cleef &amp; Arpels、星巴克向绿工坊。兴业太古汇的双高重叠率只有 8%，视域优势与穿行优势被分配到不同铺位，真正意义上的黄金铺位很少。</p>
+      <p>前滩太古里的双高重叠率达到 35%，有 7 个品牌同时占据「被看见」与「被经过」的位置，如 IWC 万国、Van Cleef &amp; Arpels、星巴克向绿工坊。兴业太古汇的双高重叠率仅 8%，视域优势与穿行优势分别落在不同铺位，真正意义上的黄金铺位很少。</p>
     </div>
 
     <div class="stage">
@@ -589,7 +589,7 @@ table.rank .rk { color: var(--fg-soft); }
         <div class="gc qt"><div class="gn">35%</div><div class="gl">前滩太古里</div><div class="gbar"><i style="width:35%;background:var(--hot)"></i></div><div class="gd">7 个品牌「被看见」与「被经过」双高，黄金铺位真实存在</div></div>
         <div class="gc hk"><div class="gn">8%</div><div class="gl">兴业太古汇</div><div class="gbar"><i style="width:8%;background:var(--accent)"></i></div><div class="gd">仅 1 个品牌（MONCLER）双高，视域与穿行优势被拆到不同铺位</div></div>
       </div>
-      <div class="caption"><b>读图</b>：黄金位置 = VGA 视域整合度前 20% ∩ sDNA 穿行度前 20%，同时具备「被看见」与「被经过」双重优势。重叠率越高，说明「最显眼」与「最常被路过」越是同一批位置。前滩四倍于兴业。</div>
+      <div class="caption"><b>读图</b>：黄金位置 = VGA 视域整合度前 20% ∩ sDNA 穿行度前 20%，同时具备「被看见」与「被经过」双重优势。重叠率越高，表示「最显眼」与「最常被经过」越趋于同一批位置。前滩约为兴业的四倍。</div>
     </div>
 
     <div class="stage">
@@ -599,12 +599,12 @@ table.rank .rk { color: var(--fg-soft); }
         <div class="fig-card dots"><div class="fc-top"><span class="fc-name hk">兴业太古汇 · L1</span><span class="fc-tag">VGA · 波点</span></div><img loading="lazy" src="./data/phase2/vga/hkri_l1_dots.png" alt="兴业 VGA L1 波点热力图"></div>
       </div>
       <div class="vga-legend"><span>视域受限</span><i></i><span>视域开阔</span></div>
-      <div class="caption"><b>读图</b>：把视域整合度重画成波点热力图，<span style="color:var(--hot)">暖红大点</span>为视域最开阔、<span style="color:var(--cold)">冷蓝小点</span>为视域受限。前滩铺满整层的密点说明开放街区到处都「看得通」；兴业收成一条对角廊道，红点只集中在中庭核心，视域高值与穿行主轴错开。（波点由 VGA 原图反推数值重绘，便于与全站统一配色。）</div>
+      <div class="caption"><b>读图</b>：把视域整合度重画成波点热力图，<span style="color:var(--hot)">暖红大点</span>为视域最开阔、<span style="color:var(--cold)">冷蓝小点</span>为视域受限。前滩布满整层的密点表明开放街区各处视域均较通达；兴业则收敛为一条对角廊道，红点仅集中于中庭核心，视域高值与穿行主轴相互错开。（波点由 VGA 原图反推数值重绘，以与全站配色统一。）</div>
     </div>
 
     <div class="chapter__body">
-      <p>VGA 的差异和 sDNA 同向。前滩是多中心、既能被看见又能被走到的开放结构，兴业的视域开阔处（中庭与香水美妆区）与穿行主轴并不重合。看得见和走得到，在兴业被拆成了两件事。</p>
-      <p>把黄金位置的业态拆开看，两家其实<b>高度相似</b>，都以轻奢服饰为主导，辅以奢侈品。差别不在「黄金位置摆了什么」，而在「有多少铺位能同时占据双高」。前滩还出现奢侈品的加成选择效应，黄金位里奢侈品占比 29%，高于穿行高值全区的 20%，最顶级的品牌占住了可达性与视域的双重峰值。<b>换句话说，品牌与业态的趋同是真实的，分叉只出现在空间组织这一层。</b></p>
+      <p>VGA 的差异与 sDNA 一致。前滩属于多中心、既可见又可达的开放结构，兴业的视域开阔处（中庭与香水美妆区）则与穿行主轴并不重合。可见性与可达性，在兴业被分离为两件事。</p>
+      <p>进一步分解黄金位置的业态构成，两家其实<b>高度相似</b>，均以轻奢服饰为主导，辅以奢侈品。差异不在于「黄金位置配置了什么」，而在于「有多少铺位能同时位于双高区」。前滩还呈现出奢侈品的加成选择效应，其黄金位置中奢侈品占比 29%，高于穿行高值全区的 20%，最顶级的品牌占据了可达性与视域的双重峰值。<b>换言之，品牌与业态的趋同确实存在，分化只出现在空间组织这一层。</b></p>
       <div class="chips">
         <span class="chip qt"><b>前滩 L1</b>IWC 万国</span><span class="chip qt"><b>前滩 L1</b>Van Cleef &amp; Arpels</span><span class="chip qt"><b>前滩 L1</b>星巴克向绿工坊</span><span class="chip qt"><b>前滩 L2</b>BOGNER</span><span class="chip qt"><b>前滩 L2</b>Stella McCartney</span><span class="chip qt"><b>前滩 L2</b>SUITSUPPLY</span><span class="chip qt"><b>前滩 L2</b>COMME des GARÇONS</span><span class="chip hk"><b>兴业 L2</b>MONCLER</span>
       </div>
@@ -615,16 +615,16 @@ table.rank .rk { color: var(--fg-soft); }
   <section class="chapter" id="exp">
     <div class="chapter__num">Chapter 10 · Experience</div>
     <h2 class="chapter__title">体验的分叉：ΔSEI = 0.45</h2>
-    <p class="chapter__lede">建筑尺度的差异，到了人身上变成可测量的体验差。田野把空间体验拆成 9 个维度逐项打分（SEI，spatial experience index，空间体验指数），前滩综合得分 3.89，兴业 3.44，相差 0.45。</p>
+    <p class="chapter__lede">建筑尺度的差异，落到使用者身上即转化为可测量的体验差异。田野调查将空间体验分解为 9 个维度逐项评分（SEI，spatial experience index，空间体验指数），前滩综合得分 3.89，兴业 3.44，相差 0.45。</p>
 
     <div class="stage">
       <div class="stage__bar"><span class="stage__label">FIG.14 · SEI 空间体验指数 · 九维雷达</span><span class="stage__live">LIVE</span></div>
       <div class="stage__well"><div id="viz-radar" style="min-height:300px"></div></div>
-      <div class="caption"><b>读图</b>：九维雷达，满分 5。<span style="color:var(--hot)">前滩（暖红）</span>在动线开放度、公共空间功能、材质一致性上凸出，<span style="color:var(--accent)">兴业（蓝）</span>在垂直通透感、入口第一印象上凸出。<b>标识导视两家持平（均 4 分）</b>，是唯一没有差异的维度，说明分化来自布局类型而不是商业管理质量。</div>
+      <div class="caption"><b>读图</b>：九维雷达，满分 5。<span style="color:var(--hot)">前滩（暖红）</span>在动线开放度、公共空间功能、材质一致性上凸出，<span style="color:var(--accent)">兴业（蓝）</span>在垂直通透感、入口第一印象上较为突出。<b>标识导视两家持平（均 4 分）</b>，是唯一无差异的维度，表明分化源于布局类型，而非商业管理质量。</div>
     </div>
 
     <div class="chapter__body">
-      <p>差距最大的两维是动线开放度（前滩 5、兴业 2）与公共空间功能（前滩 5、兴业 2）。前滩用开放街区为非消费性的停留和视觉多元留出余地，兴业的封闭中庭则把空间主要让给品牌展示。把田野的现场记录并排，差别更具体：</p>
+      <p>差异最大的两个维度是动线开放度（前滩 5、兴业 2）与公共空间功能（前滩 5、兴业 2）。前滩以开放街区为非消费性停留与视觉多样性保留了余地，兴业的封闭中庭则将空间主要分配给品牌展示。将田野现场记录并置，差异更为具体：</p>
     </div>
 
     <div class="obs">
@@ -638,12 +638,12 @@ table.rank .rk { color: var(--fg-soft); }
     <div class="stage">
       <div class="stage__bar"><span class="stage__label">FIG.15 · 田野照片记录</span><span class="stage__live">FIELD</span></div>
       <div class="gallery" id="gallery"></div>
-      <div class="caption"><b>读图</b>：<span style="color:var(--hot)">前滩太古里</span>与<span style="color:var(--accent)">兴业太古汇</span>的现场记录。前滩靠露天中庭、跑者楼梯、公共座位提供开放公共性，兴业靠整场天幕提供通透感，但室内停留设施很少。</div>
+      <div class="caption"><b>读图</b>：<span style="color:var(--hot)">前滩太古里</span>与<span style="color:var(--accent)">兴业太古汇</span>的现场记录。前滩依托露天中庭、跑者楼梯与公共座位提供开放的公共性，兴业依托整场天幕提供通透感，但室内停留设施较少。</div>
     </div>
 
     <div class="chapter__body">
-      <p>田野的细节和雷达吻合。前滩室内几乎没有免费座位和绿化，公共性主要由几个露天中庭的天光与顶层跑道承担；兴业有整场天幕、采光优异，室内却只有一处公共座位，中庭以品牌展示为主。</p>
-      <p>现场记录里还有两点更要紧的观察。一是<b>独特性评分（D2）</b>：前滩 5/5、兴业 2/5，现场记录里写下的是「前滩独特的分区与走道体验」对照「兴业外部独特、内部同质化严重」。二是一个两家共有的矛盾，<b>公共座椅都极度匮乏，空间开放却并不邀请停留</b>：兴业地铁口一侧人群拥挤、打卡频繁，却几乎无法驻足；前滩人流适中，同样因为座椅稀少难以久留。所以前滩的优势更准确地说，是把更多空间让给了非消费性的公共功能，而不是它真的提供了充足座位。</p>
+      <p>田野细节与雷达图相互印证。前滩室内几乎没有免费座位与绿化，其公共性主要由几处露天中庭的天光与顶层跑道承担；兴业拥有整场天幕、采光优异，室内却仅有一处公共座位，中庭以品牌展示为主。</p>
+      <p>现场记录还提供了两点更关键的观察。其一是<b>独特性评分（D2）</b>：前滩 5/5、兴业 2/5，记录中的表述为「前滩独特的分区与走道体验」对照「兴业外部独特、内部同质化严重」。其二是两家共有的一处矛盾，<b>公共座椅均极度匮乏，空间虽开放却并不邀请停留</b>：兴业地铁出入口一侧人群拥挤、打卡频繁，却几乎无法驻足；前滩人流适中，同样因座椅稀少而难以久留。因此，前滩的优势更准确地说，在于将更多空间分配给了非消费性的公共功能，而非真正提供了充足座位。</p>
     </div>
   </section>
 
@@ -651,7 +651,7 @@ table.rank .rk { color: var(--fg-soft); }
   <section class="chapter" id="coda">
     <div class="chapter__num">Coda · 结语</div>
     <h2 class="chapter__title">品牌趋同，不等于体验趋同</h2>
-    <p class="chapter__lede">三个尺度连起来看，结论就清楚了。</p>
+    <p class="chapter__lede">将三个尺度贯通来看，结论已经清楚。</p>
 
     <div class="matrix">
       <div class="mrow mhead"><div class="ms"></div><div class="mhk">兴业太古汇</div><div class="mqt">前滩太古里</div></div>
@@ -661,8 +661,8 @@ table.rank .rk { color: var(--fg-soft); }
     </div>
 
     <div class="chapter__body">
-      <p>矩阵竖着读：城市尺度两家几乎一样（0.84），越往下越分开，到体验尺度差出 ΔSEI=0.45。<b>假如三层始终一致</b>，同质化就是从品牌资本到空间形态再到消费体验的系统性现象，设计能介入的余地有限；<b>可这里偏偏出现了落差</b>，意味着空间设计是一条独立的缓冲变量，前滩正是用空间结构上的差异，抵消了品牌同质化在体验层的后果。</p>
-      <p>把这条机制顺成一条因果链：</p>
+      <p>纵向观察这一矩阵：城市尺度上两家几乎一致（0.84），自上而下逐层分化，至体验尺度相差 ΔSEI=0.45。<b>倘若三层始终一致</b>，同质化便是一种从品牌资本到空间形态再到消费体验的系统性现象，设计可介入的余地有限；<b>然而此处出现了落差</b>，意味着空间设计是一条独立的缓冲变量，前滩正是借助空间结构上的差异，抵消了品牌同质化在体验层的后果。</p>
+      <p>将这一机制整理为一条因果链：</p>
     </div>
 
     <div class="flow" id="coda-flow">
@@ -672,7 +672,7 @@ table.rank .rk { color: var(--fg-soft); }
       <span class="arrow">→</span>
       <div class="step end"><span class="si">消费体验层</span>ΔSEI 0.45 · 体感分叉</div>
     </div>
-    <div class="caption" style="text-align:center;margin-top:.3rem"><b>关键断裂</b>：品牌同质，不必然导致体验同质，空间设计是这条链上独立的缓冲变量。</div>
+    <div class="caption" style="text-align:center;margin-top:.3rem"><b>关键断裂</b>：品牌同质并不必然导致体验同质，空间设计在这条链上充当独立的缓冲变量。</div>
 
     <div class="chapter__body">
       <p>这对城市设计实践有直接的启示。当业态配置的趋同已经难以逆转，设计师真正有效的介入在空间组织层，而不是业态层。能否在商业逻辑允许的范围内，用开放动线、公共停留和材质差异，为真实的场所性留出物质条件，是衡量高密度商业空间设计品质的核心标准之一。</p>
