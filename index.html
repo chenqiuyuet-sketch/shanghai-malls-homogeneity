@@ -259,6 +259,25 @@ table.rank .rk { color: var(--fg-soft); }
 .gallery figcaption { font-size: .72rem; color: var(--fg-mute); padding: .5rem .6rem; line-height: 1.45; }
 .gallery figcaption .gm { font-family: var(--mono); font-size: .56rem; letter-spacing: .08em; display: block; margin-bottom: .15rem; }
 .gallery figcaption .gm.qt { color: var(--hot); } .gallery figcaption .gm.hk { color: var(--accent); }
+/* 三层判断矩阵 + 黄金品牌 chips */
+.matrix { border-radius: 16px; box-shadow: var(--inset); overflow: hidden; margin: 1.6rem 0; }
+.matrix .mrow { display: grid; grid-template-columns: 6rem 1fr 1fr; border-top: 1px solid rgba(74,70,63,.08); }
+.matrix .mrow:first-child { border-top: 0; }
+.matrix .mrow > div { padding: .85rem 1rem; }
+.matrix .ms { font-family: var(--mono); font-size: .7rem; color: var(--fg-soft); align-self: center; }
+.matrix .mhead > div { font-weight: 700; font-size: .9rem; }
+.matrix .mhead .mhk { color: var(--accent); } .matrix .mhead .mqt { color: var(--hot); }
+.matrix .mcell { display: flex; flex-direction: column; gap: .2rem; }
+.matrix .mcell .mv { font-family: var(--mono); font-size: 1.02rem; font-weight: 600; color: var(--fg); }
+.matrix .mcell .ml { font-size: .78rem; color: var(--fg-mute); line-height: 1.5; }
+.matrix .mcell.hk { box-shadow: inset 2px 0 0 var(--accent); }
+.matrix .mcell.qt { box-shadow: inset 2px 0 0 var(--hot); }
+.matrix .mspan { grid-column: 2 / 4; align-items: center; text-align: center; }
+@media (max-width:560px){ .matrix .mrow{ grid-template-columns:4.2rem 1fr 1fr; } .matrix .mrow>div{ padding:.6rem .55rem; } .matrix .mcell .mv{ font-size:.9rem; } .matrix .mcell .ml{ font-size:.7rem; } }
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; margin: .2rem 0 0; }
+.chips .chip { font-size: .74rem; padding: .3rem .7rem; border-radius: 20px; box-shadow: var(--raise-sm); color: var(--fg-mute); }
+.chips .chip b { font-family: var(--mono); font-size: .6rem; color: var(--fg-soft); margin-right: .35rem; font-weight: 400; }
+.chips .chip.qt { color: var(--hot); } .chips .chip.hk { color: var(--accent); }
 
 /* ───── 移动端 / 小屏适配 ───── */
 @media (max-width: 900px) {
@@ -564,9 +583,9 @@ table.rank .rk { color: var(--fg-soft); }
       <div class="stage__bar"><span class="stage__label">FIG.12 · 黄金位置 · 视域 ∩ 穿行 双高重叠率</span><span class="stage__live">LIVE</span></div>
       <div class="gold">
         <div class="gc qt"><div class="gn">35%</div><div class="gl">前滩太古里</div><div class="gbar"><i style="width:35%;background:var(--hot)"></i></div><div class="gd">7 个品牌「被看见」与「被经过」双高，黄金铺位真实存在</div></div>
-        <div class="gc hk"><div class="gn">8%</div><div class="gl">兴业太古汇</div><div class="gbar"><i style="width:8%;background:var(--accent)"></i></div><div class="gd">视域优势与穿行优势分给不同铺位，少有真正的黄金位</div></div>
+        <div class="gc hk"><div class="gn">8%</div><div class="gl">兴业太古汇</div><div class="gbar"><i style="width:8%;background:var(--accent)"></i></div><div class="gd">仅 1 个品牌（MONCLER）双高，视域与穿行优势被拆到不同铺位</div></div>
       </div>
-      <div class="caption"><b>读图</b>：重叠率越高，说明商场里「最显眼」与「最常被路过」越是同一批位置。前滩四倍于兴业。</div>
+      <div class="caption"><b>读图</b>：黄金位置 = VGA 视域整合度前 20% ∩ sDNA 穿行度前 20%，同时具备「被看见」与「被经过」双重优势。重叠率越高，说明「最显眼」与「最常被路过」越是同一批位置。前滩四倍于兴业。</div>
     </div>
 
     <div class="stage">
@@ -580,6 +599,10 @@ table.rank .rk { color: var(--fg-soft); }
 
     <div class="chapter__body">
       <p>VGA 的差异和 sDNA 同向。前滩是多中心、既能被看见又能被走到的开放结构，兴业的视域开阔处（中庭与香水美妆区）与穿行主轴并不重合。看得见和走得到，在兴业被拆成了两件事。</p>
+      <p>还有一层要点出来：两家的黄金位置在<b>业态上其实高度相似</b>，都以轻奢服饰为主导，辅以奢侈品。也就是说，差别不在「黄金位置摆了什么」，而在「有多少铺位能同时占据双高」。前滩甚至出现奢侈品的加成选择效应，黄金位里奢侈品占比 29%，高于穿行高值全区的 20%，最顶级的品牌占住了可达性与视域的双重峰值。<b>这恰恰说明，品牌与业态的趋同是真实的，分叉只发生在空间组织这一层。</b></p>
+      <div class="chips">
+        <span class="chip qt"><b>前滩 L1</b>IWC 万国</span><span class="chip qt"><b>前滩 L1</b>Van Cleef &amp; Arpels</span><span class="chip qt"><b>前滩 L1</b>星巴克向绿工坊</span><span class="chip qt"><b>前滩 L2</b>BOGNER</span><span class="chip qt"><b>前滩 L2</b>Stella McCartney</span><span class="chip qt"><b>前滩 L2</b>SUITSUPPLY</span><span class="chip qt"><b>前滩 L2</b>COMME des GARÇONS</span><span class="chip hk"><b>兴业 L2</b>MONCLER</span>
+      </div>
     </div>
   </section>
 
@@ -615,6 +638,7 @@ table.rank .rk { color: var(--fg-soft); }
 
     <div class="chapter__body">
       <p>田野的细节和雷达吻合。前滩室内几乎没有免费座位和绿化，公共性主要由几个露天中庭的天光与顶层跑道承担；兴业有整场天幕、采光优异，室内却只有一处公共座位，中庭以品牌展示为主。</p>
+      <p>田野还给出两点更锋利的判断。一是<b>独特性评分（D2）</b>：前滩 5/5、兴业 2/5，现场记录里写下的是「前滩独特的分区与走道体验」对照「兴业外部独特、内部同质化严重」。二是一个两家共有的矛盾，<b>公共座椅都极度匮乏，空间开放却并不邀请停留</b>：兴业地铁口一侧人群拥挤、打卡频繁，却几乎无法驻足；前滩人流适中，同样因为座椅稀少难以久留。所以前滩的优势更准确地说，是把更多空间让给了非消费性的公共功能，而不是它真的提供了充足座位。</p>
     </div>
   </section>
 
@@ -624,23 +648,35 @@ table.rank .rk { color: var(--fg-soft); }
     <h2 class="chapter__title">品牌趋同，不等于体验趋同</h2>
     <p class="chapter__lede">三个尺度连起来看，结论就清楚了。</p>
 
-    <div class="flow" id="coda-flow">
-      <div class="step"><span class="si">城市尺度</span>MHI<sub>sf</sub>=0.84 · 最像的一对</div>
-      <span class="arrow">→</span>
-      <div class="step"><span class="si">建筑尺度</span>sDNA · VGA · 空间组织相反</div>
-      <span class="arrow">→</span>
-      <div class="step end"><span class="si">体验尺度</span>ΔSEI=0.45 · 体感被重新拉开</div>
+    <div class="matrix">
+      <div class="mrow mhead"><div class="ms"></div><div class="mhk">兴业太古汇</div><div class="mqt">前滩太古里</div></div>
+      <div class="mrow"><div class="ms">城市尺度</div><div class="mcell mspan"><span class="mv">MHI<sub>sf</sub> = 0.84</span><span class="ml">两家在这一层高度同质，是全市最像的一对</span></div></div>
+      <div class="mrow"><div class="ms">建筑尺度</div><div class="mcell hk"><span class="mv">封闭盒式</span><span class="ml">中庭集中，97% 高穿行在 L1</span></div><div class="mcell qt"><span class="mv">开放街区</span><span class="ml">多中心均质，无单一主导轴</span></div></div>
+      <div class="mrow"><div class="ms">体验尺度</div><div class="mcell hk"><span class="mv">SEI 3.44</span><span class="ml">独特性 2/5 · 内部同质化严重</span></div><div class="mcell qt"><span class="mv">SEI 3.89</span><span class="ml">独特性 5/5 · 分区与走道体验独特</span></div></div>
     </div>
 
     <div class="chapter__body">
-      <p>品牌资本的同质化是结构性趋势，80 家商场的品牌池、业态与楼层都在收敛。但前滩太古里用开放街区、木石双区的材质系统和跑者楼梯这些空间手段，在体验层制造了可测量的差异。这说明，<b>空间设计是品牌同质化与消费体验之间的一个独立缓冲变量</b>。</p>
+      <p>读法很简单：城市尺度两家几乎一样（0.84），可越往下越分开，到体验尺度差出 ΔSEI=0.45。<b>如果三层一直一致</b>，同质化就是从品牌资本到空间形态再到消费体验的系统性现象，设计能做的有限；<b>但这里出现了落差</b>，说明空间设计是一个独立的缓冲变量，前滩用空间结构的差异化，抵消了品牌同质化在体验层的后果。</p>
+      <p>把这条机制顺成一条因果链：</p>
+    </div>
+
+    <div class="flow" id="coda-flow">
+      <div class="step"><span class="si">品牌资本层</span>MHI 0.84 · 高度同质</div>
+      <span class="arrow">→</span>
+      <div class="step"><span class="si">空间形态层</span>布局 · 穿行 · 公共供给 截然不同</div>
+      <span class="arrow">→</span>
+      <div class="step end"><span class="si">消费体验层</span>ΔSEI 0.45 · 体感分叉</div>
+    </div>
+    <div class="caption" style="text-align:center;margin-top:.3rem"><b>关键断裂</b>：品牌同质，不必然导致体验同质，空间设计是这条链上独立的缓冲变量。</div>
+
+    <div class="chapter__body">
       <p>对城市设计的启示也随之而来。当业态配置的趋同已经难以逆转，设计师真正有效的介入在空间组织层，而不是业态层。能不能在商业逻辑允许的范围内，用开放动线、公共停留和材质差异，为真实的场所性留出物质条件，是衡量高密度商业空间设计品质的核心标准之一。</p>
     </div>
 
     <p class="chapter__lede" style="font-weight:600;color:var(--fg);margin-top:1.4rem">千店可以一面。但走进去，<span style="color:var(--hot)">未必一面</span>。</p>
 
     <div class="credits">
-      <b>城市分析 · 第 4 组</b> ｜ 陈（统筹 + 前端可视化）· 黄（数据采集 + 同质化指标计算）· 张（地理结论一 + 全市相关性）· 吴（品牌同质化模型建构）· 姚（depthmap 路网建构 + 业态分类 + 田野）· 舒（田野 + 结论二）<br>
+      <b>城市分析 · 第 4 组</b> ｜ 陈（统筹 + 前端可视化）· 黄（数据采集 + 同质化指标计算）· 张（地理结论一 + 全市相关性）· 吴（品牌同质化模型建构）· 姚（depthmap 路网建构 + 业态分类 + 田野）· 舒（建筑尺度 sDNA / VGA 建模 + 田野 + 结论二）<br>
       数据：80 家上海购物中心实地与官网调研，前滩太古里 / 兴业太古汇内部三维步行网络建模 ｜ 方法：Whittaker α/β/γ · 余弦相似（MHI_f / MHI_sf）· OSM 路网角度整合度 · Spearman 相关 · sDNA 三维步行网络 · VGA 视域分析 · SEI 田野量表 ｜ 2026 春季学期
     </div>
   </section>
