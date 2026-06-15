@@ -227,6 +227,9 @@ table.rank .rk { color: var(--fg-soft); }
 .fig-card .fc-tag { font-family: var(--mono); font-size: .58rem; letter-spacing: .1em; color: var(--fg-soft); }
 .fig-card img { width: 100%; border-radius: 9px; display: block; background: #11100e; }
 .fig-card .fc-cap { font-size: .74rem; color: var(--fg-soft); line-height: 1.5; margin: .5rem .2rem 0; }
+.fig-card.vga img { aspect-ratio: 4 / 3; object-fit: contain; padding: 10px; background: radial-gradient(130% 130% at 50% 30%, #23200f, #121009); box-shadow: var(--inset-sm); }
+.vga-legend { display: flex; align-items: center; gap: .6rem; margin: .85rem .3rem 0; font-size: .7rem; color: var(--fg-soft); font-family: var(--mono); }
+.vga-legend i { height: 7px; width: 200px; border-radius: 4px; background: linear-gradient(to right,#1f3a93,#2f8fd0,#37b56b,#c8d23a,#e88a2a,#d23b2b); box-shadow: var(--inset-sm); }
 .statpair { display: grid; grid-template-columns: 1.25fr 1fr; gap: 1.2rem; align-items: stretch; }
 @media (max-width: 680px) { .statpair { grid-template-columns: 1fr; } }
 .statnote { border-radius: 14px; box-shadow: var(--raise-sm); padding: 1.1rem 1.2rem; display: flex; flex-direction: column; justify-content: center; }
@@ -591,10 +594,11 @@ table.rank .rk { color: var(--fg-soft); }
     <div class="stage">
       <div class="stage__bar"><span class="stage__label">FIG.13 · VGA 视域整合度 · 地面层 L1</span><span class="stage__live">LIVE</span></div>
       <div class="fig-pair">
-        <div class="fig-card"><div class="fc-top"><span class="fc-name qt">前滩太古里 · L1</span><span class="fc-tag">VGA</span></div><img loading="lazy" src="./data/phase2/vga/qt_l1.png" alt="前滩 VGA L1"></div>
-        <div class="fig-card"><div class="fc-top"><span class="fc-name hk">兴业太古汇 · L1</span><span class="fc-tag">VGA</span></div><img loading="lazy" src="./data/phase2/vga/hkri_l1.png" alt="兴业 VGA L1"></div>
+        <div class="fig-card vga"><div class="fc-top"><span class="fc-name qt">前滩太古里 · L1</span><span class="fc-tag">VGA</span></div><img loading="lazy" src="./data/phase2/vga/qt_l1.png" alt="前滩 VGA L1"></div>
+        <div class="fig-card vga"><div class="fc-top"><span class="fc-name hk">兴业太古汇 · L1</span><span class="fc-tag">VGA</span></div><img loading="lazy" src="./data/phase2/vga/hkri_l1.png" alt="兴业 VGA L1"></div>
       </div>
-      <div class="caption"><b>读图</b>：红为视域最开阔、蓝为视域受限。前滩 L1 的视域高值与穿行高值在石区中庭明显重叠，兴业的两套高值则错开。</div>
+      <div class="vga-legend"><span>视域受限</span><i></i><span>视域开阔</span></div>
+      <div class="caption"><b>读图</b>：暖色为视域最开阔、冷色为视域受限。前滩 L1 的视域高值与穿行高值在石区中庭明显重叠，铺满整层的网格说明开放街区到处都「看得通」；兴业则收成一条对角廊道，视域高值与穿行主轴错开。</div>
     </div>
 
     <div class="chapter__body">
