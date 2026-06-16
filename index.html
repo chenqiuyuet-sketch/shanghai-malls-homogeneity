@@ -189,6 +189,16 @@ section.chapter { padding: clamp(3rem,7vw,6rem) clamp(1.5rem,5vw,4.5rem); }
 .take .tb { font-size: .88rem; color: var(--fg-mute); line-height: 1.7; }
 .credits { margin-top: 2.6rem; padding: 1.4rem 1.6rem; border-radius: 16px; box-shadow: var(--raise-sm); font-size: .82rem; color: var(--fg-mute); line-height: 1.9; }
 .credits b { color: var(--fg); font-weight: 600; }
+.credits .cr-head { font-size: .9rem; color: var(--fg); margin-bottom: 1rem; }
+.credits .cr-head .sem { color: var(--fg-soft); font-family: var(--mono); font-size: .72rem; }
+.roster { border-radius: 13px; box-shadow: var(--inset-sm); overflow: hidden; }
+.roster .rr { display: grid; grid-template-columns: 5.4rem 1fr; border-top: 1px solid rgba(74,70,63,.08); }
+.roster .rr:first-child { border-top: 0; }
+.roster .rn { display: flex; align-items: center; padding: .6rem .9rem; font-weight: 600; color: var(--fg); font-size: .86rem; box-shadow: inset 2px 0 0 var(--accent); }
+.roster .rd { padding: .6rem .9rem; color: var(--fg-mute); font-size: .8rem; line-height: 1.6; }
+.roster .rd .mh { font-family: var(--mono); font-size: .92em; color: var(--fg); }
+.credits .cr-foot { margin-top: 1rem; font-size: .72rem; color: var(--fg-soft); line-height: 1.75; }
+@media (max-width: 560px) { .roster .rr { grid-template-columns: 4.2rem 1fr; } .roster .rd { font-size: .74rem; } }
 
 /* 排行榜表格 */
 .rank-wrap { border-radius: 16px; box-shadow: var(--inset); padding: .5rem; overflow: auto; max-height: 560px; }
@@ -837,8 +847,16 @@ body.anim [data-rv].in { opacity: 1; transform: none; }
     <p class="chapter__lede" style="font-weight:600;color:var(--fg);margin-top:1.4rem">千店可以一面。但走进去，<span style="color:var(--hot)">未必一面</span>。</p>
 
     <div class="credits">
-      <b>城市分析方法与工具 · 第 4 组</b> ｜ 陈秋岳（项目统筹监督 + 总结上线）· 黄成飞（商场数据爬取清洗 + 工作流规划 + 楼层同质化 MHI_sf）· 张子瀚（前滩太古里建模 + 业态分类 + 业态同质化 MHI_f + 整合度 × 同质化相关性）· 舒展（兴业太古汇建模 + 两座太古资料汇总 + 田野问卷设计 + 田野总结）· 吴清轩（品牌同质化 MHI_i + 太古汇前期 CAD + 田野实地）· 姚亦能（区位 / 路网整合度 depthmap + 田野实地）<br>
-      数据：80 家上海购物中心实地与官网调研，前滩太古里 / 兴业太古汇内部三维步行网络建模 ｜ 方法：Jaccard 品牌相似（MHI_i）· 业态余弦相似（MHI_f / MHI_sf）· OSM 路网角度整合度 · Spearman 相关 · sDNA 三维步行网络 · VGA 视域分析 · SEI 田野量表 ｜ 2026 春季学期
+      <div class="cr-head"><b>城市分析方法与工具 · 第 4 组</b> <span class="sem">2026 春季学期</span></div>
+      <div class="roster">
+        <div class="rr"><div class="rn">陈秋岳</div><div class="rd">项目统筹监督 · 总结上线</div></div>
+        <div class="rr"><div class="rn">黄成飞</div><div class="rd">数据爬取清洗 · 工作流规划 · 楼层同质化 <span class="mh">MHI_sf</span></div></div>
+        <div class="rr"><div class="rn">张子瀚</div><div class="rd">前滩太古里建模 · 业态分类 · 业态同质化 <span class="mh">MHI_f</span> · 整合度 × 同质化相关性</div></div>
+        <div class="rr"><div class="rn">舒展</div><div class="rd">兴业太古汇建模 · 两座太古资料汇总 · 田野问卷设计 · 田野总结</div></div>
+        <div class="rr"><div class="rn">吴清轩</div><div class="rd">品牌同质化 <span class="mh">MHI_i</span> · 太古汇前期 CAD · 田野实地</div></div>
+        <div class="rr"><div class="rn">姚亦能</div><div class="rd">区位 / 路网整合度 depthmap · 田野实地</div></div>
+      </div>
+      <div class="cr-foot">数据：80 家上海购物中心实地与官网调研，前滩太古里 / 兴业太古汇内部三维步行网络建模<br>方法：Jaccard 品牌相似（MHI_i）· 业态余弦相似（MHI_f / MHI_sf）· OSM 路网角度整合度 · Spearman 相关 · sDNA 三维步行网络 · VGA 视域分析 · SEI 田野量表</div>
     </div>
   </section>
 </main>
