@@ -293,13 +293,19 @@ table.rank .rk { color: var(--fg-soft); }
 .d2-sb b { color: var(--fg); font-weight: 600; }
 @media (max-width: 560px) { .d2-head, .d2-row { grid-template-columns: 5rem 1fr 1fr; } .d2-sum { grid-template-columns: 5rem 1fr; } .d2-row > div { font-size: .72rem; padding: .55rem .55rem; } }
 
-/* Appendix · 指标建模注释 */
-.method-steps { display: grid; gap: .7rem; margin: 1.5rem 0 .4rem; }
-.ms { border-radius: 13px; box-shadow: var(--raise-sm); padding: 1rem 1.2rem; }
-.ms-k { font-family: var(--mono); font-size: .72rem; letter-spacing: .05em; color: var(--accent); margin-bottom: .4rem; }
-.ms-b { font-size: .92rem; color: var(--fg-mute); line-height: 1.85; }
-.ms-b b { color: var(--fg); font-weight: 600; }
-.ms-b .f { font-family: var(--mono); font-size: .86em; color: var(--hot); background: rgba(212,80,63,.07); padding: .05em .4em; border-radius: 4px; }
+/* Appendix · 指标计算链路 diagram */
+.mflow { display: grid; gap: .5rem; justify-items: center; max-width: 600px; margin: 1.6rem auto .4rem; }
+.mf-node { width: 100%; border-radius: 12px; box-shadow: var(--raise-sm); padding: .75rem 1rem; text-align: center; }
+.mf-node.mf-h { box-shadow: var(--raise); }
+.mf-fork { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; width: 100%; }
+.mf-tag { font-family: var(--mono); font-size: .74rem; letter-spacing: .03em; color: var(--accent); margin-bottom: .4rem; }
+.mf-formula { font-family: var(--mono); font-size: .82rem; color: var(--hot); background: rgba(212,80,63,.07); border-radius: 6px; padding: .22rem .55rem; display: inline-block; }
+.mf-formula.big { font-size: .98rem; }
+.mf-note { font-size: .74rem; color: var(--fg-soft); line-height: 1.5; margin-top: .4rem; }
+.mf-note b { color: var(--fg); font-weight: 600; }
+.mf-arrow { font-family: var(--mono); font-size: .9rem; color: var(--fg-soft); display: flex; align-items: center; gap: .5rem; }
+.mf-arrow .l { font-size: .66rem; letter-spacing: .02em; }
+@media (max-width: 520px) { .mf-fork { grid-template-columns: 1fr; } }
 .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(176px,1fr)); gap: .8rem; }
 .gallery figure { border-radius: 12px; box-shadow: var(--raise-sm); overflow: hidden; background: var(--bg); }
 .gallery img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
@@ -780,17 +786,21 @@ body.anim [data-rv].in { opacity: 1; transform: none; }
   <!-- Appendix · 指标建模注释 -->
   <section class="chapter" id="method">
     <div class="chapter__num">Appendix · Method</div>
-    <h2 class="chapter__title">指标是怎么算出来的</h2>
-    <p class="chapter__lede">同质化不是凭感觉打分，而是把「两家商场有多像」算成一个分数。数据涵盖 80 家商场、上万条店铺记录，从品牌、业态、楼层三个角度逐层比对。</p>
+    <h2 class="chapter__title">四个指标，一条计算链</h2>
+    <p class="chapter__lede">同质化沿品牌、业态、楼层逐层度量。下图是四个 MHI 指数的计算链路与公式：品牌、业态两层并行度量，标准化后复合为 H，再下沉到楼层。</p>
 
-    <div class="method-steps">
-      <div class="ms"><div class="ms-k">品牌层 · MHI<sub>i</sub></div><div class="ms-b">比两家的<b>品牌名单有多少重合</b>。共同的连锁品牌越多就越像，一家与其余 79 家的平均重合度，就是它的品牌同质化。</div></div>
-      <div class="ms"><div class="ms-k">业态层 · MHI<sub>f</sub></div><div class="ms-b">比两家的<b>业态配比</b>。把店铺归成 14 类（餐饮、服饰、亲子等），看各类占比是否接近。两家都是餐饮加服饰占近一半时，业态就很像。</div></div>
-      <div class="ms"><div class="ms-k">复合 · H</div><div class="ms-b">把品牌、业态两个分数各自归到 0 到 1，再取平均，得到一个总的同质化分：<span class="f">H =（品牌分 + 业态分）÷ 2</span>。分数越高，越接近「千店一面」。</div></div>
-      <div class="ms"><div class="ms-k">楼层层 · MHI<sub>sf</sub></div><div class="ms-b">总分只回答「整体像不像」。要在高端里选出最像前滩太古里的一家，就把两家<b>每层楼的业态分别比一次</b>，看相似的店是否开在相近的楼层，最后选出兴业太古汇（MHI<sub>sf</sub> = 0.8385）。</div></div>
+    <div class="mflow">
+      <div class="mf-node mf-data"><div class="mf-tag">数据底座</div><div class="mf-note"><b>80</b> 家商场 · <b>14</b> 类业态 · 上万条去重品牌记录</div></div>
+      <div class="mf-arrow"><span>↓</span><span class="l">分两条并行支路</span></div>
+      <div class="mf-fork">
+        <div class="mf-node"><div class="mf-tag">MHI<sub>i</sub> · 品牌层</div><div class="mf-formula">|A ∩ B| / |A ∪ B|</div><div class="mf-note">品牌集合的 Jaccard 相似，与其余 79 家取均值</div></div>
+        <div class="mf-node"><div class="mf-tag">MHI<sub>f</sub> · 业态层</div><div class="mf-formula">cos(p, q)</div><div class="mf-note">14 维加权业态向量的夹角余弦</div></div>
+      </div>
+      <div class="mf-arrow"><span>↓</span><span class="l">min-max 标准化 → S<sub>i</sub> , S<sub>f</sub></span></div>
+      <div class="mf-node mf-h"><div class="mf-tag">复合 · H</div><div class="mf-formula big">H = ( S<sub>i</sub> + S<sub>f</sub> ) / 2</div><div class="mf-note">0 到 1 的综合同质化分，越高越「千店一面」</div></div>
+      <div class="mf-arrow"><span>↓</span><span class="l">回到内部空间</span></div>
+      <div class="mf-node mf-sf"><div class="mf-tag">MHI<sub>sf</sub> · 楼层层</div><div class="mf-formula">cos(v<sub>前滩</sub>, v<sub>兴业</sub>) · 4×14 = 56 维</div><div class="mf-note">相似业态是否落在相近楼层，筛出兴业 <b>0.8385</b></div></div>
     </div>
-
-    <div class="chapter__body"><p>四步从店铺名单逐步细化到楼层：先比品牌，再比业态，合成总分，最后落到空间组织。指标只负责把「像不像」量出来，至于为什么像、像了又意味着什么，留给前面各章。</p></div>
   </section>
 
   <!-- 结语 -->
@@ -853,8 +863,8 @@ addEventListener('scroll',onS,{passive:true});addEventListener('resize',onS);up(
 /* 动效：滚动揭示 + 首屏数字滚动（基于滚动，保证不会卡在隐藏态） */
 (function(){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  document.querySelectorAll('.chapter__num,.chapter__title,.chapter__lede,.chapter__body,.stage,.matrix,.obs,.credits').forEach(el=>el.setAttribute('data-rv',''));
-  document.querySelectorAll('.layers,.takeaways,.cand-grid,.flow,.method-steps').forEach(g=>{[...g.children].forEach((c,i)=>{if(c.classList.contains('arrow'))return;c.setAttribute('data-rv','');c.style.transitionDelay=(i*60)+'ms';});});
+  document.querySelectorAll('.chapter__num,.chapter__title,.chapter__lede,.chapter__body,.stage,.matrix,.obs,.credits,.mflow').forEach(el=>el.setAttribute('data-rv',''));
+  document.querySelectorAll('.layers,.takeaways,.cand-grid,.flow').forEach(g=>{[...g.children].forEach((c,i)=>{if(c.classList.contains('arrow'))return;c.setAttribute('data-rv','');c.style.transitionDelay=(i*60)+'ms';});});
   const items=[...document.querySelectorAll('[data-rv]')];let tk=false;
   function reveal(){tk=false;const line=innerHeight*0.92;for(const el of items){if(el.__in)continue;if(el.getBoundingClientRect().top<line){el.classList.add('in');el.__in=1;}}}
   function onS(){if(!tk){tk=true;requestAnimationFrame(reveal);}}
