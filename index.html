@@ -734,13 +734,16 @@ addEventListener('scroll',onS,{passive:true});addEventListener('resize',onS);up(
   setTimeout(()=>{document.querySelectorAll('.hero .kpi .v').forEach(v=>{const tn=v.childNodes[0],tgt=parseInt(tn.textContent,10);if(tgt){tn.textContent='0';countUp(tn,tgt,900);}});},560);
 })();
 
+/* 图表进入视口才渲染：柱子 / 点 / 雷达在被看到的瞬间才从 0 生长，避免在加载时于屏外播完、滚到时只剩静止图 */
+window.__vizReveal=(function(){const q=[];function check(){const line=innerHeight*0.92;for(let i=q.length-1;i>=0;i--){if(q[i].el.getBoundingClientRect().top<line){q.splice(i,1)[0].render();}}}let tk=false;function onS(){if(tk)return;tk=true;requestAnimationFrame(function(){tk=false;check();});}addEventListener('scroll',onS,{passive:true});addEventListener('resize',onS);return function(el,render){if(!el){return;}if(matchMedia('(prefers-reduced-motion: reduce)').matches){render();return;}q.push({el:el,render:render});check();};})();
+
 /* 品牌覆盖 bar */
-(async function(){const d=await(await fetch('./data/phase1/brand_coverage.json')).json();const top=d.slice(0,22);const el=document.getElementById('viz-cov');const W=el.clientWidth,H=500,M={t:8,r:56,b:22,l:92},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const max=d3.max(top,x=>x.mall_count);const x=d3.scaleLinear().domain([0,max]).range([0,iw]);const y=d3.scaleBand().domain(top.map(x=>x.brand)).range([0,ih]).padding(.3);const col=d3.scaleLinear().domain([8,max]).range(['#9aa6b8','#d4503f']);const tip=mkTip(el);
+(async function(){const d=await(await fetch('./data/phase1/brand_coverage.json')).json();const top=d.slice(0,22);const el=document.getElementById('viz-cov');__vizReveal(el,function(){const W=el.clientWidth,H=500,M={t:8,r:56,b:22,l:92},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const max=d3.max(top,x=>x.mall_count);const x=d3.scaleLinear().domain([0,max]).range([0,iw]);const y=d3.scaleBand().domain(top.map(x=>x.brand)).range([0,ih]).padding(.3);const col=d3.scaleLinear().domain([8,max]).range(['#9aa6b8','#d4503f']);const tip=mkTip(el);
 g.selectAll('rect').data(top).join('rect').attr('x',0).attr('y',d=>y(d.brand)).attr('height',y.bandwidth()).attr('width',0).attr('rx',3).attr('fill',d=>col(d.mall_count))
 .on('mouseenter',function(e,d){d3.select(this).attr('opacity',.8);showTip(tip,e,el,`<div class="t">${d.brand}</div><div class="r"><span>覆盖</span><b>${d.mall_count}/80</b></div><div class="r"><span>渗透率</span><b>${(d.mall_count/80*100).toFixed(0)}%</b></div>`);}).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',function(){d3.select(this).attr('opacity',1);tip.style.opacity=0;})
 .transition().delay((_,i)=>i*26).duration(560).ease(d3.easeCubicOut).attr('width',d=>x(d.mall_count));
 g.selectAll('text.v').data(top).join('text').attr('x',d=>x(d.mall_count)+6).attr('y',d=>y(d.brand)+y.bandwidth()/2+4).attr('fill','#4a463f').attr('font-family','var(--mono)').attr('font-size','11px').style('opacity',0).text(d=>d.mall_count).transition().delay((_,i)=>480+i*18).style('opacity',1);
-g.selectAll('text.l').data(top).join('text').attr('x',-10).attr('y',d=>y(d.brand)+y.bandwidth()/2+4).attr('text-anchor','end').attr('fill','rgba(74,70,63,0.8)').attr('font-size','11px').text(d=>d.brand);})();
+g.selectAll('text.l').data(top).join('text').attr('x',-10).attr('y',d=>y(d.brand)+y.bandwidth()/2+4).attr('text-anchor','end').attr('fill','rgba(74,70,63,0.8)').attr('font-size','11px').text(d=>d.brand);});})();
 
 /* 四象限 */
 (async function(){const data=await(await fetch('./data/phase1/quadrant_phase1.json')).json();const el=document.getElementById('viz-quad');const tabsEl=document.getElementById('quad-tabs');const tip=mkTip(el);let active='total';
@@ -764,7 +767,7 @@ g.selectAll('circle.s').data(std).join('circle').attr('cx',d=>x(d.x)).attr('cy',
 const a=malls.find(m=>m.role==='anchor');if(a){const ax=x(a.x),ay=y(a.y);g.append('rect').attr('x',ax-5).attr('y',ay-5).attr('width',10).attr('height',10).attr('fill','var(--hot)').attr('transform',`rotate(45,${ax},${ay})`).on('mouseenter',e=>showTip(tip,e,el,th(a))).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',()=>tip.style.opacity=0);g.append('text').attr('x',ax+12).attr('y',ay+4).attr('fill','var(--hot)').attr('font-size','11px').attr('font-weight',600).text('前滩太古里').style('opacity',0).transition().delay(600).style('opacity',1);}
 if(slice&&slice.key!=='total')g.append('text').attr('x',4).attr('y',-8).attr('fill','var(--accent)').attr('font-family','var(--mono)').attr('font-size','11px').text(`▸ ${slice.label} · n=${malls.length} · 档内中位 (${xm.toFixed(3)}, ${ym.toFixed(2)})`);}
 function th(d){return `<div class="t">${d.name}</div><div class="r"><span>MHI_i</span><b>${d.x.toFixed(4)}</b></div><div class="r"><span>MHI_f</span><b>${d.y.toFixed(3)}</b></div><div class="r"><span>档位</span><b>${d.positioning}</b></div>`;}
-draw();addEventListener('resize',()=>{clearTimeout(window.__r);window.__r=setTimeout(draw,200);});})();
+__vizReveal(el,draw);addEventListener('resize',()=>{clearTimeout(window.__r);window.__r=setTimeout(draw,200);});})();
 
 /* 14 业态调色板（暖调，餐饮红 / 服饰蓝领衔） */
 const CATCOL={'餐饮':'#d4673f','服饰鞋包':'#5b6cc4','美妆个护':'#c98a9b','珠宝钟表眼镜':'#b59a5e','亲子儿童零售':'#7fae8a','运动户外':'#5683c4','健身':'#6fb0b8','数码家电':'#8a8fa3','家居生活杂货':'#b0a08c','商超食品零售':'#c2a23f','娱乐体验':'#9b7fb8','生活服务':'#a0a890','教育培训':'#cf9f6f','医疗健康':'#9aa6b8'};
@@ -774,15 +777,15 @@ const CATCOL={'餐饮':'#d4673f','服饰鞋包':'#5b6cc4','美妆个护':'#c98a9
 document.getElementById('func-legend').innerHTML=cats.map(c=>`<span class="it"><span class="sw" style="background:${CATCOL[c]}"></span>${c}</span>`).join('');
 const rows=fv.data.map(m=>{const tot=d3.sum(m.vector)||1;return{name:m.name,pct:m.vector.map(v=>v/tot),food:m.vector[0]/tot,tot:d3.sum(m.vector)};}).sort((a,b)=>b.food-a.food);
 const W=el.clientWidth,H=560,M={t:6,r:10,b:8,l:10},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const y=d3.scaleBand().domain(d3.range(rows.length)).range([0,ih]).padding(.16);const x=d3.scaleLinear().domain([0,1]).range([0,iw]);const tip=mkTip(el);
-rows.forEach((r,ri)=>{let acc=0;const rg=g.append('g');r.pct.forEach((p,ci)=>{if(p<=0)return;const x0=acc;acc+=p;rg.append('rect').attr('x',x(x0)).attr('y',y(ri)).attr('height',y.bandwidth()).attr('width',0).attr('fill',CATCOL[cats[ci]]).transition().delay(ri*4).duration(480).ease(d3.easeCubicOut).attr('width',x(p));});
-rg.append('rect').attr('x',0).attr('y',y(ri)).attr('width',iw).attr('height',y.bandwidth()).attr('fill','transparent').on('mouseenter',e=>{const top=r.pct.map((p,i)=>[cats[i],p]).filter(d=>d[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,3);showTip(tip,e,el,`<div class="t">${r.name}</div>`+top.map(d=>`<div class="r"><span>${d[0]}</span><b>${(d[1]*100).toFixed(0)}%</b></div>`).join('')+`<div class="r"><span>品牌数</span><b>${r.tot}</b></div>`);}).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',()=>tip.style.opacity=0);});})();
+__vizReveal(el,function(){rows.forEach((r,ri)=>{let acc=0;const rg=g.append('g');r.pct.forEach((p,ci)=>{if(p<=0)return;const x0=acc;acc+=p;rg.append('rect').attr('x',x(x0)).attr('y',y(ri)).attr('height',y.bandwidth()).attr('width',0).attr('fill',CATCOL[cats[ci]]).transition().delay(ri*4).duration(480).ease(d3.easeCubicOut).attr('width',x(p));});
+rg.append('rect').attr('x',0).attr('y',y(ri)).attr('width',iw).attr('height',y.bandwidth()).attr('fill','transparent').on('mouseenter',e=>{const top=r.pct.map((p,i)=>[cats[i],p]).filter(d=>d[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,3);showTip(tip,e,el,`<div class="t">${r.name}</div>`+top.map(d=>`<div class="r"><span>${d[0]}</span><b>${(d[1]*100).toFixed(0)}%</b></div>`).join('')+`<div class="r"><span>品牌数</span><b>${r.tot}</b></div>`);}).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',()=>tip.style.opacity=0);});});})();
 
 /* 楼层剖面 · 前滩 × 兴业 × 环贸 小倍数 */
 (async function(){const fm=await(await fetch('./data/phase1/floor_matrix.json')).json();const sf=await(await fetch('./data/phase1/mhi_sf.json')).json();const malls=['前滩太古里','兴业太古汇','环贸iapm商场'];const el=document.getElementById('viz-floor');if(!el)return;const sfMap={};(sf.candidates||[]).forEach(c=>{sfMap[c.candidate_mall]=c.MHI_sf;});el.style.display='grid';el.style.gridTemplateColumns='repeat(auto-fit,minmax(230px,1fr))';el.style.gap='.4rem 1.2rem';const tip=mkTip(el);
 {const hd=document.createElement('div');hd.style.cssText='grid-column:1/-1;text-align:center;font-size:.84rem;color:var(--fg-mute);margin-bottom:.4rem';hd.innerHTML=`以前滩太古里为锚点，空间功能最接近的两家：兴业太古汇 <b style="color:var(--accent);font-family:var(--mono)">MHI<sub>sf</sub>=${(sfMap['兴业太古汇']||0).toFixed(3)}</b>（入选）· 环贸 iapm <b style="font-family:var(--mono)">${(sfMap['环贸iapm商场']||0).toFixed(3)}</b>（次位）`;el.appendChild(hd);}
-malls.forEach(mn=>{const m=fm[mn];if(!m)return;const cats=m.categories,levels=m.levels;const wrap=document.createElement('div');const isAnchor=mn==='前滩太古里';const sfv=sfMap[mn];const badge=isAnchor?'锚点':(sfv!=null?`MHI<sub>sf</sub>=${sfv.toFixed(3)}`:'');wrap.innerHTML=`<div class="floor-title">${mn.replace('商场','')}${badge?` <span class="mhi">${badge}</span>`:''}</div>`;const box=document.createElement('div');wrap.appendChild(box);el.appendChild(wrap);
+__vizReveal(el,function(){malls.forEach(mn=>{const m=fm[mn];if(!m)return;const cats=m.categories,levels=m.levels;const wrap=document.createElement('div');const isAnchor=mn==='前滩太古里';const sfv=sfMap[mn];const badge=isAnchor?'锚点':(sfv!=null?`MHI<sub>sf</sub>=${sfv.toFixed(3)}`:'');wrap.innerHTML=`<div class="floor-title">${mn.replace('商场','')}${badge?` <span class="mhi">${badge}</span>`:''}</div>`;const box=document.createElement('div');wrap.appendChild(box);el.appendChild(wrap);
 const W=260,rowH=42,gap=9,H=levels.length*(rowH+gap),lblW=46;const svg=d3.select(box).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','auto');const order=[...levels].reverse();const maxRow=d3.max(m.matrix.map(r=>d3.sum(r)))||1;const x=d3.scaleLinear().domain([0,maxRow]).range([0,W-lblW-6]);
-order.forEach((lv,oi)=>{const li=levels.indexOf(lv);const row=m.matrix[li];const y0=oi*(rowH+gap);svg.append('rect').attr('x',lblW).attr('y',y0).attr('width',W-lblW-6).attr('height',rowH).attr('rx',6).attr('fill','rgba(74,70,63,0.04)');svg.append('text').attr('x',0).attr('y',y0+rowH/2+3).attr('font-size','9.5px').attr('font-family','var(--mono)').attr('fill','var(--fg-soft)').text(lv);let acc=0;row.forEach((v,ci)=>{if(v<=0)return;const x0=acc;acc+=v;svg.append('rect').attr('x',lblW+x(x0)).attr('y',y0+3).attr('height',rowH-6).attr('width',0).attr('rx',2).attr('fill',CATCOL[cats[ci]]).on('mouseenter',e=>showTip(tip,e,el,`<div class="t">${mn.replace('商场','')} · ${lv}</div><div class="r"><span>${cats[ci]}</span><b>${v}</b></div>`)).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',()=>tip.style.opacity=0).transition().delay(oi*70+ci*8).duration(460).attr('width',x(v));});});});})();
+order.forEach((lv,oi)=>{const li=levels.indexOf(lv);const row=m.matrix[li];const y0=oi*(rowH+gap);svg.append('rect').attr('x',lblW).attr('y',y0).attr('width',W-lblW-6).attr('height',rowH).attr('rx',6).attr('fill','rgba(74,70,63,0.04)');svg.append('text').attr('x',0).attr('y',y0+rowH/2+3).attr('font-size','9.5px').attr('font-family','var(--mono)').attr('fill','var(--fg-soft)').text(lv);let acc=0;row.forEach((v,ci)=>{if(v<=0)return;const x0=acc;acc+=v;svg.append('rect').attr('x',lblW+x(x0)).attr('y',y0+3).attr('height',rowH-6).attr('width',0).attr('rx',2).attr('fill',CATCOL[cats[ci]]).on('mouseenter',e=>showTip(tip,e,el,`<div class="t">${mn.replace('商场','')} · ${lv}</div><div class="r"><span>${cats[ci]}</span><b>${v}</b></div>`)).on('mousemove',e=>moveTip(tip,e,el)).on('mouseleave',()=>tip.style.opacity=0).transition().delay(oi*70+ci*8).duration(460).attr('width',x(v));});});});});})();
 
 /* 地理整合度 · Leaflet + OSM（复用 viz_integration.js） */
 (async function(){const el=document.getElementById('viz-geo');if(!el||typeof renderIntegration!=='function')return;try{const data=await(await fetch('./data/phase1/integration.json')).json();const composite=await(await fetch('./data/phase1/mhi_composite.json')).json();renderIntegration({container:el,data,composite,axialUrl:'./data/phase1/axial_integration.geojson',axialLabel:'路网角度整合度 · OSM'});}catch(err){el.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--fg-soft);font-family:var(--mono);font-size:12px">INTEGRATION LOAD FAILED</div>';}})();
@@ -797,7 +800,7 @@ g.selectAll('rect.b').data(rows).join('rect').attr('class','b').attr('x',(_,i)=>
 .transition().delay((_,i)=>i*6).duration(500).ease(d3.easeCubicOut).attr('y',d=>y(d[active])).attr('height',d=>ih-y(d[active]));
 rows.forEach((d,i)=>{if(!star.includes(d.name))return;g.append('line').attr('x1',x(i)+x.bandwidth()/2).attr('x2',x(i)+x.bandwidth()/2).attr('y1',y(d[active])-3).attr('y2',y(d[active])-15).attr('stroke','#4a463f').attr('stroke-width',.8).style('opacity',0).transition().delay(650).style('opacity',.6);g.append('text').attr('x',x(i)+x.bandwidth()/2).attr('y',y(d[active])-18).attr('text-anchor','middle').attr('fill','#4a463f').attr('font-size','9.5px').attr('font-weight',600).text(d.name.replace('太古','')).style('opacity',0).transition().delay(650).style('opacity',1);});
 g.append('text').attr('x',2).attr('y',ih+17).attr('fill','var(--hot)').attr('font-size','9px').attr('font-family','var(--mono)').text('← 高 · 越同质');g.append('text').attr('x',iw-2).attr('y',ih+17).attr('text-anchor','end').attr('fill','var(--cold)').attr('font-size','9px').attr('font-family','var(--mono)').text('低 · 越独特 →');}
-draw();addEventListener('resize',()=>{clearTimeout(window.__rk);window.__rk=setTimeout(draw,200);});})();
+__vizReveal(el,draw);addEventListener('resize',()=>{clearTimeout(window.__rk);window.__rk=setTimeout(draw,200);});})();
 
 /* ── Chapter 08 · 空间相关性：圈层均值 / Spearman 热图 / 散点探索 ── */
 (async function(){
@@ -830,7 +833,7 @@ draw();addEventListener('resize',()=>{clearTimeout(window.__rk);window.__rk=setT
         g.append('text').attr('y',y0+rowH/2+4).attr('x',x(r[active])+8).attr('font-size','12px').attr('font-family','var(--mono)').attr('fill','var(--fg-mute)').attr('opacity',0).text(fmt(r[active])).transition().delay(i*80+320).attr('opacity',1);
       });
     }
-    draw();addEventListener('resize',()=>{clearTimeout(window.__rg);window.__rg=setTimeout(draw,200);});
+    __vizReveal(el,draw);addEventListener('resize',()=>{clearTimeout(window.__rg);window.__rg=setTimeout(draw,200);});
   })();
 
   /* FIG.07 · Spearman 相关矩阵 */
@@ -854,7 +857,7 @@ draw();addEventListener('resize',()=>{clearTimeout(window.__rk);window.__rk=setT
       L.forEach((lb,i)=>{g.append('text').attr('x',-8).attr('y',i*cell+(cell-2)/2+4).attr('text-anchor','end').attr('font-size','10px').attr('fill','var(--fg-mute)').text(lb);
         g.append('text').attr('transform',`translate(${i*cell+(cell-2)/2},${gw+8}) rotate(-42)`).attr('text-anchor','end').attr('font-size','10px').attr('fill','var(--fg-mute)').text(lb);});
     }
-    draw();addEventListener('resize',()=>{clearTimeout(window.__hm);window.__hm=setTimeout(draw,200);});
+    __vizReveal(el,draw);addEventListener('resize',()=>{clearTimeout(window.__hm);window.__hm=setTimeout(draw,200);});
   })();
 
   /* FIG.08 · 整合度 × 同质化 散点 */
@@ -888,7 +891,7 @@ draw();addEventListener('resize',()=>{clearTimeout(window.__rk);window.__rk=setT
         .transition().delay((_,i)=>i*7).duration(420).attr('r',5);
       const kk=C.key.find(r=>r.x===ax&&r.y===ay);if(kk){const tb=g.append('g').attr('transform',`translate(${iw-6},12)`);tb.append('text').attr('text-anchor','end').attr('font-size','12px').attr('font-family','var(--mono)').attr('fill','var(--fg)').text(`Spearman ρ = ${kk.rho.toFixed(3)} ${stars(kk.p)}`);tb.append('text').attr('text-anchor','end').attr('y',15).attr('font-size','9.5px').attr('font-family','var(--mono)').attr('fill','var(--fg-soft)').text(`p = ${kk.p} · n = ${kk.n}`);}
     }
-    draw();addEventListener('resize',()=>{clearTimeout(window.__sc);window.__sc=setTimeout(draw,200);});
+    __vizReveal(el,draw);addEventListener('resize',()=>{clearTimeout(window.__sc);window.__sc=setTimeout(draw,200);});
   })();
 })();
 
@@ -918,7 +921,7 @@ draw();addEventListener('resize',()=>{clearTimeout(window.__rk);window.__rk=setT
         g.append('text').attr('y',y0+rowH/2+4).attr('x',x(d.v)+7).attr('font-size','11px').attr('font-family','var(--mono)').attr('fill','var(--fg-mute)').attr('opacity',0).text(d.v).transition().delay(i*90+340).attr('opacity',1);
       });
     }
-    draw();addEventListener('resize',()=>{clearTimeout(window.__fc);window.__fc=setTimeout(draw,200);});
+    __vizReveal(el,draw);addEventListener('resize',()=>{clearTimeout(window.__fc);window.__fc=setTimeout(draw,200);});
   })();
 
   /* FIG.14 · SEI 九维雷达 */
@@ -939,7 +942,7 @@ draw();addEventListener('resize',()=>{clearTimeout(window.__rk);window.__rk=setT
       poly('qt','#d4503f','rgba(212,80,63,0.14)');
       g.append('text').attr('x',cx).attr('y',cy-R-26).attr('text-anchor','middle').attr('font-size','10px').attr('font-family','var(--mono)').attr('fill','var(--fg-soft)').text(`前滩 3.89 · 兴业 3.44 · ΔSEI 0.45`);
     }
-    draw();addEventListener('resize',()=>{clearTimeout(window.__rd);window.__rd=setTimeout(draw,200);});
+    __vizReveal(el,draw);addEventListener('resize',()=>{clearTimeout(window.__rd);window.__rd=setTimeout(draw,200);});
   })();
 
   /* FIG.15 · 田野 gallery */
