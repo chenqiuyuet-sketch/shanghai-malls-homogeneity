@@ -229,6 +229,8 @@ table.rank .rk { color: var(--fg-soft); }
 .fig-card .fc-cap { font-size: .74rem; color: var(--fg-soft); line-height: 1.5; margin: .5rem .2rem 0; }
 .fig-card.vga img { aspect-ratio: 4 / 3; object-fit: contain; padding: 10px; background: radial-gradient(130% 130% at 50% 30%, #23200f, #121009); box-shadow: var(--inset-sm); }
 .fig-card.dots img { aspect-ratio: 4 / 3; object-fit: contain; padding: 14px; background: transparent; }
+.fig-card .fc-empty { aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center; border-radius: 9px; box-shadow: var(--inset-sm); font-family: var(--mono); font-size: .72rem; letter-spacing: .04em; color: var(--fg-soft); }
+.fig-card .fc-empty[hidden], .fig-card img[hidden] { display: none; }
 .vga-legend { display: flex; align-items: center; gap: .6rem; margin: .85rem .3rem 0; font-size: .7rem; color: var(--fg-soft); font-family: var(--mono); }
 .vga-legend i { height: 7px; width: 200px; border-radius: 4px; background: linear-gradient(to right,#5683c4,#9a7fa0,#d4503f); box-shadow: var(--inset-sm); }
 .statpair { display: grid; grid-template-columns: 1.25fr 1fr; gap: 1.2rem; align-items: stretch; }
@@ -634,13 +636,14 @@ body.anim [data-rv].in { opacity: 1; transform: none; }
     </div>
 
     <div class="stage">
-      <div class="stage__bar"><span class="stage__label">FIG.12 · VGA 视域整合度 · 地面层 L1</span><span class="stage__live">LIVE</span></div>
+      <div class="stage__bar"><span class="stage__label">FIG.12 · VGA 视域整合度 · 逐层切换</span><span class="stage__live">LIVE</span></div>
+      <div class="tabs" id="vga-floor-tabs"></div>
       <div class="fig-pair">
-        <div class="fig-card dots"><div class="fc-top"><span class="fc-name qt">前滩太古里 · L1</span><span class="fc-tag">VGA · 波点</span></div><img loading="lazy" src="./data/phase2/vga/qt_l1_dots.png" alt="前滩 VGA L1 波点热力图"></div>
-        <div class="fig-card dots"><div class="fc-top"><span class="fc-name hk">兴业太古汇 · L1</span><span class="fc-tag">VGA · 波点</span></div><img loading="lazy" src="./data/phase2/vga/hkri_l1_dots.png" alt="兴业 VGA L1 波点热力图"></div>
+        <div class="fig-card dots"><div class="fc-top"><span class="fc-name qt" id="vga-name-qt">前滩太古里 · L1</span><span class="fc-tag">VGA · 波点</span></div><img loading="lazy" id="vga-img-qt" src="./data/phase2/vga/qt_l1_dots.png" alt="前滩太古里 VGA 波点热力图"><div class="fc-empty" id="vga-empty-qt" hidden>前滩太古里 · 无此楼层</div></div>
+        <div class="fig-card dots"><div class="fc-top"><span class="fc-name hk" id="vga-name-hk">兴业太古汇 · L1</span><span class="fc-tag">VGA · 波点</span></div><img loading="lazy" id="vga-img-hk" src="./data/phase2/vga/hkri_l1_dots.png" alt="兴业太古汇 VGA 波点热力图"><div class="fc-empty" id="vga-empty-hk" hidden>兴业太古汇 · 无此楼层</div></div>
       </div>
       <div class="vga-legend"><span>视域受限</span><i></i><span>视域开阔</span></div>
-      <div class="caption"><b>读图</b>：把视域整合度重画成波点热力图，<span style="color:var(--hot)">暖红大点</span>为视域最开阔、<span style="color:var(--cold)">冷蓝小点</span>为视域受限。前滩布满整层的密点表明开放街区各处视域均较通达；兴业则收敛为一条对角廊道，红点仅集中于中庭核心，视域高值与穿行主轴相互错开。（波点由 VGA 原图反推数值重绘，以与全站配色统一。）</div>
+      <div class="caption"><b>读图</b>：把视域整合度重画成波点热力图，<span style="color:var(--hot)">暖红大点</span>为视域最开阔、<span style="color:var(--cold)">冷蓝小点</span>为视域受限。点击上方标签可逐层切换。前滩太古里是开放街区，仅地上 L1 至 L4，各层视域普遍通达；兴业太古汇是围合中庭，含地下 LG2 至地上 L3，每层都收敛为一条对角廊道，红点集中于中庭核心。两栋楼层划分不同，个别楼层仅一侧有数据。（波点由 VGA 原图反推数值重绘，与全站配色统一。）</div>
     </div>
 
     <div class="stage">
@@ -1052,6 +1055,14 @@ __vizReveal(el,draw);addEventListener('resize',()=>{clearTimeout(window.__rk);wi
     el.innerHTML=P.field.map(f=>{const cls=f.mall.indexOf('前滩')>=0?'qt':'hk';return `<figure><img loading="lazy" src="./data/phase2/field/${f.img}" alt="${f.cap}"><figcaption><span class="gm ${cls}">${f.mall}</span>${f.cap}</figcaption></figure>`;}).join('');
   })();
 })();
+
+/* FIG.12 · VGA 波点 · 楼层切换 */
+(function(){const tabsEl=document.getElementById('vga-floor-tabs');if(!tabsEl)return;const base='./data/phase2/vga/';
+const FL=[{k:'lg2',l:'LG2',qt:null,hk:'hkri_lg2'},{k:'lg1',l:'LG1',qt:null,hk:'hkri_lg1'},{k:'l1',l:'L1',qt:'qt_l1',hk:'hkri_l1'},{k:'l2',l:'L2',qt:'qt_l2',hk:'hkri_l2'},{k:'l3',l:'L3',qt:'qt_l3',hk:'hkri_l3'},{k:'l4',l:'L4',qt:'qt_l4',hk:null}];
+const iq=document.getElementById('vga-img-qt'),ih=document.getElementById('vga-img-hk'),nq=document.getElementById('vga-name-qt'),nh=document.getElementById('vga-name-hk'),eq=document.getElementById('vga-empty-qt'),eh=document.getElementById('vga-empty-hk');
+function setSide(img,nm,em,file,mall,label){nm.textContent=mall+' · '+label;if(file){img.src=base+file+'_dots.png';img.hidden=false;em.hidden=true;}else{img.hidden=true;em.hidden=false;}}
+function sel(f){setSide(iq,nq,eq,f.qt,'前滩太古里',f.l);setSide(ih,nh,eh,f.hk,'兴业太古汇',f.l);[...tabsEl.children].forEach(b=>b.classList.toggle('active',b.dataset.k===f.k));}
+FL.forEach(f=>{const b=document.createElement('button');b.className='tab'+(f.k==='l1'?' active':'');b.dataset.k=f.k;b.textContent=f.l;b.onclick=()=>sel(f);tabsEl.appendChild(b);});})();
 
 /* FIG.14 · 田野 D2 清单 · 模块切换 */
 (function(){const root=document.querySelector('.d2');if(!root)return;const tabs=[...root.querySelectorAll('.d2-tab')],mods=[...root.querySelectorAll('.d2-mod')];tabs.forEach(t=>t.addEventListener('click',()=>{const m=t.dataset.mod;tabs.forEach(x=>x.classList.toggle('active',x===t));mods.forEach(b=>{b.style.display=(m==='all'||b.dataset.mod===m)?'':'none';});}));})();
