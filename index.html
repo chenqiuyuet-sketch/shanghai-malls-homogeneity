@@ -283,6 +283,23 @@ table.rank .rk { color: var(--fg-soft); }
 .chips .chip b { font-family: var(--mono); font-size: .6rem; color: var(--fg-soft); margin-right: .35rem; font-weight: 400; }
 .chips .chip.qt { color: var(--hot); } .chips .chip.hk { color: var(--accent); }
 
+/* ───── 动效：首屏入场 + 滚动揭示 + 数字滚动 ───── */
+@keyframes heroIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+body.anim .hero > * { animation: heroIn .75s var(--easing) both; }
+body.anim .hero .eyebrow { animation-delay: .05s; }
+body.anim .hero h1 { animation-delay: .13s; }
+body.anim .hero .sub-zh { animation-delay: .22s; }
+body.anim .hero .sub-en { animation-delay: .30s; }
+body.anim .hero .lede { animation-delay: .40s; }
+body.anim .hero .kpis { animation-delay: .50s; }
+body.anim .hero .scroll-hint { animation-delay: .64s; }
+body.anim [data-rv] { opacity: 0; transform: translateY(22px); transition: opacity .6s var(--easing), transform .6s var(--easing); }
+body.anim [data-rv].in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  body.anim .hero > * { animation: none; }
+  body.anim [data-rv] { opacity: 1; transform: none; transition: none; }
+}
+
 /* ───── 移动端 / 小屏适配 ───── */
 @media (max-width: 900px) {
   body { display: block; }
@@ -312,7 +329,7 @@ table.rank .rk { color: var(--fg-soft); }
 }
 </style>
 </head>
-<body>
+<body class="anim">
 
 <div id="cursor"></div>
 
@@ -333,13 +350,13 @@ table.rank .rk { color: var(--fg-soft); }
     <a href="#exp" data-t="exp"><span class="num">10</span><span>体验分叉</span></a>
     <a href="#coda" data-t="coda"><span class="num">11</span><span>结语</span></a>
   </nav>
-  <div class="meta">城市分析 · 第 4 组<br>陈 · 黄 · 张 · 吴 · 姚 · 舒<br>2026 春季学期<br><br>80 MALLS · 3 LAYERS<br>暖调米灰 · neumorphism</div>
+  <div class="meta">城市分析方法与工具 · 第 4 组<br>陈秋岳 · 黄成飞 · 张子瀚 · 舒展 · 吴清轩 · 姚亦能<br>2026 春季学期<br><br>80 MALLS · 3 LAYERS</div>
 </aside>
 
 <main>
   <!-- Hero -->
   <header class="hero" id="hero">
-    <div class="eyebrow">城市分析 · 上海购物中心研究</div>
+    <div class="eyebrow">城市分析方法与工具 · 上海购物中心研究</div>
     <h1>千店<span class="q">一面</span></h1>
     <div class="sub-zh">上海购物中心同质化的三层观察</div>
     <div class="sub-en">80 malls · 3 layers · 1 question</div>
@@ -681,7 +698,7 @@ table.rank .rk { color: var(--fg-soft); }
     <p class="chapter__lede" style="font-weight:600;color:var(--fg);margin-top:1.4rem">千店可以一面。但走进去，<span style="color:var(--hot)">未必一面</span>。</p>
 
     <div class="credits">
-      <b>城市分析 · 第 4 组</b> ｜ 陈（统筹 + 前端可视化）· 黄（数据采集 + 同质化指标计算）· 张（地理结论一 + 全市相关性）· 吴（品牌同质化模型建构）· 姚（depthmap 路网建构 + 业态分类 + 田野）· 舒（建筑尺度 sDNA / VGA 建模 + 田野 + 结论二）<br>
+      <b>城市分析方法与工具 · 第 4 组</b> ｜ 陈秋岳（统筹 + 前端可视化）· 黄成飞（数据采集 + 同质化指标计算）· 张子瀚（地理结论一 + 全市相关性）· 吴清轩（品牌同质化模型建构）· 姚亦能（depthmap 路网建构 + 业态分类 + 田野）· 舒展（建筑尺度 sDNA / VGA 建模 + 田野 + 结论二）<br>
       数据：80 家上海购物中心实地与官网调研，前滩太古里 / 兴业太古汇内部三维步行网络建模 ｜ 方法：Whittaker α/β/γ · 余弦相似（MHI_f / MHI_sf）· OSM 路网角度整合度 · Spearman 相关 · sDNA 三维步行网络 · VGA 视域分析 · SEI 田野量表 ｜ 2026 春季学期
     </div>
   </section>
@@ -703,6 +720,19 @@ function up(){tk=false;if(performance.now()<lock)return;const line=scrollY+Math.
 function onS(){if(!tk){tk=true;requestAnimationFrame(up);}}
 ls.forEach(a=>a.addEventListener('click',()=>{setActive(a);lock=performance.now()+700;}));
 addEventListener('scroll',onS,{passive:true});addEventListener('resize',onS);up();})();
+
+/* 动效：滚动揭示 + 首屏数字滚动（基于滚动，保证不会卡在隐藏态） */
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  document.querySelectorAll('.chapter__num,.chapter__title,.chapter__lede,.chapter__body,.stage,.matrix,.obs,.credits').forEach(el=>el.setAttribute('data-rv',''));
+  document.querySelectorAll('.layers,.takeaways,.cand-grid,.flow').forEach(g=>{[...g.children].forEach((c,i)=>{if(c.classList.contains('arrow'))return;c.setAttribute('data-rv','');c.style.transitionDelay=(i*60)+'ms';});});
+  const items=[...document.querySelectorAll('[data-rv]')];let tk=false;
+  function reveal(){tk=false;const line=innerHeight*0.92;for(const el of items){if(el.__in)continue;if(el.getBoundingClientRect().top<line){el.classList.add('in');el.__in=1;}}}
+  function onS(){if(!tk){tk=true;requestAnimationFrame(reveal);}}
+  addEventListener('scroll',onS,{passive:true});addEventListener('resize',onS);reveal();
+  function countUp(node,target,dur){let s=null;function step(t){if(!s)s=t;const p=Math.min((t-s)/dur,1),e=1-Math.pow(1-p,3);node.textContent=Math.round(e*target);if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+  setTimeout(()=>{document.querySelectorAll('.hero .kpi .v').forEach(v=>{const tn=v.childNodes[0],tgt=parseInt(tn.textContent,10);if(tgt){tn.textContent='0';countUp(tn,tgt,900);}});},560);
+})();
 
 /* 品牌覆盖 bar */
 (async function(){const d=await(await fetch('./data/phase1/brand_coverage.json')).json();const top=d.slice(0,22);const el=document.getElementById('viz-cov');const W=el.clientWidth,H=500,M={t:8,r:56,b:22,l:92},iw=W-M.l-M.r,ih=H-M.t-M.b;const svg=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').attr('height','100%');const g=svg.append('g').attr('transform',`translate(${M.l},${M.t})`);const max=d3.max(top,x=>x.mall_count);const x=d3.scaleLinear().domain([0,max]).range([0,iw]);const y=d3.scaleBand().domain(top.map(x=>x.brand)).range([0,ih]).padding(.3);const col=d3.scaleLinear().domain([8,max]).range(['#9aa6b8','#d4503f']);const tip=mkTip(el);
