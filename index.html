@@ -422,9 +422,9 @@ body.anim [data-rv].in { opacity: 1; transform: none; }
     <p class="chapter__lede">本章考察店招层面的连锁品牌构成。少数头部连锁几乎渗透全市，显著提高了任意两家商场之间的品牌重合度。这是同质化三层框架的第一层。</p>
 
     <div class="layers">
-      <div class="layer l1"><div class="lyr-idx">LAYER 01 · 本章</div><div class="lyr-name">品牌池</div><div class="lyr-metric">MHI_i · Whittaker</div><div class="lyr-desc">两家商场共享多少同样的品牌，越高越像。</div></div>
-      <div class="layer l2"><div class="lyr-idx">LAYER 02</div><div class="lyr-name">业态构成</div><div class="lyr-metric">MHI_f · 业态余弦</div><div class="lyr-desc">14 类业态的配比是否趋同，餐饮服饰主导。</div></div>
-      <div class="layer l3"><div class="lyr-idx">LAYER 03</div><div class="lyr-name">楼层模板</div><div class="lyr-metric">MHI_sf · 楼层余弦</div><div class="lyr-desc">把业态压进 4 层展开成 56 维向量，看功能是否落在相近层级。</div></div>
+      <div class="layer l1"><div class="lyr-idx">LAYER 01 · 本章</div><div class="lyr-name">品牌池</div><div class="lyr-metric">MHI_i · 品牌重合</div><div class="lyr-desc">两家商场共享多少同样的品牌，越高越像。</div></div>
+      <div class="layer l2"><div class="lyr-idx">LAYER 02</div><div class="lyr-name">业态构成</div><div class="lyr-metric">MHI_f · 业态配比</div><div class="lyr-desc">14 类业态的占比是否接近，餐饮服饰主导。</div></div>
+      <div class="layer l3"><div class="lyr-idx">LAYER 03</div><div class="lyr-name">楼层模板</div><div class="lyr-metric">MHI_sf · 楼层功能</div><div class="lyr-desc">把每层楼的业态分别比一次，看相似的店是否开在相近的楼层。</div></div>
     </div>
 
     <div class="stage">
@@ -594,7 +594,7 @@ body.anim [data-rv].in { opacity: 1; transform: none; }
     </div>
 
     <div class="chapter__body">
-      <p><b>0.8385 的计算方式</b>：将每家商场的品牌按所属业态（14 类）与所在楼层层级（地下层、地面层、中间层、顶层共 4 层）归入 4×14 = 56 个单元，每家得到一条 56 维计数向量。前滩与兴业各自得到这样一条向量，再计算余弦相似度，<span style="font-family:var(--mono)">cos(v<sub>前滩</sub>, v<sub>兴业</sub>) = 0.8385</span>。该指标衡量的并非「业态种类是否相同」，而是<b>相同的业态是否落在相同的楼层</b>。两家共享同一份高端品牌池，又将品牌布置在彼此相近的楼层位置，余弦值因此偏高。</p>
+      <p><b>0.8385 是怎么来的</b>：把每家商场的店铺按业态（14 类）和所在楼层（地下、地面、中间、顶层共 4 层）归类，每家得到一张「哪类店开在哪一层」的分布表。前滩与兴业各自有这样一张表，两张表越接近，相似度越高，算出来正好是 <span style="font-family:var(--mono)">0.8385</span>。它衡量的不是「业态种类是否相同」，而是<b>相同的业态是否开在相同的楼层</b>。两家共享同一批高端品牌，又把它们布置在彼此相近的楼层，相似度因此偏高。</p>
     </div>
     <div class="chapter__body">
       <p>在选定这一对之后，真正的差异需回到楼层剖面来考察。前滩将餐饮布置在开放街区的地面与顶层，兴业则把高区分配给写字楼配套。<b>同一份品牌名单，落入不同的楼层模板，实际的空间体验才被重新区分开。</b>这也是阶段二需要继续追问的问题。</p>
