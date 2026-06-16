@@ -257,6 +257,39 @@ table.rank .rk { color: var(--fg-soft); }
 .obs .ohead > div { font-weight: 700; color: var(--fg); }
 .obs .ohead .oq, .obs .ohead .oh { box-shadow: none; }
 @media (max-width: 560px) { .obs .or { grid-template-columns: 4.6rem 1fr 1fr; } .obs .or > div { font-size: .74rem; padding: .6rem .6rem; } }
+
+/* FIG.14 · 田野调查双栏对比清单（D2） */
+.d2 { margin: .4rem 0; }
+.d2-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+.d2-tab { font-family: var(--mono); font-size: .68rem; letter-spacing: .03em; padding: 5px 13px; border-radius: 9px; cursor: pointer; border: 0; background: var(--bg); color: var(--fg-mute); box-shadow: var(--raise-sm); transition: box-shadow .2s var(--easing), color .2s var(--easing); }
+.d2-tab:hover { color: var(--fg); }
+.d2-tab.active { color: var(--accent); box-shadow: var(--inset-sm); }
+.d2-head { display: grid; grid-template-columns: 8.5rem 1fr 1fr; }
+.d2-ch { padding: .5rem .8rem; font-size: .8rem; font-weight: 700; display: flex; align-items: center; gap: 7px; }
+.d2-ch.qt { color: var(--hot); } .d2-ch.hk { color: var(--accent); }
+.d2-cdot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.d2-mod { border-radius: 14px; box-shadow: var(--inset); overflow: hidden; margin: .5rem 0 1.1rem; }
+.d2-mt { display: flex; align-items: center; gap: 8px; padding: .7rem .9rem; font-family: var(--mono); font-size: .72rem; letter-spacing: .04em; color: var(--fg); font-weight: 600; background: rgba(74,70,63,.045); }
+.d2-mtdot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.d2-row { display: grid; grid-template-columns: 8.5rem 1fr 1fr; border-top: 1px solid rgba(74,70,63,.08); }
+.d2-row > div { padding: .7rem .85rem; line-height: 1.55; font-size: .8rem; }
+.d2-lab { display: flex; flex-direction: column; gap: 2px; }
+.d2-code { font-family: var(--mono); font-size: .62rem; color: var(--fg-soft); }
+.d2-name { font-size: .76rem; color: var(--fg); font-weight: 500; }
+.d2-cell { color: var(--fg-mute); }
+.d2-cell.qt { box-shadow: inset 2px 0 0 var(--hot); }
+.d2-cell.hk { box-shadow: inset 2px 0 0 var(--accent); }
+.d2-cell b { color: var(--fg); font-weight: 600; }
+.d2-cell em { font-style: normal; color: var(--fg); }
+.d2-badge { display: inline-block; font-family: var(--mono); font-size: .66rem; font-weight: 600; padding: 1px 7px; border-radius: 4px; }
+.d2-badge.qt { background: rgba(212,80,63,.12); color: var(--hot); }
+.d2-badge.hk { background: rgba(91,108,196,.12); color: var(--accent); }
+.d2-sum { display: grid; grid-template-columns: 8.5rem 1fr; border-top: 1px solid rgba(74,70,63,.1); background: rgba(74,70,63,.03); }
+.d2-sum > div { padding: .7rem .9rem; font-size: .78rem; line-height: 1.6; }
+.d2-sl { font-family: var(--mono); font-size: .66rem; color: var(--fg-soft); font-weight: 600; align-self: center; }
+.d2-sb { color: var(--fg-mute); }
+.d2-sb b { color: var(--fg); font-weight: 600; }
+@media (max-width: 560px) { .d2-head, .d2-row { grid-template-columns: 5rem 1fr 1fr; } .d2-sum { grid-template-columns: 5rem 1fr; } .d2-row > div { font-size: .72rem; padding: .55rem .55rem; } }
 .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(176px,1fr)); gap: .8rem; }
 .gallery figure { border-radius: 12px; box-shadow: var(--raise-sm); overflow: hidden; background: var(--bg); }
 .gallery img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
@@ -635,7 +668,75 @@ body.anim [data-rv].in { opacity: 1; transform: none; }
     <p class="chapter__lede">建筑尺度的差异，落到使用者身上即转化为可测量的体验差异。田野调查将空间体验分解为 9 个维度逐项评分（SEI，spatial experience index，空间体验指数），前滩综合得分 3.89，兴业 3.44，相差 0.45。</p>
 
     <div class="stage">
-      <div class="stage__bar"><span class="stage__label">FIG.14 · SEI 空间体验指数 · 九维雷达</span><span class="stage__live">LIVE</span></div>
+      <div class="stage__bar"><span class="stage__label">FIG.14 · 田野调查 · 双栏对比清单</span><span class="stage__live">FIELD</span></div>
+      <div class="d2">
+        <div class="d2-tabs">
+          <button class="d2-tab active" data-mod="all">全部</button>
+          <button class="d2-tab" data-mod="A">A 空间结构</button>
+          <button class="d2-tab" data-mod="B">B 空间质量</button>
+          <button class="d2-tab" data-mod="C">C 空间界面</button>
+          <button class="d2-tab" data-mod="D">D 整体感知</button>
+        </div>
+        <div class="d2-head"><div></div><div class="d2-ch qt"><span class="d2-cdot" style="background:var(--hot)"></span>前滩太古里</div><div class="d2-ch hk"><span class="d2-cdot" style="background:var(--accent)"></span>兴业太古汇</div></div>
+
+        <div class="d2-mod" data-mod="A">
+          <div class="d2-mt"><span class="d2-mtdot" style="background:#1D9E75"></span>模块 A · 空间结构</div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">A1-1</span><span class="d2-name">楼层数</span></div><div class="d2-cell qt">地上 <b>4</b> 层，地下 <b>1</b> 层</div><div class="d2-cell hk">地上 <b>4</b> 层，地下 <b>2</b> 层</div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">A1-2</span><span class="d2-name">平面布局</span></div><div class="d2-cell qt"><b>复合型</b>（两个中庭型复合，空中连廊链接）</div><div class="d2-cell hk"><b>中庭型</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">A1-3</span><span class="d2-name">中庭数量</span></div><div class="d2-cell qt">石区 <b>1</b> 个；木区露天 <b>×2</b>＋内部 <b>×1</b></div><div class="d2-cell hk"><b>2</b> 个</div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">A1-4</span><span class="d2-name">主要动线类型</span></div><div class="d2-cell qt"><b>单侧廊道</b></div><div class="d2-cell hk"><b>单侧廊道</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">A2-1</span><span class="d2-name">中庭层高感知</span></div><div class="d2-cell qt"><b>适中</b></div><div class="d2-cell hk"><b>高通透（&gt;20m）</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">A2-2</span><span class="d2-name">中庭底部功能</span></div><div class="d2-cell qt"><b>公共休息区</b></div><div class="d2-cell hk"><b>品牌展示</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">A2-3</span><span class="d2-name">中庭自然采光</span></div><div class="d2-cell qt"><b>明显</b></div><div class="d2-cell hk"><b>明显</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">A3-1</span><span class="d2-name">垂直交通方式</span></div><div class="d2-cell qt"><b>混合</b>（扶梯＋电梯）</div><div class="d2-cell hk"><b>扶梯为主</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">A3-2</span><span class="d2-name">扶梯对中庭可见度</span></div><div class="d2-cell qt"><b>完全可见</b></div><div class="d2-cell hk"><b>完全可见</b></div></div>
+          <div class="d2-sum"><div class="d2-sl">A 小结</div><div class="d2-sb">动线类型相同（同为单侧廊道），空间体验却截然分化：太古里以<b>复合型开放布局</b>和公共休息导向的中庭构建停留感，兴业则以<b>高通透的封闭中庭</b>制造视觉震撼，底部用于品牌展示而非公共使用。</div></div>
+        </div>
+
+        <div class="d2-mod" data-mod="B">
+          <div class="d2-mt"><span class="d2-mtdot" style="background:#5683c4"></span>模块 B · 空间质量</div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">B1-1</span><span class="d2-name">开放性公共座椅</span></div><div class="d2-cell qt">室内 <b>无</b>；室外 <b>≤5 处</b></div><div class="d2-cell hk">室内外合计 <b>仅 1 处</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">B1-2</span><span class="d2-name">外摆性座椅</span></div><div class="d2-cell qt">室内 <b>无</b>；室外 <b>≥10</b>，仅餐饮门口</div><div class="d2-cell hk">室外 <b>5 至 10</b>，仅餐饮区附近</div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">B1-3</span><span class="d2-name">座椅分布位置</span></div><div class="d2-cell qt">开放性 <b>室外散布</b>，外摆性 <b>仅室外餐饮门口</b></div><div class="d2-cell hk"><b>仅餐饮区附近</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">B1-4</span><span class="d2-name">非消费性停留</span></div><div class="d2-cell qt"><b>几乎没有</b></div><div class="d2-cell hk"><b>大量</b>集中在路易号附近，其他区域几乎没有</div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">B2-1</span><span class="d2-name">室内绿化可见度</span></div><div class="d2-cell qt"><b>点缀</b>（少量盆栽）</div><div class="d2-cell hk"><b>点缀</b>（少量盆栽）</div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">B2-2</span><span class="d2-name">室外公共空间</span></div><div class="d2-cell qt">有，面积 <b>大</b></div><div class="d2-cell hk">有，面积 <b>中</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">B2-3</span><span class="d2-name">自然采光覆盖</span></div><div class="d2-cell qt"><b>大部分</b></div><div class="d2-cell hk"><b>大部分</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">B3-0</span><span class="d2-name">定点观察地点</span></div><div class="d2-cell qt"><b>星巴克 &amp; 花墙</b></div><div class="d2-cell hk"><b>地铁 5 号口（路易号）</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">B3-1</span><span class="d2-name">人群密度</span></div><div class="d2-cell qt"><b>适中</b></div><div class="d2-cell hk"><b>拥挤</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">B3-2</span><span class="d2-name">主要年龄构成</span></div><div class="d2-cell qt">年轻白领、家庭与儿童、中老年</div><div class="d2-cell hk">年轻白领、中老年、<b>外国人</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">B3-3</span><span class="d2-name">非消费停留人数</span></div><div class="d2-cell qt"><b>6 人</b></div><div class="d2-cell hk"><b>大量</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">B3-4</span><span class="d2-name">拍照打卡次数</span></div><div class="d2-cell qt"><b>2 次</b></div><div class="d2-cell hk"><b>大量</b></div></div>
+          <div class="d2-sum"><div class="d2-sl">B 小结</div><div class="d2-sb">两家公共座椅均极度匮乏，人群活力却呈相反规律：兴业地铁出口拥挤、打卡频繁，却几乎无法驻留，太古里人群适中，也因座椅缺失难以停留。<b>空间开放却不邀请停留</b>，是两家共同的体验矛盾。</div></div>
+        </div>
+
+        <div class="d2-mod" data-mod="C">
+          <div class="d2-mt"><span class="d2-mtdot" style="background:#BA7517"></span>模块 C · 空间界面</div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">C1-1</span><span class="d2-name">地面材质</span></div><div class="d2-cell qt">地砖为主，木区内部 <b>木地板</b></div><div class="d2-cell hk"><b>瓷砖（地砖）</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">C1-2</span><span class="d2-name">公共区域主色调</span></div><div class="d2-cell qt">石区 <b>冷白灰（极简）</b>，木区 <b>暖木色（自然）</b></div><div class="d2-cell hk"><b>瓷砖色</b>（中性）</div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">C1-3</span><span class="d2-name">店铺外立面风格</span></div><div class="d2-cell qt">石区 <b>石立面统一</b>，木区 <b>木立面统一</b>，内部店面多有独特风格</div><div class="d2-cell hk"><b>各自风格明显</b>，无统一立面语言</div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">C1-4</span><span class="d2-name">公共区域灯光</span></div><div class="d2-cell qt">石区 <b>冷白光</b>，木区 <b>暖黄光</b></div><div class="d2-cell hk"><b>暖黄光（温馨）</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">C2-1</span><span class="d2-name">导视牌风格</span></div><div class="d2-cell qt"><b>普通（功能导向）</b></div><div class="d2-cell hk"><b>品牌化（有设计感）</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">C2-2</span><span class="d2-name">楼层导视清晰度</span></div><div class="d2-cell qt"><span class="d2-badge qt">4 / 5</span></div><div class="d2-cell hk"><span class="d2-badge hk">4 / 5</span></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">C2-3</span><span class="d2-name">视觉语言辨识度</span></div><div class="d2-cell qt"><span class="d2-badge qt">5 / 5</span></div><div class="d2-cell hk"><span class="d2-badge hk">3 / 5</span> <span style="font-size:.66rem;color:var(--fg-soft)">商场外部有明显地标</span></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">C3-1</span><span class="d2-name">第一眼品牌类型</span></div><div class="d2-cell qt"><b>奢侈品</b></div><div class="d2-cell hk"><b>奢侈品</b></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">C3-2</span><span class="d2-name">入口界面整洁度</span></div><div class="d2-cell qt"><span class="d2-badge qt">3 / 5</span></div><div class="d2-cell hk"><span class="d2-badge hk">5 / 5</span></div></div>
+          <div class="d2-sum"><div class="d2-sl">C 小结</div><div class="d2-sb">太古里以<b>分区材质系统</b>建立强辨识度（5/5），兴业以<b>精致入口</b>（整洁度 5/5）和品牌化导视制造第一印象优势。两者的界面策略形成互补，一个依靠系统性的材质语言，一个依靠单点的精工细作。</div></div>
+        </div>
+
+        <div class="d2-mod" data-mod="D">
+          <div class="d2-mt"><span class="d2-mtdot" style="background:var(--fg-soft)"></span>模块 D · 整体感知</div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">D1</span><span class="d2-name">与对照组相似度感知</span></div><div class="d2-cell qt"><span class="d2-badge qt">3 / 7</span> <span style="font-size:.66rem;color:var(--fg-soft)">外部差异大、内部差异小</span></div><div class="d2-cell hk"><span class="d2-badge hk">3 / 7</span></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">D2</span><span class="d2-name">空间体验独特性</span></div><div class="d2-cell qt"><span class="d2-badge qt">5 / 5</span></div><div class="d2-cell hk"><span class="d2-badge hk">2 / 5</span></div></div>
+          <div class="d2-row"><div class="d2-lab"><span class="d2-code">D3</span><span class="d2-name">开放记录</span></div><div class="d2-cell qt"><em>「独特的分区体验与走道体验」</em></div><div class="d2-cell hk"><em>「外部空间独特，内部空间同质化严重」</em></div></div>
+          <div class="d2-sum"><div class="d2-sl">D 小结</div><div class="d2-sb">两家相似度感知同为 3/7，与 MHI_sf=0.84 的量化相似形成感知落差。独特性评分却差异悬殊（5 比 2）：太古里凭空间结构差异在体验层建立了区分度，兴业的独特性仅停留在外部形象，内部体验被感知为同质化。</div></div>
+        </div>
+      </div>
+      <div class="caption"><b>读图</b>：结构化田野清单（v5），分四个模块逐项并置 <span style="color:var(--hot)">前滩太古里</span> 与 <span style="color:var(--accent)">兴业太古汇</span>，点击上方标签可只看某一模块，每个模块末尾附小结。下方 FIG.15 的九维雷达即由本清单提炼。</div>
+    </div>
+
+    <div class="stage">
+      <div class="stage__bar"><span class="stage__label">FIG.15 · SEI 空间体验指数 · 九维雷达</span><span class="stage__live">LIVE</span></div>
       <div class="stage__well"><div id="viz-radar" style="min-height:300px"></div></div>
       <div class="caption"><b>读图</b>：九维雷达，满分 5。<span style="color:var(--hot)">前滩（暖红）</span>在动线开放度、公共空间功能、材质一致性上凸出，<span style="color:var(--accent)">兴业（蓝）</span>在垂直通透感、入口第一印象上较为突出。<b>标识导视两家持平（均 4 分）</b>，是唯一无差异的维度，表明分化源于布局类型，而非商业管理质量。</div>
     </div>
@@ -653,7 +754,7 @@ body.anim [data-rv].in { opacity: 1; transform: none; }
     </div>
 
     <div class="stage">
-      <div class="stage__bar"><span class="stage__label">FIG.15 · 田野照片记录</span><span class="stage__live">FIELD</span></div>
+      <div class="stage__bar"><span class="stage__label">FIG.16 · 田野照片记录</span><span class="stage__live">FIELD</span></div>
       <div class="gallery" id="gallery"></div>
       <div class="caption"><b>读图</b>：<span style="color:var(--hot)">前滩太古里</span>与<span style="color:var(--accent)">兴业太古汇</span>的现场记录。前滩依托露天中庭、跑者楼梯与公共座位提供开放的公共性，兴业依托整场天幕提供通透感，但室内停留设施较少。</div>
     </div>
@@ -924,7 +1025,7 @@ __vizReveal(el,draw);addEventListener('resize',()=>{clearTimeout(window.__rk);wi
     __vizReveal(el,draw);addEventListener('resize',()=>{clearTimeout(window.__fc);window.__fc=setTimeout(draw,200);});
   })();
 
-  /* FIG.14 · SEI 九维雷达 */
+  /* FIG.15 · SEI 九维雷达 */
   (function(){
     const el=document.getElementById('viz-radar'); if(!el)return; const dims=P.sei.dims,n=dims.length,tip=mkTip(el);
     const GC={'空间结构':'#1D9E75','空间质量':'#5683c4','空间界面':'#BA7517'};
@@ -945,12 +1046,15 @@ __vizReveal(el,draw);addEventListener('resize',()=>{clearTimeout(window.__rk);wi
     __vizReveal(el,draw);addEventListener('resize',()=>{clearTimeout(window.__rd);window.__rd=setTimeout(draw,200);});
   })();
 
-  /* FIG.15 · 田野 gallery */
+  /* FIG.16 · 田野 gallery */
   (function(){
     const el=document.getElementById('gallery'); if(!el)return;
     el.innerHTML=P.field.map(f=>{const cls=f.mall.indexOf('前滩')>=0?'qt':'hk';return `<figure><img loading="lazy" src="./data/phase2/field/${f.img}" alt="${f.cap}"><figcaption><span class="gm ${cls}">${f.mall}</span>${f.cap}</figcaption></figure>`;}).join('');
   })();
 })();
+
+/* FIG.14 · 田野 D2 清单 · 模块切换 */
+(function(){const root=document.querySelector('.d2');if(!root)return;const tabs=[...root.querySelectorAll('.d2-tab')],mods=[...root.querySelectorAll('.d2-mod')];tabs.forEach(t=>t.addEventListener('click',()=>{const m=t.dataset.mod;tabs.forEach(x=>x.classList.toggle('active',x===t));mods.forEach(b=>{b.style.display=(m==='all'||b.dataset.mod===m)?'':'none';});}));})();
 
 function mkTip(el){const t=document.createElement('div');t.className='viz-tip';el.style.position='relative';el.appendChild(t);return t;}
 function showTip(t,e,el,h){const r=el.getBoundingClientRect();t.innerHTML=h;t.style.left=(e.clientX-r.left+12)+'px';t.style.top=(e.clientY-r.top+12)+'px';t.style.opacity=1;}
