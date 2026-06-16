@@ -793,13 +793,13 @@ body.anim [data-rv].in { opacity: 1; transform: none; }
       <div class="mf-node mf-data"><div class="mf-tag">数据底座</div><div class="mf-note"><b>80</b> 家商场 · <b>14</b> 类业态 · 上万条去重品牌记录</div></div>
       <div class="mf-arrow"><span>↓</span><span class="l">分两条并行支路</span></div>
       <div class="mf-fork">
-        <div class="mf-node"><div class="mf-tag">MHI<sub>i</sub> · 品牌层</div><div class="mf-formula">|A ∩ B| / |A ∪ B|</div><div class="mf-note">品牌集合的 Jaccard 相似，与其余 79 家取均值</div></div>
-        <div class="mf-node"><div class="mf-tag">MHI<sub>f</sub> · 业态层</div><div class="mf-formula">cos(p, q)</div><div class="mf-note">14 维加权业态向量的夹角余弦</div></div>
+        <div class="mf-node"><div class="mf-tag">MHI<sub>i</sub> · 品牌层</div><div class="mf-formula">|A ∩ B| / |A ∪ B|</div><div class="mf-note"><b>A、B</b> 两家的品牌集合，<b>∩</b> 取交集、<b>∪</b> 取并集；即共有品牌占两家品牌合计的比例，再对其余 79 家求平均。</div></div>
+        <div class="mf-node"><div class="mf-tag">MHI<sub>f</sub> · 业态层</div><div class="mf-formula">cos(p, q)</div><div class="mf-note"><b>p、q</b> 两家的 14 维业态比例向量，<b>cos</b> 是两向量的夹角余弦，越接近 1 越像。</div></div>
       </div>
       <div class="mf-arrow"><span>↓</span><span class="l">min-max 标准化 → S<sub>i</sub> , S<sub>f</sub></span></div>
-      <div class="mf-node mf-h"><div class="mf-tag">复合 · H</div><div class="mf-formula big">H = ( S<sub>i</sub> + S<sub>f</sub> ) / 2</div><div class="mf-note">0 到 1 的综合同质化分，越高越「千店一面」</div></div>
+      <div class="mf-node mf-h"><div class="mf-tag">复合 · H</div><div class="mf-formula big">H = ( S<sub>i</sub> + S<sub>f</sub> ) / 2</div><div class="mf-note"><b>S<sub>i</sub>、S<sub>f</sub></b> 是把品牌分、业态分各自归到 0 到 1 后的标准化值，<b>H</b> 取两者平均，越高越「千店一面」。</div></div>
       <div class="mf-arrow"><span>↓</span><span class="l">回到内部空间</span></div>
-      <div class="mf-node mf-sf"><div class="mf-tag">MHI<sub>sf</sub> · 楼层层</div><div class="mf-formula">cos(v<sub>前滩</sub>, v<sub>兴业</sub>) · 4×14 = 56 维</div><div class="mf-note">相似业态是否落在相近楼层，筛出兴业 <b>0.8385</b></div></div>
+      <div class="mf-node mf-sf"><div class="mf-tag">MHI<sub>sf</sub> · 楼层层</div><div class="mf-formula">cos(v<sub>前滩</sub>, v<sub>兴业</sub>) · 4×14 = 56 维</div><div class="mf-note"><b>v</b> 是每家「4 层级 × 14 业态 = 56 维」的功能分布向量，<b>cos</b> 比两家，前滩对兴业 = <b>0.8385</b>。</div></div>
     </div>
   </section>
 
