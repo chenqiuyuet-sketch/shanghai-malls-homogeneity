@@ -781,17 +781,16 @@ body.anim [data-rv].in { opacity: 1; transform: none; }
   <section class="chapter" id="method">
     <div class="chapter__num">Appendix · Method</div>
     <h2 class="chapter__title">指标是怎么算出来的</h2>
-    <p class="chapter__lede">同质化并不是凭感觉打分。四个 MHI 指数从一份 80 家商场、上万条品牌记录的数据出发，分品牌、业态、复合、楼层四步搭建，每一步都留有可复核的口径。</p>
+    <p class="chapter__lede">同质化不是凭感觉打分，而是把「两家商场有多像」算成一个分数。数据涵盖 80 家商场、上万条店铺记录，从品牌、业态、楼层三个角度逐层比对。</p>
 
     <div class="method-steps">
-      <div class="ms"><div class="ms-k">01 · 数据底座</div><div class="ms-b">采集 80 家商场的全部店铺点位，归一化品牌名称后，得到 <b>11140</b> 条去重的商场与品牌记录、<b>6368</b> 个标准化品牌，并把每个品牌归入 <b>14</b> 类功能业态。这张表是后面所有指标共同的输入。</div></div>
-      <div class="ms"><div class="ms-k">02 · 品牌层 · MHI<sub>i</sub></div><div class="ms-b">把每家商场看作一个品牌集合，两两计算 Jaccard 相似度，也就是 <span class="f">两家共有品牌数 ÷ 两家品牌并集</span>，再取这家与其余 79 家的平均，作为它的品牌同质化。数值越高，说明它的品牌池与全市越雷同。</div></div>
-      <div class="ms"><div class="ms-k">03 · 业态层 · MHI<sub>f</sub></div><div class="ms-b">把每家的品牌按 14 类业态汇成比例向量，并按业态加权缩放（餐饮 0.5、时尚与美妆 1.5、其余 1.0，用来抑制餐饮天然偏高的占比），两两计算余弦相似度后同样取平均。它衡量的是业态配比的趋同，而非具体哪几个品牌。</div></div>
-      <div class="ms"><div class="ms-k">04 · 复合 · H</div><div class="ms-b">品牌与业态两个指标量级不同，先各自做 min-max 标准化为 S<sub>i</sub> 与 S<sub>f</sub>，再等权平均：<span class="f">H = (S<sub>i</sub> + S<sub>f</sub>) / 2</span>。由此得到一个 0 到 1 的综合分，把「品牌相像」与「业态相像」并到同一条可排序的同质化轴上。</div></div>
-      <div class="ms"><div class="ms-k">05 · 楼层层 · MHI<sub>sf</sub></div><div class="ms-b">复合 H 只回答「总体像不像」。第二阶段把商场划分为地下、地面、中间、顶层四类层级，与 14 类业态交叉成 <b>4 × 14</b> 矩阵，展开为 <b>56</b> 维向量，再与前滩太古里计算余弦相似度。它追问的是「相似的业态是否落在相近的楼层」，并据此在高端候选里选出兴业太古汇（<span class="f">MHI<sub>sf</sub> = 0.8385</span>）作为对照。</div></div>
+      <div class="ms"><div class="ms-k">品牌层 · MHI<sub>i</sub></div><div class="ms-b">比两家的<b>品牌名单有多少重合</b>。共同的连锁品牌越多就越像，一家与其余 79 家的平均重合度，就是它的品牌同质化。</div></div>
+      <div class="ms"><div class="ms-k">业态层 · MHI<sub>f</sub></div><div class="ms-b">比两家的<b>业态配比</b>。把店铺归成 14 类（餐饮、服饰、亲子等），看各类占比是否接近。两家都是餐饮加服饰占近一半时，业态就很像。</div></div>
+      <div class="ms"><div class="ms-k">复合 · H</div><div class="ms-b">把品牌、业态两个分数各自归到 0 到 1，再取平均，得到一个总的同质化分：<span class="f">H =（品牌分 + 业态分）÷ 2</span>。分数越高，越接近「千店一面」。</div></div>
+      <div class="ms"><div class="ms-k">楼层层 · MHI<sub>sf</sub></div><div class="ms-b">总分只回答「整体像不像」。要在高端里选出最像前滩太古里的一家，就把两家<b>每层楼的业态分别比一次</b>，看相似的店是否开在相近的楼层，最后选出兴业太古汇（MHI<sub>sf</sub> = 0.8385）。</div></div>
     </div>
 
-    <div class="chapter__body"><p>四步连起来，是一条从「店铺清单」逐步收紧到「空间结构」的链条：先看品牌是否雷同，再看业态配比是否雷同，复合成一个总分，最后细化到楼层，考察两家在空间组织上是否仍有区别。指标只负责把同质化量出来，至于它为何发生、又意味着什么，仍要回到前面各章的分析。</p></div>
+    <div class="chapter__body"><p>四步从店铺名单逐步细化到楼层：先比品牌，再比业态，合成总分，最后落到空间组织。指标只负责把「像不像」量出来，至于为什么像、像了又意味着什么，留给前面各章。</p></div>
   </section>
 
   <!-- 结语 -->
